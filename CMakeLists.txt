@@ -3,23 +3,29 @@ project(SDL2_Workbench VERSION 0.1.0)
 
 set(CMAKE_SUPPRESS_REGENERATION true)
 
-# include(CTest)
-# enable_testing()
+# main project
+add_executable(${PROJECT_NAME} vendor/src/glad.c src/main.cpp)
 
-add_executable(SDL2_Workbench src/glad.c src/main.cpp)
+# directories
+target_link_directories( ${PROJECT_NAME} PRIVATE vendor/lib/ )
+target_include_directories( ${PROJECT_NAME} PUBLIC vendor/include)
 
-# add_compile_definitions(GLEW_STATIC)
-
-target_include_directories( ${PROJECT_NAME} PUBLIC src/ )
-
-# target_link_libraries(SDL2_Workbench SDL2main SDL2 GL GLEW)
+# mingw compiler additional stuff
 if(MINGW)
+
+    # mingw32 lib
 target_link_libraries(SDL2_Workbench mingw32)
+
+    # copy paste windows dll
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/dll/
+    $<TARGET_FILE_DIR:${PROJECT_NAME}>/ )
+
 endif(MINGW)
 
-target_link_libraries(SDL2_Workbench SDL2main SDL2)
-target_link_directories( ${PROJECT_NAME} PRIVATE lib/ )
+# libraries
+target_link_libraries(${PROJECT_NAME} SDL2main SDL2)
 
-# set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-# set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-# include(CPack)
+
