@@ -13,6 +13,10 @@ add_executable(SDL2_Workbench src/glad.c src/main.cpp)
 target_include_directories( ${PROJECT_NAME} PUBLIC src/ )
 
 # target_link_libraries(SDL2_Workbench SDL2main SDL2 GL GLEW)
+if(MINGW)
+target_link_libraries(SDL2_Workbench mingw32)
+endif(MINGW)
+
 target_link_libraries(SDL2_Workbench SDL2main SDL2)
 target_link_directories( ${PROJECT_NAME} PRIVATE lib/ )
 
