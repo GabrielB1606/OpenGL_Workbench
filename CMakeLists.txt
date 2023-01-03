@@ -26,6 +26,8 @@ add_custom_command(
     ${CMAKE_SOURCE_DIR}/dll/
     $<TARGET_FILE_DIR:${PROJECT_NAME}>/ )
 
+add_compile_definitions(SDL_VIDEO_DRIVER_WINDOWS)
+
 endif(MINGW)
 
 # libraries
