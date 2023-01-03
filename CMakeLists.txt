@@ -3,18 +3,21 @@ project(SDL2_Workbench VERSION 0.1.0)
 
 set(CMAKE_SUPPRESS_REGENERATION true)
 
+# all imgui .cpp files
+file( GLOB IMGUI_SRC vendor/src/imgui/*.cpp )
+
 # main project
-add_executable(${PROJECT_NAME} vendor/src/glad.c src/main.cpp)
+add_executable(${PROJECT_NAME} vendor/src/glad/glad.c ${IMGUI_SRC} src/main.cpp)
 
 # directories
 target_link_directories( ${PROJECT_NAME} PRIVATE vendor/lib/ )
-target_include_directories( ${PROJECT_NAME} PUBLIC vendor/include)
+target_include_directories( ${PROJECT_NAME} PUBLIC vendor/include vendor/include/imgui)
 
 # mingw compiler additional stuff
 if(MINGW)
 
     # mingw32 lib
-target_link_libraries(SDL2_Workbench mingw32)
+target_link_libraries(${PROJECT_NAME} mingw32)
 
     # copy paste windows dll
 add_custom_command(
@@ -27,5 +30,3 @@ endif(MINGW)
 
 # libraries
 target_link_libraries(${PROJECT_NAME} SDL2main SDL2)
-
-
