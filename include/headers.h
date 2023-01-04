@@ -1,10 +1,10 @@
 // C++ Standard Libraries
 #include <iostream>
 
-// Third-party library
-#include <SDL2/SDL.h>
 // Include GLAD
 #include <glad/glad.h>
+// Third-party library
+#include <SDL2/SDL.h>
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
