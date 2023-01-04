@@ -3,17 +3,7 @@
 // On windows compile with (if using mingw)
 // g++ main.cpp ./glad/src/glad.c -I./glad/include -o prog.exe -lmingw32 -lSDL2main -lSDL2
 
-// C++ Standard Libraries
-#include <iostream>
-
-// Third-party library
-#include <SDL2/SDL.h>
-// Include GLAD
-#include <glad/glad.h>
-
-#include <imgui.h>
-#include <imgui_impl_sdl.h>
-#include <imgui_impl_opengl3.h>
+#include <headers.h>
 
 int main(int argc, char* argv[]){
 

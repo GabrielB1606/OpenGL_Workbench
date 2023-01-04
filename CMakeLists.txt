@@ -11,7 +11,7 @@ add_executable(${PROJECT_NAME} vendor/src/glad/glad.c ${IMGUI_SRC} src/main.cpp)
 
 # directories
 target_link_directories( ${PROJECT_NAME} PRIVATE vendor/lib/ )
-target_include_directories( ${PROJECT_NAME} PUBLIC vendor/include vendor/include/imgui)
+target_include_directories( ${PROJECT_NAME} PUBLIC include/ vendor/include vendor/include/imgui)
 
 # mingw compiler additional stuff
 if(MINGW)
