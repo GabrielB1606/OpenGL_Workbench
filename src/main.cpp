@@ -45,9 +45,9 @@ int main(int argc, char* argv[]){
     window = SDL_CreateWindow("C++ SDL2 Window",
             20,
             20,
-            640,
-            480,
-            SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+            1280,
+            720,
+            SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
     // OpenGL setup the graphics context
     SDL_GLContext context;
