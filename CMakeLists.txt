@@ -5,9 +5,10 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 
 # all imgui .cpp files
 file( GLOB IMGUI_SRC vendor/src/imgui/*.cpp )
+file( GLOB PROJECT_SRC src/*.cpp )
 
 # main project
-add_executable(${PROJECT_NAME} vendor/src/glad/glad.c ${IMGUI_SRC} src/main.cpp)
+add_executable(${PROJECT_NAME} main.cpp vendor/src/glad/glad.c ${IMGUI_SRC} ${PROJECT_SRC} )
 
 # directories
 target_link_directories( ${PROJECT_NAME} PRIVATE vendor/lib/ )
@@ -32,3 +33,10 @@ endif(MINGW)
 
 # libraries
 target_link_libraries(${PROJECT_NAME} SDL2main SDL2)
+
+    # copy paste shaders
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/shaders/
+    $<TARGET_FILE_DIR:${PROJECT_NAME}>/shaders/ )
