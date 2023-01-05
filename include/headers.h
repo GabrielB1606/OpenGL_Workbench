@@ -20,4 +20,5 @@
 #include <imgui_impl_sdl.h>
 #include <imgui_impl_opengl3.h>
 
+#include "ShaderTypeEnum.h"
 #include "Program.h"

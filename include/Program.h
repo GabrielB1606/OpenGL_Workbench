@@ -12,6 +12,8 @@ class Program{
 
         const char* glsl_version;
 
+        GLuint shaders[N_SHADER_TYPES] = {0, 0, 0, 0, 0, 0};
+
         std::string loadShaderSource(char* filename);
         GLuint loadShader(GLenum type, char* filename);
         bool linkProgram(GLuint vertexShader, GLuint fragmentShader, GLuint geometryShader);
