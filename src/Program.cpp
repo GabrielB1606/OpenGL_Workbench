@@ -1,4 +1,5 @@
 #include <headers.h>
+#include "Program.h"
 
 Program::Program(const char* glsl_version, const int versionMaj, const int versionMin,char* vertexFile, char* fragmentFile, char* geometryFile = nullptr) : versionMaj(versionMaj), versionMin(versionMin){
 
@@ -80,6 +81,12 @@ void Program::setMat4fv(glm::mat4 value, const GLchar* name, GLboolean transpose
 void Program::set1f(GLfloat value, const GLchar* name){
     this->use();
     glUniform1f( glGetUniformLocation(this->id, name), value );
+    this->stopUsing();
+}
+void Program::set1i(GLint value, const GLchar *name)
+{
+    this->use();
+    glUniform1i( glGetUniformLocation(this->id, name), value );
     this->stopUsing();
 }
 
