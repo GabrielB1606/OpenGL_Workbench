@@ -16,10 +16,13 @@ class Program{
 
         std::string loadShaderSource(char* filename);
         GLuint loadShader(GLenum type, char* filename);
-        bool linkProgram(GLuint vertexShader, GLuint fragmentShader, GLuint geometryShader);
+        bool linkProgram();
 
     public:
+
+        // Constructor/Destructor
         Program(const char* glsl_version, const int versionMaj, const int versionMin, char* vertexFile, char* fragmentFile, char* geometryFile);
+        Program(const char* glsl_version, const int versionMaj, const int versionMin);
         ~Program();
 
         // Bind/Unbind Program
