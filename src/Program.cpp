@@ -126,6 +126,8 @@ bool Program::linkProgram(){
     return true;
 }
 
+// constructor/destructor
+
 Program::Program(const char* glsl_version, const int versionMaj, const int versionMin,char* vertexFile, char* fragmentFile, char* geometryFile = nullptr) : versionMaj(versionMaj), versionMin(versionMin){
 
     // specify glsl version of the shaders
@@ -152,6 +154,8 @@ Program::~Program(){
     glDeleteProgram(this->id);
 }
 
+// bind/unbind
+
 void Program::use(){
     glUseProgram(this->id);
 }
@@ -160,43 +164,35 @@ void Program::stopUsing(){
     glUseProgram(0);
 }
 
+// uniform setters
+
 void Program::setVec3f(glm::vec3 value, const GLchar* name){
     this->use();
-    
     glUniform3fv( glGetUniformLocation(this->id, name), 1, glm::value_ptr(value) );
-
     this->stopUsing();
 }
 
 void Program::setVec2f(glm::vec2 value, const GLchar* name){
-    this->use();
-    
+    this->use();    
     glUniform2fv( glGetUniformLocation(this->id, name), 1, glm::value_ptr(value) );
-
     this->stopUsing();
 }
 
 void Program::setVec4f(glm::vec4 value, const GLchar* name){
     this->use();
-    
     glUniform4fv( glGetUniformLocation(this->id, name), 1, glm::value_ptr(value) );
-
     this->stopUsing();
 }
 
 void Program::setMat3fv(glm::mat3 value, const GLchar* name, GLboolean transpose = GL_FALSE){
     this->use();
-    
     glUniformMatrix3fv(glGetUniformLocation(this->id, name), 1, transpose, glm::value_ptr(value));
-
     this->stopUsing();
 }
 
 void Program::setMat4fv(glm::mat4 value, const GLchar* name, GLboolean transpose = GL_FALSE){
     this->use();
-    
     glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, transpose, glm::value_ptr(value));
-
     this->stopUsing();
 }
 
