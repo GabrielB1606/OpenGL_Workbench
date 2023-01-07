@@ -128,18 +128,18 @@ bool Program::linkProgram(){
 
 // constructor/destructor
 
-Program::Program(const char* glsl_version, const int versionMaj, const int versionMin,char* vertexFile, char* fragmentFile, char* geometryFile = nullptr) : versionMaj(versionMaj), versionMin(versionMin){
+Program::Program(const char* glsl_version, const int versionMaj, const int versionMin, const char* vertexFile, const char* fragmentFile, char* geometryFile = nullptr) : versionMaj(versionMaj), versionMin(versionMin){
 
     // specify glsl version of the shaders
     this->glsl_version = glsl_version;
 
     //  load shaders
-    this->shaders[ ARR_VERTEX_SHADER ] = loadShader(GL_VERTEX_SHADER, vertexFile);
+    this->shaders[ ARR_VERTEX_SHADER ] = loadShader(GL_VERTEX_SHADER, (char*)vertexFile);
     
     if( geometryFile != nullptr)
         this->shaders[ ARR_GEOMETRY_SHADER ] = loadShader(GL_GEOMETRY_SHADER, geometryFile);
 
-    loadShader(GL_FRAGMENT_SHADER, fragmentFile);
+    loadShader(GL_FRAGMENT_SHADER, (char*)fragmentFile);
 
     // link program
     this->linkProgram();
@@ -201,6 +201,7 @@ void Program::set1f(GLfloat value, const GLchar* name){
     glUniform1f( glGetUniformLocation(this->id, name), value );
     this->stopUsing();
 }
+
 void Program::set1i(GLint value, const GLchar *name)
 {
     this->use();

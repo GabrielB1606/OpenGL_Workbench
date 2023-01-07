@@ -21,7 +21,7 @@ class Program{
     public:
 
         // Constructor/Destructor
-        Program(const char* glsl_version, const int versionMaj, const int versionMin, char* vertexFile, char* fragmentFile, char* geometryFile);
+        Program(const char* glsl_version, const int versionMaj, const int versionMin, const char* vertexFile, const char* fragmentFile, char* geometryFile);
         Program(const char* glsl_version, const int versionMaj, const int versionMin);
         ~Program();
 
