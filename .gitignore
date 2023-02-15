@@ -36,3 +36,5 @@ build/*
 
 #VSCode
 .vscode/*
+
+vendor/glfw-3.3.8.bin.WIN32/docs/*
