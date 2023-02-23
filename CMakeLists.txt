@@ -4,11 +4,12 @@ project(OpenGL_Workbench VERSION 0.1.0)
 set(CMAKE_SUPPRESS_REGENERATION true)
 
 # all imgui .cpp files
-file( GLOB IMGUI_SRC vendor/imgui-docking-1.89.3/*.cpp vendor/imgui-docking-1.89.3/backends/*.cpp )
+file( GLOB IMGUI_SRC vendor/imgui-docking-1.89.3/*.cpp )
+file( GLOB IMGUI_BACKEND_SRC vendor/imgui-docking-1.89.3/backends/*.cpp )
 file( GLOB PROJECT_SRC src/*.cpp )
 
 # main project
-add_executable(${PROJECT_NAME} main.cpp vendor/glad-opengl-4.6-release/src/glad.c ${IMGUI_SRC} ${PROJECT_SRC} )
+add_executable(${PROJECT_NAME} main.cpp vendor/glad-opengl-4.6-release/src/glad.c ${IMGUI_SRC} ${IMGUI_BACKEND_SRC} ${PROJECT_SRC} )
 
 # directories
 target_include_directories( ${PROJECT_NAME} PUBLIC include/ vendor/glad-opengl-4.6-release/include vendor/imgui-docking-1.89.3 vendor/imgui-docking-1.89.3/backends vendor/glfw-3.3.8.bin.WIN32/include)
