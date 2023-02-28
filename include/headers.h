@@ -1,24 +1,23 @@
-// // C++ Standard Libraries
-// #include <iostream>
-// #include <fstream>
-// #include <string>
+// C++ Standard Libraries
+#include <iostream>
+#include <fstream>
+#include <string>
 
-// // Include GLAD
-// #include <glad/glad.h>
-// // Third-party library
-// #include <SDL2/SDL.h>
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
-// //OpenGL Math Library
-// #include <glm/vec3.hpp> // glm::vec3
-// #include <glm/vec4.hpp> // glm::vec4
-// #include <glm/mat4x4.hpp> // glm::mat4
-// #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
-// #include <glm/gtc/type_ptr.hpp>
+#include <iostream>
 
-// // GUI
-// #include <imgui.h>
-// #include <imgui_impl_sdl.h>
-// #include <imgui_impl_opengl3.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
-// #include "ShaderTypeEnum.h"
-// #include "Program.h"
+//OpenGL Math Library
+#include <glm-0.9.9.9/vec3.hpp> // glm::vec3
+#include <glm-0.9.9.9/vec4.hpp> // glm::vec4
+#include <glm-0.9.9.9/mat4x4.hpp> // glm::mat4
+#include <glm-0.9.9.9/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+#include <glm-0.9.9.9/gtc/type_ptr.hpp>
+
+#include "ShaderTypeEnum.h"
+#include "Program.h"

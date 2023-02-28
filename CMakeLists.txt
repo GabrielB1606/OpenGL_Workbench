@@ -12,7 +12,7 @@ file( GLOB PROJECT_SRC src/*.cpp )
 add_executable(${PROJECT_NAME} main.cpp vendor/glad-opengl-4.6-release/src/glad.c ${IMGUI_SRC} ${IMGUI_BACKEND_SRC} ${PROJECT_SRC} )
 
 # directories
-target_include_directories( ${PROJECT_NAME} PUBLIC include/ vendor/glad-opengl-4.6-release/include vendor/imgui-docking-1.89.3 vendor/imgui-docking-1.89.3/backends vendor/glfw-3.3.8.bin.WIN32/include)
+target_include_directories( ${PROJECT_NAME} PUBLIC include/ vendor/glad-opengl-4.6-release/include vendor/imgui-docking-1.89.3 vendor/imgui-docking-1.89.3/backends vendor/glfw-3.3.8.bin.WIN32/include vendor/)
 
 target_link_directories( ${PROJECT_NAME} PRIVATE vendor/glfw-3.3.8.bin.WIN32/lib-mingw )
 # mingw compiler additional stuff
