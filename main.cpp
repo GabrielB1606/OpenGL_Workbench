@@ -1,12 +1,6 @@
 #include "headers.h"
-// #include "imgui.h"
-// #include "imgui_impl_glfw.h"
-// #include "imgui_impl_opengl3.h"
 
-// #include <iostream>
-
-// #include <glad/glad.h>
-// #include <GLFW/glfw3.h>
+const short GLMajVersion = 3, GLMinVersion = 3;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -57,63 +51,66 @@ int main() {
 
 	// 1. Build and compile our shader programs
 
-	// Create a vertex shader object
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	// Program p( std::string("330").c_str() , 3, 3, "shaders/core/vertex.vert", "shaders/core/fragment.frag", nullptr );
+	Shader s("330", 3, 3, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
 
-	// Attach the shader source code to the shader object
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	// // Create a vertex shader object
+	// unsigned int vertexShader;
+	// vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-	// Compile the vertex shader dynamically 
-	glCompileShader(vertexShader);
+	// // Attach the shader source code to the shader object
+	// glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 
-	// Check if compilation was successful
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n";
-		std::cout << infoLog << std::endl;
-	}
+	// // Compile the vertex shader dynamically 
+	// glCompileShader(vertexShader);
 
-	// Create a fragment shader object
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	// // Check if compilation was successful
+	// glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+	// if (!success) {
+	// 	glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+	// 	std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n";
+	// 	std::cout << infoLog << std::endl;
+	// }
 
-	// Attach the shader source code to the shader object
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	// // Create a fragment shader object
+	// unsigned int fragmentShader;
+	// fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	// Compile the fragment shader dynamically
-	glCompileShader(fragmentShader);
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n";
-		std::cout << infoLog << std::endl;
-	}
+	// // Attach the shader source code to the shader object
+	// glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+
+	// // Compile the fragment shader dynamically
+	// glCompileShader(fragmentShader);
+	// glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+	// if (!success) {
+	// 	glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+	// 	std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n";
+	// 	std::cout << infoLog << std::endl;
+	// }
 
 
-	// 2. Link shaders
+	// // 2. Link shaders
 
-	// Create a shader program
-	unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
+	// // Create a shader program
+	// unsigned int shaderProgram;
+	// shaderProgram = glCreateProgram();
 
-	// Attach the compiled shaders to the shader program
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
+	// // Attach the compiled shaders to the shader program
+	// glAttachShader(shaderProgram, vertexShader);
+	// glAttachShader(shaderProgram, fragmentShader);
+	// glLinkProgram(shaderProgram);
 
-	// Check if linking was successful
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::PROGRAM::LINKING_FAILED\n";
-		std::cout << infoLog << std::endl;
-	}
+	// // Check if linking was successful
+	// glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	// if (!success) {
+	// 	glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+	// 	std::cout << "ERROR::PROGRAM::LINKING_FAILED\n";
+	// 	std::cout << infoLog << std::endl;
+	// }
 
-	// Delete shader objects if we no longer need them anymore
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	// // Delete shader objects if we no longer need them anymore
+	// glDeleteShader(vertexShader);
+	// glDeleteShader(fragmentShader);
 
 
 	// 3. Set up vertex data and configure vertex attributes
@@ -147,7 +144,7 @@ int main() {
 	glBindVertexArray(0);
 
 	// Setup Dear ImGui context
-	 const char* glsl_version = "#version 330";
+	const char* glsl_version = "#version 330";
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -204,7 +201,8 @@ int main() {
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(shaderProgram);
+		// glUseProgram(shaderProgram);
+		s.use();
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 

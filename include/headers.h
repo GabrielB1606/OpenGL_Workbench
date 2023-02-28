@@ -20,4 +20,5 @@
 #include <glm-0.9.9.9/gtc/type_ptr.hpp>
 
 #include "ShaderTypeEnum.h"
-#include "Program.h"
+// #include "Program.h"
+#include "Shader.h"
