@@ -1,6 +1,8 @@
 #ifndef SHADERPROGRAM_H
 #define SHADERPROGRAM_H
 
+#include "headers.h"
+
 class ShaderProgram{
     private:
         GLuint id;

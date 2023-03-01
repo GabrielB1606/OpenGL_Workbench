@@ -1,15 +1,20 @@
+#ifndef HEADERS_H
+#define HEADERS_H
+
 // C++ Standard Libraries
 #include <iostream>
 #include <fstream>
 #include <string>
 
+// Graphic User Interface
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-#include <iostream>
-
+// OpenGL Loader
 #include <glad/glad.h>
+
+// Window Manager
 #include <GLFW/glfw3.h>
 
 //OpenGL Math Library
@@ -19,6 +24,10 @@
 #include <glm-0.9.9.9/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm-0.9.9.9/gtc/type_ptr.hpp>
 
+#include "OpenglLoader.h"
+#include "WindowManager.h"
+
 #include "ShaderTypeEnum.h"
-// #include "Program.h"
 #include "ShaderProgram.h"
+
+#endif

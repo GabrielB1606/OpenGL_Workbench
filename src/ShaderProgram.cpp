@@ -1,5 +1,4 @@
-#include "headers.h"
-// #include "Program.h"
+#include "ShaderProgram.h"
 
 ShaderProgram::ShaderProgram(const char* glsl_version, const int versionMaj, const int versionMin,char* vertexFile, char* fragmentFile, char* geometryFile) : versionMaj(versionMaj), versionMin(versionMin){
 
