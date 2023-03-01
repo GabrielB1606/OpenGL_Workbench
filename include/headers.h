@@ -24,6 +24,11 @@
 #include <glm-0.9.9.9/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm-0.9.9.9/gtc/type_ptr.hpp>
 
+// Assets Importer
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include "OpenglLoader.h"
 #include "WindowManager.h"
 

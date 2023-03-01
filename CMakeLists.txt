@@ -13,9 +13,9 @@ file( GLOB PROJECT_SRC src/*.cpp )
 add_executable(${PROJECT_NAME} main.cpp vendor/glad-opengl-4.6-release/src/glad.c ${IMGUI_SRC} ${IMGUI_BACKEND_SRC} ${PROJECT_SRC} )
 
 # directories
-target_include_directories( ${PROJECT_NAME} PUBLIC include/ vendor/glad-opengl-4.6-release/include vendor/imgui-docking-1.89.3 vendor/imgui-docking-1.89.3/backends vendor/glfw-3.3.8.bin.WIN32/include vendor/)
+target_include_directories( ${PROJECT_NAME} PUBLIC include/ vendor/glad-opengl-4.6-release/include vendor/imgui-docking-1.89.3 vendor/imgui-docking-1.89.3/backends vendor/glfw-3.3.8.bin.WIN32/include vendor/ vendor/assimp-5.2/include)
 
-target_link_directories( ${PROJECT_NAME} PRIVATE vendor/glfw-3.3.8.bin.WIN32/lib-mingw )
+target_link_directories( ${PROJECT_NAME} PRIVATE vendor/glfw-3.3.8.bin.WIN32/lib-mingw vendor/assimp-5.2/lib)
 # mingw compiler additional stuff
 # if(MINGW)
 
@@ -35,7 +35,7 @@ add_custom_command(
 # endif(MINGW)
 
 # libraries
-target_link_libraries(${PROJECT_NAME} mingw32 glfw3dll opengl32 gdi32 user32)
+target_link_libraries(${PROJECT_NAME} mingw32 glfw3dll opengl32 gdi32 user32 assimp)
 
     # copy paste shaders
 add_custom_command(
