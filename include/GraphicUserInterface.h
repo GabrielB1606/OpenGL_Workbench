@@ -9,7 +9,7 @@ private:
     WindowManager* windowManager = nullptr;
     
     // ImGuiIO& io = ImGui::GetIO(); (void)io;
-    ImGuiIO& io = ImGui::GetIO();
+    void* io;
 
     // Our state
     bool show_demo_window = true;
