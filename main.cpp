@@ -1,14 +1,14 @@
 #include "headers.h"
 
-const short GLMajVersion = 3, GLMinVersion = 3;
+const short glMajVersion = 3, glMinVersion = 3;
 
 int main() {
 	
-	WindowManager windowManager(800, 600, "window manager", GLMajVersion, GLMinVersion);
+	WindowManager windowManager(800, 600, "window manager", glMajVersion, glMinVersion);
 
 	// 1. Build and compile our shader programs
 
-	ShaderProgram s("330", GLMajVersion, GLMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
+	ShaderProgram s("330", glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
 
 
 	// 3. Set up vertex data and configure vertex attributes
@@ -172,8 +172,6 @@ int main() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-
-	glfwTerminate();
 
 	return 0;
 }

@@ -9,6 +9,7 @@ file( GLOB IMGUI_BACKEND_SRC vendor/imgui-docking-1.89.3/backends/*.cpp )
 file( GLOB PROJECT_SRC src/*.cpp )
 
 # main project
+# add_executable(${PROJECT_NAME} main.cpp vendor/glad-opengl-4.6-release/src/glad.c ${IMGUI_SRC} ${IMGUI_BACKEND_SRC} src/GraphicUserInterface.cpp src/WindowManager.cpp src/ShaderProgram.cpp)
 add_executable(${PROJECT_NAME} main.cpp vendor/glad-opengl-4.6-release/src/glad.c ${IMGUI_SRC} ${IMGUI_BACKEND_SRC} ${PROJECT_SRC} )
 
 # directories

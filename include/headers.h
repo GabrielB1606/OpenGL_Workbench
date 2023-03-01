@@ -27,6 +27,8 @@
 #include "OpenglLoader.h"
 #include "WindowManager.h"
 
+#include "GraphicUserInterface.h"
+
 #include "ShaderTypeEnum.h"
 #include "ShaderProgram.h"
 
