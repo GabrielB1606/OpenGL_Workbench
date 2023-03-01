@@ -15,7 +15,6 @@ class OpenglLoader{
                 std::cout << "Failed to initialize GLAD" << std::endl;
                 return -1;
             }
-
             return 0;
         }
 

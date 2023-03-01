@@ -18,7 +18,7 @@ WindowManager::WindowManager(int width, int height, const char *title, int GLMaj
 
 	glfwMakeContextCurrent(this->window);
 
-    if( !OpenglLoader::load() ){
+    if( OpenglLoader::load() != 0  ){
         glfwTerminate();
         return;
     }

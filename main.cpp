@@ -7,34 +7,13 @@ void processInput(GLFWwindow *window);
 
 int main() {
 	
-	// WindowManager windowManager(800, 600, "window manager,");
-	
-	// glfw init
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GLMajVersion);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GLMinVersion);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-	if (window == NULL) {
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-	
-	// glad init
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
-	}
-
-	glViewport(0, 0, 800, 600);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	WindowManager windowManager(800, 600, "window manager", GLMajVersion, GLMinVersion);
 
 
 	// 1. Build and compile our shader programs
 
 	ShaderProgram s("330", 3, 3, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
+
 
 	// 3. Set up vertex data and configure vertex attributes
 
@@ -91,7 +70,8 @@ int main() {
     }
 
     // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplGlfw_InitForOpenGL(windowManager.getWindow(), true);
+    // ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Load Fonts
@@ -117,9 +97,9 @@ int main() {
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 
-
-	while (!glfwWindowShouldClose(window)) {
-		processInput(window);
+	while ( windowManager.isOpen() ) {
+		// processInput(window);
+		windowManager.processInput();
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -174,7 +154,7 @@ int main() {
         // Rendering
         ImGui::Render();
         int display_w, display_h;
-        glfwGetFramebufferSize(window, &display_w, &display_h);
+        windowManager.getFramebufferSize( &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -189,8 +169,8 @@ int main() {
             glfwMakeContextCurrent(backup_current_context);
         }
 
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		windowManager.swapBuffers();
+		windowManager.pollEvents();
 	}
 
 	    // Cleanup
@@ -201,13 +181,4 @@ int main() {
 	glfwTerminate();
 
 	return 0;
-}
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-	glViewport(0, 0, width, height);
-}
-
-void processInput(GLFWwindow *window) {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
 }
