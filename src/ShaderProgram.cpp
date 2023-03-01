@@ -1,32 +1,7 @@
-#pragma once
+#include "headers.h"
+// #include "Program.h"
 
-class Shader{
-    private:
-        GLuint id;
-        
-        const int versionMaj;
-        const int versionMin;
-
-        const char* glsl_version;
-
-        std::string loadShaderSource(char* filename);
-        GLuint loadShader(GLenum type, char* filename);
-        bool linkProgram(GLuint vertexShader, GLuint fragmentShader, GLuint geometryShader);
-
-    public:
-        Shader(const char* glsl_version, const int versionMaj, const int versionMin, char* vertexFile, char* fragmentFile, char* geometryFile);
-        ~Shader();
-        void use();
-        void stopUsing();
-        void setVec2f(glm::vec2 value, const GLchar* name);
-        void setVec3f(glm::vec3 value, const GLchar* name);
-        void setVec4f(glm::vec4 value, const GLchar* name);
-        void setMat4fv(glm::mat4 value, const GLchar* name, GLboolean transpose);
-        void setMat3fv(glm::mat3 value, const GLchar* name, GLboolean transpose);
-        void set1f(GLfloat value, const GLchar* name);
-};
-
-Shader::Shader(const char* glsl_version, const int versionMaj, const int versionMin,char* vertexFile, char* fragmentFile, char* geometryFile = nullptr) : versionMaj(versionMaj), versionMin(versionMin){
+ShaderProgram::ShaderProgram(const char* glsl_version, const int versionMaj, const int versionMin,char* vertexFile, char* fragmentFile, char* geometryFile) : versionMaj(versionMaj), versionMin(versionMin){
 
     this->glsl_version = glsl_version;
 
@@ -51,19 +26,19 @@ Shader::Shader(const char* glsl_version, const int versionMaj, const int version
 
 }
 
-Shader::~Shader(){
+ShaderProgram::~ShaderProgram(){
     glDeleteProgram(this->id);
 }
 
-void Shader::use(){
+void ShaderProgram::use(){
     glUseProgram(this->id);
 }
 
-void Shader::stopUsing(){
+void ShaderProgram::stopUsing(){
     glUseProgram(0);
 }
 
-void Shader::setVec3f(glm::vec3 value, const GLchar* name){
+void ShaderProgram::setVec3f(glm::vec3 value, const GLchar* name){
     this->use();
     
     glUniform3fv( glGetUniformLocation(this->id, name), 1, glm::value_ptr(value) );
@@ -71,7 +46,7 @@ void Shader::setVec3f(glm::vec3 value, const GLchar* name){
     this->stopUsing();
 }
 
-void Shader::setVec2f(glm::vec2 value, const GLchar* name){
+void ShaderProgram::setVec2f(glm::vec2 value, const GLchar* name){
     this->use();
     
     glUniform2fv( glGetUniformLocation(this->id, name), 1, glm::value_ptr(value) );
@@ -79,7 +54,7 @@ void Shader::setVec2f(glm::vec2 value, const GLchar* name){
     this->stopUsing();
 }
 
-void Shader::setVec4f(glm::vec4 value, const GLchar* name){
+void ShaderProgram::setVec4f(glm::vec4 value, const GLchar* name){
     this->use();
     
     glUniform4fv( glGetUniformLocation(this->id, name), 1, glm::value_ptr(value) );
@@ -87,7 +62,7 @@ void Shader::setVec4f(glm::vec4 value, const GLchar* name){
     this->stopUsing();
 }
 
-void Shader::setMat3fv(glm::mat3 value, const GLchar* name, GLboolean transpose = GL_FALSE){
+void ShaderProgram::setMat3fv(glm::mat3 value, const GLchar* name, GLboolean transpose = GL_FALSE){
     this->use();
     
     glUniformMatrix3fv(glGetUniformLocation(this->id, name), 1, transpose, glm::value_ptr(value));
@@ -95,7 +70,7 @@ void Shader::setMat3fv(glm::mat3 value, const GLchar* name, GLboolean transpose 
     this->stopUsing();
 }
 
-void Shader::setMat4fv(glm::mat4 value, const GLchar* name, GLboolean transpose = GL_FALSE){
+void ShaderProgram::setMat4fv(glm::mat4 value, const GLchar* name, GLboolean transpose = GL_FALSE){
     this->use();
     
     glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, transpose, glm::value_ptr(value));
@@ -103,13 +78,13 @@ void Shader::setMat4fv(glm::mat4 value, const GLchar* name, GLboolean transpose 
     this->stopUsing();
 }
 
-void Shader::set1f(GLfloat value, const GLchar* name){
+void ShaderProgram::set1f(GLfloat value, const GLchar* name){
     this->use();
     glUniform1f( glGetUniformLocation(this->id, name), value );
     this->stopUsing();
 }
 
-std::string Shader::loadShaderSource(char* filename){
+std::string ShaderProgram::loadShaderSource(char* filename){
     
     std::string temp = "";
     std::string src = "";
@@ -136,7 +111,7 @@ std::string Shader::loadShaderSource(char* filename){
     return src;
 }
 
-GLuint Shader::loadShader(GLenum type, char* filename){
+GLuint ShaderProgram::loadShader(GLenum type, char* filename){
 
     char infoLog[512];
     GLint success;
@@ -159,7 +134,7 @@ GLuint Shader::loadShader(GLenum type, char* filename){
     return shader;
 }
 
-bool Shader::linkProgram(GLuint vertexShader, GLuint fragmentShader, GLuint geometryShader){
+bool ShaderProgram::linkProgram(GLuint vertexShader, GLuint fragmentShader, GLuint geometryShader){
     char infoLog[512];
     GLint success;
 

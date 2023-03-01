@@ -52,7 +52,7 @@ int main() {
 	// 1. Build and compile our shader programs
 
 	// Program p( std::string("330").c_str() , 3, 3, "shaders/core/vertex.vert", "shaders/core/fragment.frag", nullptr );
-	Shader s("330", 3, 3, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
+	ShaderProgram s("330", 3, 3, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
 
 	// // Create a vertex shader object
 	// unsigned int vertexShader;
