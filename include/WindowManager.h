@@ -9,7 +9,7 @@ class WindowManager{
         GLFWwindow* window = nullptr;
 
     public:
-        WindowManager(int width, int height, const char *title, int GLMajVersion, int GLMinVersion);
+        WindowManager(int width, int height, std::string title, int GLMajVersion, int GLMinVersion);
         ~WindowManager();
 
         void processInput();

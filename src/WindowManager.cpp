@@ -1,13 +1,13 @@
 #include "WindowManager.h"
 
-WindowManager::WindowManager(int width, int height, const char *title, int GLMajVersion, int GLMinVersion){
+WindowManager::WindowManager(int width, int height, std::string title, int GLMajVersion, int GLMinVersion){
  
     glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GLMajVersion);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GLMinVersion);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
-    this->window = glfwCreateWindow(width, height, title, NULL, NULL);
+    this->window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
 	if(this->window == NULL){
 		std::cout << "Failed to create GLFW window" << std::endl;

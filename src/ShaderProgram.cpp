@@ -1,6 +1,6 @@
 #include "ShaderProgram.h"
 
-ShaderProgram::ShaderProgram(const char* glsl_version, const int versionMaj, const int versionMin,char* vertexFile, char* fragmentFile, char* geometryFile) : versionMaj(versionMaj), versionMin(versionMin){
+ShaderProgram::ShaderProgram(const char* glsl_version, const int versionMaj, const int versionMin,const char* vertexFile,const char* fragmentFile,const char* geometryFile) : versionMaj(versionMaj), versionMin(versionMin){
 
     this->glsl_version = glsl_version;
 
@@ -83,7 +83,7 @@ void ShaderProgram::set1f(GLfloat value, const GLchar* name){
     this->stopUsing();
 }
 
-std::string ShaderProgram::loadShaderSource(char* filename){
+std::string ShaderProgram::loadShaderSource(const char* filename){
     
     std::string temp = "";
     std::string src = "";
@@ -110,7 +110,7 @@ std::string ShaderProgram::loadShaderSource(char* filename){
     return src;
 }
 
-GLuint ShaderProgram::loadShader(GLenum type, char* filename){
+GLuint ShaderProgram::loadShader(GLenum type,const char* filename){
 
     char infoLog[512];
     GLint success;

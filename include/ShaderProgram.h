@@ -12,12 +12,12 @@ class ShaderProgram{
 
         const char* glsl_version;
 
-        std::string loadShaderSource(char* filename);
-        GLuint loadShader(GLenum type, char* filename);
+        std::string loadShaderSource(const char* filename);
+        GLuint loadShader(GLenum type, const char* filename);
         bool linkProgram(GLuint vertexShader, GLuint fragmentShader, GLuint geometryShader);
 
     public:
-        ShaderProgram(const char* glsl_version, const int versionMaj, const int versionMin, char* vertexFile, char* fragmentFile, char* geometryFile = nullptr);
+        ShaderProgram(const char* glsl_version, const int versionMaj, const int versionMin, const char* vertexFile, const char* fragmentFile, const char* geometryFile = nullptr);
         ~ShaderProgram();
         void use();
         void stopUsing();

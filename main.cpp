@@ -2,17 +2,13 @@
 
 const short GLMajVersion = 3, GLMinVersion = 3;
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
-
 int main() {
 	
 	WindowManager windowManager(800, 600, "window manager", GLMajVersion, GLMinVersion);
 
-
 	// 1. Build and compile our shader programs
 
-	ShaderProgram s("330", 3, 3, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
+	ShaderProgram s("330", GLMajVersion, GLMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
 
 
 	// 3. Set up vertex data and configure vertex attributes
@@ -161,8 +157,7 @@ int main() {
         // Update and Render additional Platform Windows
         // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
         //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable){
             GLFWwindow* backup_current_context = glfwGetCurrentContext();
             ImGui::UpdatePlatformWindows();
             ImGui::RenderPlatformWindowsDefault();
