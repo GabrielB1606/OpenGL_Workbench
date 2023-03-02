@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 // Graphic User Interface
 #include "imgui.h"
@@ -30,6 +31,8 @@
 #include <assimp/postprocess.h>
 // assimp Flags
 #define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices)
+
+#define ARRAY_SIZE_IN_ELEMENTS(arr) (sizeof(arr)/sizeof(arr[0]))
 
 #include "OpenglLoader.h"
 #include "WindowManager.h"
