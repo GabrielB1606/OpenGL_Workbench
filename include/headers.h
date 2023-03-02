@@ -28,6 +28,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+// assimp Flags
+#define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices)
 
 #include "OpenglLoader.h"
 #include "WindowManager.h"
@@ -36,5 +38,7 @@
 
 #include "ShaderTypeEnum.h"
 #include "ShaderProgram.h"
+
+#include "BasicMesh.h"
 
 #endif
