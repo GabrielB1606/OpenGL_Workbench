@@ -36,6 +36,7 @@ add_custom_command(
 
 # libraries
 target_link_libraries(${PROJECT_NAME} mingw32 glfw3dll opengl32 gdi32 user32 assimp)
+# target_link_libraries(${PROJECT_NAME} mingw32 glfw3dll opengl32 gdi32 user32 assimp)
 
     # copy paste shaders
 add_custom_command(

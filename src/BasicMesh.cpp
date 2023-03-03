@@ -70,7 +70,7 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
         initSingleMesh(i, aiMeshPointer);
     }
     
-    
+
 
     return false;
 }
@@ -109,4 +109,17 @@ bool BasicMesh::initSingleMesh(unsigned int meshIndex, const aiMesh *aiMeshPoint
     
 
     return true;
+}
+
+bool BasicMesh::initMaterials(const aiScene* scene, std::string textureDir){
+    bool ans = true;
+
+    for (size_t i = 0; i < scene->mNumMaterials; i++){
+        const aiMaterial* mat = scene->mMaterials[i];
+
+    }
+    
+    // load colors
+
+    return ans;
 }
