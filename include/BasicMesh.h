@@ -19,6 +19,9 @@ private:
     GLuint VAO;
     GLuint buffers[NUM_BUFFERS] = {0};
 
+    std::vector<BasicMeshEntry> meshes;
+    std::vector<Material> materials;
+
     // should have a vector of materials
     std::vector<glm::vec3> positions;
     std::vector<glm::vec3> normals;
@@ -34,6 +37,7 @@ public:
 
     void clear();
     bool loadMesh(std::string filename);
+    bool initFromScene(const aiScene* scene, std::string filename);
 };
 
 

@@ -42,6 +42,9 @@
 #include "ShaderTypeEnum.h"
 #include "ShaderProgram.h"
 
+#include "Material.h"
+
+#include "BasicMeshEntry.h"
 #include "BasicMesh.h"
 
 #endif
