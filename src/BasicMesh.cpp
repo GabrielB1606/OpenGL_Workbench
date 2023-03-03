@@ -65,5 +65,48 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
     texCoords.reserve(numVertices);
     indices.reserve(numIndices);
 
+    for (size_t i = 0; i < meshes.size(); i++){
+        const aiMesh* aiMeshPointer = scene->mMeshes[i];
+        initSingleMesh(i, aiMeshPointer);
+    }
+    
+    
+
     return false;
+}
+
+bool BasicMesh::initSingleMesh(unsigned int meshIndex, const aiMesh *aiMeshPointer){
+
+    // get the information of each vertex
+    for( size_t i=0; i<aiMeshPointer->mNumVertices; i++ ){
+        
+        const aiVector3D &pos = aiMeshPointer->mVertices[i];
+        positions.push_back( glm::vec3(pos.x, pos.y, pos.z) );
+
+        if( aiMeshPointer->mNormals ){
+            const aiVector3D &normal = aiMeshPointer->mNormals[i];
+            normals.push_back( glm::vec3(normal.x, normal.y, normal.z) );
+        }else{
+            normals.push_back( glm::vec3(0.f, 0.f, 0.1f) );
+        }
+
+        if( aiMeshPointer->HasTextureCoords(0) ){
+            const aiVector3D &texCoord = aiMeshPointer->mTextureCoords[0][i];
+            texCoords.push_back( glm::vec2(texCoord.x, texCoord.y) );
+        }else{
+            texCoords.push_back( glm::vec2(0.f, 0.f) );
+        }
+
+    }
+
+    // index buffer
+    for (size_t i = 0; i < aiMeshPointer->mNumFaces; i++){
+        const aiFace &face = aiMeshPointer->mFaces[i];
+        indices.push_back( face.mIndices[0] );
+        indices.push_back( face.mIndices[1] );
+        indices.push_back( face.mIndices[2] );
+    }
+    
+
+    return true;
 }
