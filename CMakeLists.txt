@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(OpenGL_Workbench VERSION 0.1.0)
 
+add_subdirectory(./vendor/assimp)
+
 set(CMAKE_SUPPRESS_REGENERATION true)
 
 # all imgui .cpp files
@@ -9,13 +11,12 @@ file( GLOB IMGUI_BACKEND_SRC vendor/imgui-docking-1.89.3/backends/*.cpp )
 file( GLOB PROJECT_SRC src/*.cpp )
 
 # main project
-# add_executable(${PROJECT_NAME} main.cpp vendor/glad-opengl-4.6-release/src/glad.c ${IMGUI_SRC} ${IMGUI_BACKEND_SRC} src/GraphicUserInterface.cpp src/WindowManager.cpp src/ShaderProgram.cpp)
 add_executable(${PROJECT_NAME} main.cpp vendor/glad-opengl-4.6-release/src/glad.c ${IMGUI_SRC} ${IMGUI_BACKEND_SRC} ${PROJECT_SRC} )
 
 # directories
-target_include_directories( ${PROJECT_NAME} PUBLIC include/ vendor/glad-opengl-4.6-release/include vendor/imgui-docking-1.89.3 vendor/imgui-docking-1.89.3/backends vendor/glfw-3.3.8.bin.WIN32/include vendor/ vendor/assimp-5.2/include)
+target_include_directories( ${PROJECT_NAME} PUBLIC include/ vendor/glad-opengl-4.6-release/include vendor/imgui-docking-1.89.3 vendor/imgui-docking-1.89.3/backends vendor/glfw-3.3.8.bin.WIN32/include vendor/ vendor/assimp/include)
 
-target_link_directories( ${PROJECT_NAME} PRIVATE vendor/glfw-3.3.8.bin.WIN32/lib-mingw vendor/assimp-5.2/lib)
+target_link_directories( ${PROJECT_NAME} PRIVATE vendor/glfw-3.3.8.bin.WIN32/lib-mingw)
 # mingw compiler additional stuff
 # if(MINGW)
 
