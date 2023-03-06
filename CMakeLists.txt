@@ -27,6 +27,16 @@ elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(GLFW_DIR vendor/glfw-3.3.8.bin.WIN64)
 endif()
 
+if(MINGW)
+    set(GLFW_COMPILER lib-mingw)
+elseif(MINGW_W64)
+    set(GLFW_COMPILER lib-mingw-w64)
+elseif(MSVC)
+    set(GLFW_COMPILER lib-vc2022)
+else()
+    message("Compiler not detected")
+endif()
+
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     # Debug mode
     set(GLAD_DIR vendor/glad-opengl-4.6-debug)
@@ -41,7 +51,7 @@ add_executable(${PROJECT_NAME} main.cpp ${GLAD_DIR}/src/glad.c ${IMGUI_SRC} ${IM
 # directories
 target_include_directories( ${PROJECT_NAME} PUBLIC include/ ${GLAD_DIR}/include vendor/imgui-docking-1.89.3 vendor/imgui-docking-1.89.3/backends ${GLFW_DIR}/include vendor/ vendor/assimp/include build/vendor/assimp/include)
 
-target_link_directories( ${PROJECT_NAME} PUBLIC ${GLFW_DIR}/lib-mingw-w64 build/vendor/assimp/lib )
+target_link_directories( ${PROJECT_NAME} PUBLIC ${GLFW_DIR}/${GLFW_COMPILER} build/vendor/assimp/lib )
 
 # Set compiler flags
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
@@ -66,7 +76,7 @@ target_link_libraries(${PROJECT_NAME} glfw3dll opengl32 assimp)
 add_custom_command(
 TARGET ${PROJECT_NAME} POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy
-${CMAKE_SOURCE_DIR}/${GLFW_DIR}/lib-mingw-w64/glfw3.dll
+${CMAKE_SOURCE_DIR}/${GLFW_DIR}/${GLFW_COMPILER}/glfw3.dll
 $<TARGET_FILE_DIR:${PROJECT_NAME}>/ )
 
 # copy paste windows dll
