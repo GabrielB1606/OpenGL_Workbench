@@ -40,6 +40,7 @@ public:
     bool initFromScene(const aiScene* scene, std::string filename);
     bool initSingleMesh(unsigned int meshIndex, const aiMesh* aiMeshPointer);
     bool initMaterials(const aiScene* scene, std::string textureDir);
+    void loadColors(const aiMaterial *mat, int index);
 };
 
 

@@ -70,7 +70,17 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
         initSingleMesh(i, aiMeshPointer);
     }
     
+    std::string::size_type slashIndex = filename.find_last_of("/");
+    std::string textureDir;
 
+    if( slashIndex == std::string::npos )
+        textureDir = ".";
+    else if(slashIndex == 0)
+        textureDir = "/";
+    else
+        textureDir = filename.substr(0, slashIndex);
+    
+    initMaterials(scene, textureDir);
 
     return false;
 }
@@ -116,10 +126,47 @@ bool BasicMesh::initMaterials(const aiScene* scene, std::string textureDir){
 
     for (size_t i = 0; i < scene->mNumMaterials; i++){
         const aiMaterial* mat = scene->mMaterials[i];
-
+        loadColors(mat, i);
     }
     
     // load colors
 
     return ans;
+}
+
+void BasicMesh::loadColors(const aiMaterial *mat, int index){
+    aiColor3D ambientColor(0.0f, 0.0f, 0.0f);
+    glm::vec3 AllOnes(1.0f, 1.0f, 1.0f);
+
+    int ShadingModel = 0;
+    if (mat->Get(AI_MATKEY_SHADING_MODEL, ShadingModel) == AI_SUCCESS) {
+        printf("Shading model %d\n", ShadingModel);
+    }
+
+    if (mat->Get(AI_MATKEY_COLOR_AMBIENT, ambientColor) == AI_SUCCESS) {
+        printf("Loaded ambient color [%f %f %f]\n", ambientColor.r, ambientColor.g, ambientColor.b);
+        materials[index].ambientColor.r = ambientColor.r;
+        materials[index].ambientColor.g = ambientColor.g;
+        materials[index].ambientColor.b = ambientColor.b;
+    } else {
+        materials[index].ambientColor = AllOnes;
+    }
+
+    aiColor3D diffuseColor(0.0f, 0.0f, 0.0f);
+
+    if (mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == AI_SUCCESS) {
+        printf("Loaded diffuse color [%f %f %f]\n", diffuseColor.r, diffuseColor.g, diffuseColor.b);
+        materials[index].diffuseColor.r = diffuseColor.r;
+        materials[index].diffuseColor.g = diffuseColor.g;
+        materials[index].diffuseColor.b = diffuseColor.b;
+    }
+
+    aiColor3D specularColor(0.0f, 0.0f, 0.0f);
+
+    if (mat->Get(AI_MATKEY_COLOR_SPECULAR, specularColor) == AI_SUCCESS) {
+        printf("Loaded specular color [%f %f %f]\n", specularColor.r, specularColor.g, specularColor.b);
+        materials[index].specularColor.r = specularColor.r;
+        materials[index].specularColor.g = specularColor.g;
+        materials[index].specularColor.b = specularColor.b;
+    }
 }

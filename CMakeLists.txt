@@ -29,12 +29,39 @@ endif()
 
 if(MINGW)
     set(GLFW_COMPILER lib-mingw)
+    # Set linker flags
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
 elseif(MINGW_W64)
     set(GLFW_COMPILER lib-mingw-w64)
+    # Set linker flags
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
 elseif(MSVC)
+
+    # if(CMAKE_GENERATOR_TOOLSET MATCHES "v100")
+    #     set(GLFW_COMPILER lib-vc2010)
+
+    # elseif(CMAKE_GENERATOR_TOOLSET MATCHES "v110")
+    #     set(GLFW_COMPILER lib-vc2012)
+
+    # elseif(CMAKE_GENERATOR_TOOLSET MATCHES "v120")
+    #     set(GLFW_COMPILER lib-vc2013)
+
+    # elseif(CMAKE_GENERATOR_TOOLSET MATCHES "v140")
+    #     set(GLFW_COMPILER lib-vc2015)
+
+    # elseif(CMAKE_GENERATOR_TOOLSET MATCHES "v141")
+    #     set(GLFW_COMPILER lib-vc2017)
+
+    # elseif(CMAKE_GENERATOR_TOOLSET MATCHES "v142")
+    #     set(GLFW_COMPILER lib-vc2019)
+
+    # elseif(CMAKE_GENERATOR_TOOLSET MATCHES "v143")
+    
+    # endif()
     set(GLFW_COMPILER lib-vc2022)
+
 else()
-    message("Compiler not detected")
+    set(GLFW_COMPILER lib-static-ucrt)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -49,15 +76,13 @@ endif()
 add_executable(${PROJECT_NAME} main.cpp ${GLAD_DIR}/src/glad.c ${IMGUI_SRC} ${IMGUI_BACKEND_SRC} ${PROJECT_SRC} )
 
 # directories
+target_include_directories( ${PROJECT_NAME} PUBLIC include/headers/)
 target_include_directories( ${PROJECT_NAME} PUBLIC include/ ${GLAD_DIR}/include vendor/imgui-docking-1.89.3 vendor/imgui-docking-1.89.3/backends ${GLFW_DIR}/include vendor/ vendor/assimp/include build/vendor/assimp/include)
 
 target_link_directories( ${PROJECT_NAME} PUBLIC ${GLFW_DIR}/${GLFW_COMPILER} build/vendor/assimp/lib )
 
 # Set compiler flags
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-
-# Set linker flags
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
 
 # Set the output directories
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

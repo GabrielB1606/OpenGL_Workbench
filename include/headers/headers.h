@@ -25,25 +25,34 @@
 #include <glm-0.9.9.9/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm-0.9.9.9/gtc/type_ptr.hpp>
 
+
 // Assets Importer
-#include <assimp/Importer.hpp>
 #include <assimp/scene.h>
+#include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/vector3.h>
+// #ifndef STB_IMAGE_IMPLEMENTATION
+// #define STB_IMAGE_IMPLEMENTATION
+//     #include <stb_image.h>
+// #endif
 // assimp Flags
 #define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices)
 
 #define ARRAY_SIZE_IN_ELEMENTS(arr) (sizeof(arr)/sizeof(arr[0]))
+
+// #include <stb_image.h>
+
 
 #include "OpenglLoader.h"
 #include "WindowManager.h"
 
 #include "GraphicUserInterface.h"
 
+#include "Texture.h"
+#include "Material.h"
+
 #include "ShaderTypeEnum.h"
 #include "ShaderProgram.h"
-
-#include "Material.h"
 
 #include "BasicMeshEntry.h"
 #include "BasicMesh.h"
