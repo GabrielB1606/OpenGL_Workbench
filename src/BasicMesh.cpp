@@ -1,5 +1,9 @@
 #include "BasicMesh.h"
 
+#define POSITION_LOCATION  0
+#define TEX_COORD_LOCATION 1
+#define NORMAL_LOCATION    2
+
 BasicMesh::~BasicMesh(){
     clear();
 }
@@ -82,7 +86,7 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
     
     initMaterials(scene, textureDir);
 
-    return false;
+    return 1;
 }
 
 bool BasicMesh::initSingleMesh(unsigned int meshIndex, const aiMesh *aiMeshPointer){
@@ -128,8 +132,6 @@ bool BasicMesh::initMaterials(const aiScene* scene, std::string textureDir){
         const aiMaterial* mat = scene->mMaterials[i];
         loadColors(mat, i);
     }
-    
-    // load colors
 
     return ans;
 }
@@ -169,4 +171,49 @@ void BasicMesh::loadColors(const aiMaterial *mat, int index){
         materials[index].specularColor.g = specularColor.g;
         materials[index].specularColor.b = specularColor.b;
     }
+}
+
+void BasicMesh::populateBuffers(){
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[POS_VB]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(positions[0]) * positions.size(), &positions[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(POSITION_LOCATION);
+    glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[TEXCOORD_VB]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords[0]) * texCoords.size(), &texCoords[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(TEX_COORD_LOCATION);
+    glVertexAttribPointer(TEX_COORD_LOCATION, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[NORMAL_VB]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(normals[0]) * normals.size(), &normals[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(NORMAL_LOCATION);
+    glVertexAttribPointer(NORMAL_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[INDEX_BUFFER]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[0]) * indices.size(), &indices[0], GL_STATIC_DRAW);
+}
+
+void BasicMesh::render(){
+    glBindVertexArray(this->VAO);
+
+    for (size_t i = 0; i < meshes.size(); i++){
+        size_t matIndex = meshes[i].materialIndex;
+
+        // assert( matIndex < textures.size() );
+
+        // if( textures[matIndex] )
+        //     textures->bind(COLOR_TEXTURE_UNIT);
+
+        glDrawElementsBaseVertex(
+            GL_TRIANGLES,
+            meshes[i].numIndices,
+            GL_UNSIGNED_INT,
+            (void *)(sizeof(unsigned int) * meshes[i].baseIndex ),
+            meshes[i].baseVertex
+        );
+
+    }
+
+    glBindVertexArray(0);
+    
 }
