@@ -31,12 +31,13 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/vector3.h>
+#include <assimp/DefaultLogger.hpp>
 // #ifndef STB_IMAGE_IMPLEMENTATION
 // #define STB_IMAGE_IMPLEMENTATION
 //     #include <stb_image.h>
 // #endif
 // assimp Flags
-#define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices)
+#define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices | aiProcess_PreTransformVertices)
 
 #define ARRAY_SIZE_IN_ELEMENTS(arr) (sizeof(arr)/sizeof(arr[0]))
 

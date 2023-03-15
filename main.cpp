@@ -1,44 +1,51 @@
 #include "headers.h"
 
-const short glMajVersion = 3, glMinVersion = 3;
+const short glMajVersion = 4, glMinVersion = 6;
 
 int main() {
 	
-	WindowManager windowManager(800, 600, "window manager", glMajVersion, glMinVersion);
+	WindowManager windowManager(1280, 720, "window manager", glMajVersion, glMinVersion);
 
 	// 1. Build and compile our shader programs
-	ShaderProgram s("330", glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
+	ShaderProgram s("460", glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
 
+
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
+
+	BasicMesh* mesh = new BasicMesh();
+	mesh->loadMesh("Crate1.obj");
 
 	// 3. Set up vertex data and configure vertex attributes
 
 	// Define three vertices with 3D positions
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f,  0.5f, 0.0f
-	};
+	// float vertices[] = {
+	// 	-0.5f, -0.5f, 0.0f,
+	// 	0.5f, -0.5f, 0.0f,
+	// 	0.0f,  0.5f, 0.0f
+	// };
 
-	// Generate vertex buffer object (VBO) and vertex array object (VAO)
-	unsigned int VBO, VAO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	// // Generate vertex buffer object (VBO) and vertex array object (VAO)
+	// unsigned int VBO, VAO;
+	// glGenVertexArrays(1, &VAO);
+	// glGenBuffers(1, &VBO);
 
-	// Bind VAO, then bind VBO
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	// // Bind VAO, then bind VBO
+	// glBindVertexArray(VAO);
+	// glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	// Copy the vertex data into the buffer's memory
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	// // Copy the vertex data into the buffer's memory
+	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	// Set attributes that describe how OpenGL should interpret the vertex data
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	// // Set attributes that describe how OpenGL should interpret the vertex data
+	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	// glEnableVertexAttribArray(0);
 
 
-	// Unbind so other calls won't modify VBO and VAO
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	// // Unbind so other calls won't modify VBO and VAO
+	// glBindBuffer(GL_ARRAY_BUFFER, 0);
+	// glBindVertexArray(0);
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -53,8 +60,9 @@ int main() {
 
 		// glUseProgram(shaderProgram);
 		s.use();
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		// glBindVertexArray(VAO);
+		// glDrawArrays(GL_TRIANGLES, 0, 3);
+		mesh->render();
 
 		gui.draw();
 		gui.render();

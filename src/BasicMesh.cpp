@@ -34,12 +34,21 @@ bool BasicMesh::loadMesh(std::string filename)
 
     bool ans = false;
     
+    Assimp::DefaultLogger::create("", Assimp::Logger::VERBOSE);
+    // Assimp::DefaultLogger::get()->attachStream(new Assimp::DefaultLogger::FileLogStream("assimp_log.txt", "w"));
+    
+
     scene = importer.ReadFile( filename.c_str(), ASSIMP_LOAD_FLAGS );
 
-    if( scene )
+    if( scene!=nullptr )
         ans = initFromScene(scene, filename);
-    else
+    else{
         std::cout << "Error parsing: " << filename << "\n";
+        std::string error = importer.GetErrorString();
+        std::cerr << "Error importing file: " << error << std::endl;    
+    }
+
+    Assimp::DefaultLogger::kill();
 
     glBindVertexArray(0);
 
@@ -85,6 +94,8 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
         textureDir = filename.substr(0, slashIndex);
     
     initMaterials(scene, textureDir);
+
+    populateBuffers();
 
     return 1;
 }
@@ -204,13 +215,22 @@ void BasicMesh::render(){
         // if( textures[matIndex] )
         //     textures->bind(COLOR_TEXTURE_UNIT);
 
+        // glDrawElementsBaseVertex(
+        //     GL_TRIANGLES,
+        //     meshes[i].numIndices,
+        //     GL_UNSIGNED_INT,
+        //     (void*)(&indices[0]),
+        //     meshes[i].baseVertex
+        // );
+
         glDrawElementsBaseVertex(
             GL_TRIANGLES,
             meshes[i].numIndices,
             GL_UNSIGNED_INT,
-            (void *)(sizeof(unsigned int) * meshes[i].baseIndex ),
+            (void*)(sizeof(unsigned int)*meshes[i].baseIndex),
             meshes[i].baseVertex
         );
+        
 
     }
 
