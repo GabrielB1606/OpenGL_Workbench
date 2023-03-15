@@ -10,10 +10,10 @@ int main() {
 	ShaderProgram s("460", glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
 
 	// Define the projection matrix
-	float fov = 45.0f;  // Field of view in degrees
+	float fov = 90.0f;  // Field of view in degrees
 	float aspectRatio = 1280.0f / 720.0f; // Aspect ratio of the window
 	float nearPlane = 0.1f;  // Near clipping plane
-	float farPlane = 100.0f; // Far clipping plane
+	float farPlane = 1000.0f; // Far clipping plane
 
 	glm::mat4 projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 
