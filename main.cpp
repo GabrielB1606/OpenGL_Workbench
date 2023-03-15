@@ -9,21 +9,30 @@ int main() {
 	// 1. Build and compile our shader programs
 	ShaderProgram s("460", glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
 
+	// Define the projection matrix
+	float fov = 45.0f;  // Field of view in degrees
+	float aspectRatio = 1280.0f / 720.0f; // Aspect ratio of the window
+	float nearPlane = 0.1f;  // Near clipping plane
+	float farPlane = 100.0f; // Far clipping plane
+
+	glm::mat4 projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
+
+	s.setMat4fv(projection, "projectionMatrix", false);
 
 	glDisable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
+	// glEnable(GL_DEPTH_TEST);
 
 
 	BasicMesh* mesh = new BasicMesh();
-	mesh->loadMesh("Crate1.obj");
+	mesh->loadMesh("models/triangle.obj");
 
 	// 3. Set up vertex data and configure vertex attributes
 
 	// Define three vertices with 3D positions
 	// float vertices[] = {
-	// 	-0.5f, -0.5f, 0.0f,
-	// 	0.5f, -0.5f, 0.0f,
-	// 	0.0f,  0.5f, 0.0f
+	// 	-1.f, 0.0f, 0.0f,
+	// 	0.0f, 1.0f, 0.0f,
+	// 	1.0f,  0.0f, 0.0f
 	// };
 
 	// // Generate vertex buffer object (VBO) and vertex array object (VAO)
@@ -69,6 +78,9 @@ int main() {
 
 		windowManager.swapBuffers();
 		windowManager.pollEvents();
+
+		// s.stopUsing();
+
 	}
 
 	return 0;

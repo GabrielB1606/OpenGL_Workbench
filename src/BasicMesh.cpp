@@ -107,6 +107,7 @@ bool BasicMesh::initSingleMesh(unsigned int meshIndex, const aiMesh *aiMeshPoint
         
         const aiVector3D &pos = aiMeshPointer->mVertices[i];
         positions.push_back( glm::vec3(pos.x, pos.y, pos.z) );
+        std::cout << pos.x << " " << pos.y << " " << pos.z << "\n";
 
         if( aiMeshPointer->mNormals ){
             const aiVector3D &normal = aiMeshPointer->mNormals[i];
@@ -215,14 +216,6 @@ void BasicMesh::render(){
         // if( textures[matIndex] )
         //     textures->bind(COLOR_TEXTURE_UNIT);
 
-        // glDrawElementsBaseVertex(
-        //     GL_TRIANGLES,
-        //     meshes[i].numIndices,
-        //     GL_UNSIGNED_INT,
-        //     (void*)(&indices[0]),
-        //     meshes[i].baseVertex
-        // );
-
         glDrawElementsBaseVertex(
             GL_TRIANGLES,
             meshes[i].numIndices,
@@ -231,6 +224,11 @@ void BasicMesh::render(){
             meshes[i].baseVertex
         );
         
+        // Check for OpenGL errors
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            std::cerr << "OpenGL error: " << error << std::endl;
+        }
 
     }
 
