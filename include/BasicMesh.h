@@ -2,6 +2,7 @@
 #define BASICMESH_H
 
 #include "headers.h"
+#include "ShaderProgram.h"
 
 class BasicMesh{
 private:
@@ -22,7 +23,6 @@ private:
     std::vector<BasicMeshEntry> meshes;
     std::vector<Material> materials;
 
-    // should have a vector of materials
     std::vector<glm::vec3> positions;
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> texCoords;
@@ -31,18 +31,34 @@ private:
     Assimp::Importer importer;
     const aiScene* scene;
 
-public:
-    BasicMesh(/* args */){}
-    ~BasicMesh();
+    // transformations
+    glm::mat4 modelMatrix   = glm::mat4(1.f);
+    glm::vec3 translation   = glm::vec3(0.f);
+    glm::vec3 rotation      = glm::vec3(0.f);
+    glm::vec3 scale         = glm::vec3(1.f);
 
+public:
+    BasicMesh();
+    ~BasicMesh();
     void clear();
+    
+    // loading related functions
     bool loadMesh(std::string filename);
     bool initFromScene(const aiScene* scene, std::string filename);
     bool initSingleMesh(unsigned int meshIndex, const aiMesh* aiMeshPointer);
     bool initMaterials(const aiScene* scene, std::string textureDir);
     void loadColors(const aiMaterial *mat, int index);
     void populateBuffers();
+    
+    // draw/render functions
     void render();
+    void sendUniforms(ShaderProgram* shader);
+
+    // transformations functions
+    void calculateModelMatrix();
+    void translate(glm::vec3 translation);
+    void rotate(glm::vec3 rotation);
+    void scaleUp(glm::vec3 scale);
 };
 
 

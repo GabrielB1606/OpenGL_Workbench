@@ -8,6 +8,10 @@ BasicMesh::~BasicMesh(){
     clear();
 }
 
+BasicMesh::BasicMesh(){
+    calculateModelMatrix();
+}
+
 void BasicMesh::clear(){
     if (buffers[0] != 0) {
         glDeleteBuffers(ARRAY_SIZE_IN_ELEMENTS(buffers), buffers);
@@ -234,4 +238,23 @@ void BasicMesh::render(){
 
     glBindVertexArray(0);
     
+}
+
+void BasicMesh::sendUniforms(ShaderProgram *shader){
+
+    shader->setMat4fv(this->modelMatrix, "ModelMatrix", false);
+
+}
+
+void BasicMesh::calculateModelMatrix(){
+
+    this->modelMatrix = glm::mat4(1.f);
+    this->modelMatrix - glm::translate( this->modelMatrix, this->translation );
+
+}
+
+void BasicMesh::translate(glm::vec3 translation)
+{
+
+    this->translation += translation;
 }

@@ -73,7 +73,25 @@ else()
 endif()
 
 # main project
-add_executable(${PROJECT_NAME} main.cpp ${GLAD_DIR}/src/glad.c ${IMGUI_SRC} ${IMGUI_BACKEND_SRC} ${PROJECT_SRC} )
+# add_executable(${PROJECT_NAME}
+#     main.cpp
+#     ${GLAD_DIR}/src/glad.c
+#     ${IMGUI_SRC}
+#     ${IMGUI_BACKEND_SRC}
+#     ${PROJECT_SRC}
+# )
+
+add_executable(${PROJECT_NAME}
+    ${GLAD_DIR}/src/glad.c
+    ${IMGUI_SRC}
+    ${IMGUI_BACKEND_SRC}
+    src/WindowManager.cpp
+    src/GraphicUserInterface.cpp
+    src/ShaderProgram.cpp
+    src/Texture.cpp
+    src/BasicMesh.cpp
+    main.cpp
+)
 
 # directories
 target_include_directories( ${PROJECT_NAME} PUBLIC include/headers/)
@@ -86,7 +104,6 @@ target_link_directories( ${PROJECT_NAME} PUBLIC ${GLFW_DIR}/${GLFW_COMPILER} bui
 
 # Set the output directories
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-# set_target_properties(glfw PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set_target_properties(assimp PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # add_compile_definitions(SDL_VIDEO_DRIVER_WINDOWS)
