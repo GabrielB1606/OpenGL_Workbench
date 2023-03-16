@@ -209,7 +209,17 @@ void BasicMesh::populateBuffers(){
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[0]) * indices.size(), &indices[0], GL_STATIC_DRAW);
 }
 
-void BasicMesh::render(){
+void BasicMesh::render(ShaderProgram *shader){
+
+    sendUniforms(shader);
+    shader->use();
+    render();
+    shader->stopUsing();
+
+}
+
+void BasicMesh::render()
+{
     glBindVertexArray(this->VAO);
 
     for (size_t i = 0; i < meshes.size(); i++){
@@ -237,7 +247,6 @@ void BasicMesh::render(){
     }
 
     glBindVertexArray(0);
-    
 }
 
 void BasicMesh::sendUniforms(ShaderProgram *shader){
@@ -249,6 +258,7 @@ void BasicMesh::sendUniforms(ShaderProgram *shader){
 void BasicMesh::calculateModelMatrix(){
 
     this->modelMatrix = glm::mat4(1.f);
+    this->modelMatrix = this->modelMatrix * this->rotation;
     this->modelMatrix = glm::translate( this->modelMatrix, this->translation );
 
 }
@@ -257,4 +267,14 @@ void BasicMesh::translate(glm::vec3 vec)
 {
     this->translation += vec;
     this->calculateModelMatrix();
+}
+
+void BasicMesh::rotate(glm::vec3 vec){
+
+    this->rotation = glm::rotate( glm::mat4(1.f), glm::radians(vec.x), glm::vec3(1.f, 0.f, 0.f) ) * this->rotation;
+    this->rotation = glm::rotate( glm::mat4(1.f), glm::radians(vec.y), glm::vec3(0.f, 1.f, 0.f) ) * this->rotation;
+    this->rotation = glm::rotate( glm::mat4(1.f), glm::radians(vec.z), glm::vec3(0.f, 0.f, 1.f) ) * this->rotation;
+
+    this->calculateModelMatrix();
+
 }

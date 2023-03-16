@@ -34,7 +34,7 @@ private:
     // transformations
     glm::mat4 modelMatrix   = glm::mat4(1.f);
     glm::vec3 translation   = glm::vec3(0.f);
-    glm::vec3 rotation      = glm::vec3(0.f);
+    glm::mat4 rotation      = glm::mat4(1.f);
     glm::vec3 scale         = glm::vec3(1.f);
 
 public:
@@ -51,13 +51,14 @@ public:
     void populateBuffers();
     
     // draw/render functions
+    void render(ShaderProgram* shader);
     void render();
     void sendUniforms(ShaderProgram* shader);
 
     // transformations functions
     void calculateModelMatrix();
     void translate(glm::vec3 vec);
-    void rotate(glm::vec3 rotation);
+    void rotate(glm::vec3 vec);
     void scaleUp(glm::vec3 scale);
 };
 

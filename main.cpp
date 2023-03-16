@@ -27,30 +27,25 @@ int main() {
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-	GraphicUserInterface gui(&windowManager, 3, 3);
+	GraphicUserInterface gui(&windowManager, glMajVersion, glMinVersion);
 
-	mesh->translate( glm::vec3(0.f, -1.0f, 0.0f) );
+	mesh->translate( glm::vec3(0.f, -0.5f, 0.0f) );
+	mesh->rotate( glm::vec3(0.f, 0.f, 30.f) );
 
 	while ( windowManager.isOpen() ) {
-		// processInput(window);
+		
 		windowManager.processInput();
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// glUseProgram(shaderProgram);
-
-		mesh->sendUniforms(&s);
-		s.use();
-		mesh->render();
+		mesh->render(&s);
 
 		gui.draw();
 		gui.render();
 
 		windowManager.swapBuffers();
 		windowManager.pollEvents();
-
-		// s.stopUsing();
 
 	}
 
