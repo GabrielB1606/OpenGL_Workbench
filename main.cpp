@@ -29,6 +29,8 @@ int main() {
 
 	GraphicUserInterface gui(&windowManager, 3, 3);
 
+	mesh->translate( glm::vec3(0.f, -1.0f, 0.0f) );
+
 	while ( windowManager.isOpen() ) {
 		// processInput(window);
 		windowManager.processInput();
@@ -37,9 +39,9 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// glUseProgram(shaderProgram);
-		s.use();
 
 		mesh->sendUniforms(&s);
+		s.use();
 		mesh->render();
 
 		gui.draw();

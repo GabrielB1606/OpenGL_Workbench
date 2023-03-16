@@ -56,7 +56,7 @@ public:
 
     // transformations functions
     void calculateModelMatrix();
-    void translate(glm::vec3 translation);
+    void translate(glm::vec3 vec);
     void rotate(glm::vec3 rotation);
     void scaleUp(glm::vec3 scale);
 };

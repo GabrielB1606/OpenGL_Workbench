@@ -249,12 +249,12 @@ void BasicMesh::sendUniforms(ShaderProgram *shader){
 void BasicMesh::calculateModelMatrix(){
 
     this->modelMatrix = glm::mat4(1.f);
-    this->modelMatrix - glm::translate( this->modelMatrix, this->translation );
+    this->modelMatrix = glm::translate( this->modelMatrix, this->translation );
 
 }
 
-void BasicMesh::translate(glm::vec3 translation)
+void BasicMesh::translate(glm::vec3 vec)
 {
-
-    this->translation += translation;
+    this->translation += vec;
+    this->calculateModelMatrix();
 }

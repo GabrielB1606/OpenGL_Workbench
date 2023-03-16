@@ -86,8 +86,8 @@ add_executable(${PROJECT_NAME}
     ${IMGUI_SRC}
     ${IMGUI_BACKEND_SRC}
     src/WindowManager.cpp
-    src/GraphicUserInterface.cpp
     src/ShaderProgram.cpp
+    src/GraphicUserInterface.cpp
     src/Texture.cpp
     src/BasicMesh.cpp
     main.cpp
