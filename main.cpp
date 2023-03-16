@@ -31,6 +31,7 @@ int main() {
 
 	mesh->translate( glm::vec3(0.f, -0.5f, 0.0f) );
 	mesh->rotate( glm::vec3(0.f, 0.f, 30.f) );
+	mesh->scaleUp( glm::vec3(-0.5f) );
 
 	while ( windowManager.isOpen() ) {
 		

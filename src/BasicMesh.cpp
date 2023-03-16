@@ -260,6 +260,7 @@ void BasicMesh::calculateModelMatrix(){
     this->modelMatrix = glm::mat4(1.f);
     this->modelMatrix = this->modelMatrix * this->rotation;
     this->modelMatrix = glm::translate( this->modelMatrix, this->translation );
+    this->modelMatrix = glm::scale(this->modelMatrix, this->scale);
 
 }
 
@@ -274,6 +275,14 @@ void BasicMesh::rotate(glm::vec3 vec){
     this->rotation = glm::rotate( glm::mat4(1.f), glm::radians(vec.x), glm::vec3(1.f, 0.f, 0.f) ) * this->rotation;
     this->rotation = glm::rotate( glm::mat4(1.f), glm::radians(vec.y), glm::vec3(0.f, 1.f, 0.f) ) * this->rotation;
     this->rotation = glm::rotate( glm::mat4(1.f), glm::radians(vec.z), glm::vec3(0.f, 0.f, 1.f) ) * this->rotation;
+
+    this->calculateModelMatrix();
+
+}
+
+void BasicMesh::scaleUp(glm::vec3 vec){
+
+    this->scale += vec;
 
     this->calculateModelMatrix();
 
