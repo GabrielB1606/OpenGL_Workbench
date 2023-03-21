@@ -21,13 +21,29 @@ int main() {
 	// initial configuration
 	configOpenGL();
 
+	// setup the GUI
+	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	GraphicUserInterface gui(&windowManager, glMajVersion, glMinVersion);
+	
 	// initial projection matrix
 	projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 	s.setMat4fv(projection, "ProjectionMatrix", GL_FALSE);	
 
-	// setup the GUI
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	GraphicUserInterface gui(&windowManager, glMajVersion, glMinVersion);
+	// camera
+	glm::vec3 	cameraPos = glm::vec3(0.f, 0.f, 1.f),
+				U = glm::vec3(1.f, 0.f, 0.f),
+				V = glm::vec3(0.f, 1.f, 0.f),
+				N = glm::vec3(0.f, 0.f, 1.f);
+
+	glm::mat4 viewMatrix(
+		U.x, U.y, U.z, -cameraPos.x,
+		V.x, V.y, V.z, -cameraPos.y,
+		N.x, N.y, N.z, -cameraPos.z,
+		0.f, 0.f, 0.f, 1.f
+	);
+	// glm::mat4 lookMatrix = glm::lookAt(cameraPos, cameraPos+N, V);
+	s.setMat4fv(viewMatrix, "ViewMatrix", GL_FALSE);
+	
 
 	// load a model
 	BasicMesh* mesh = new BasicMesh();
