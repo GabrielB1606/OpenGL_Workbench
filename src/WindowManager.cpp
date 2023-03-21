@@ -55,7 +55,3 @@ void WindowManager::swapBuffers(){
 void WindowManager::pollEvents(){
     glfwPollEvents();
 }
-
-void frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
-	glViewport(0, 0, width, height);
-}
