@@ -30,25 +30,25 @@ int main() {
 	s.setMat4fv(projection, "ProjectionMatrix", GL_FALSE);	
 
 	// camera
-	glm::vec3 	cameraPos = glm::vec3(0.f, 0.f, 1.f),
+	glm::vec3 	cameraPos = glm::vec3(0.f, 0.f, 0.f),
 				U = glm::vec3(1.f, 0.f, 0.f),
 				V = glm::vec3(0.f, 1.f, 0.f),
 				N = glm::vec3(0.f, 0.f, 1.f);
 
-	glm::mat4 viewMatrix(
-		U.x, U.y, U.z, -cameraPos.x,
-		V.x, V.y, V.z, -cameraPos.y,
-		N.x, N.y, N.z, -cameraPos.z,
-		0.f, 0.f, 0.f, 1.f
-	);
-	// glm::mat4 lookMatrix = glm::lookAt(cameraPos, cameraPos+N, V);
+	// glm::mat4 viewMatrix(
+	// 	U.x, U.y, U.z, -cameraPos.x,
+	// 	V.x, V.y, V.z, -cameraPos.y,
+	// 	N.x, N.y, N.z, -cameraPos.z,
+	// 	0.f, 0.f, 0.f, 1.f
+	// );
+	glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos+N, V);
 	s.setMat4fv(viewMatrix, "ViewMatrix", GL_FALSE);
 	
 
 	// load a model
 	BasicMesh* mesh = new BasicMesh();
 	mesh->loadMesh("models/Crate1.obj");
-	mesh->translate( glm::vec3(0.f, 0.f, -5.f) );
+	mesh->translate( glm::vec3(0.f, 0.f, 5.f) );
 
 	float delta = 0.001f;
 
