@@ -58,4 +58,6 @@
 #include "BasicMeshEntry.h"
 #include "BasicMesh.h"
 
+#include "ViewCamera.h"
+
 #endif

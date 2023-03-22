@@ -90,6 +90,7 @@ add_executable(${PROJECT_NAME}
     src/GraphicUserInterface.cpp
     src/Texture.cpp
     src/BasicMesh.cpp
+    src/ViewCamera.cpp
     main.cpp
 )
 

@@ -25,6 +25,7 @@ int main() {
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	GraphicUserInterface gui(&windowManager, glMajVersion, glMinVersion);
 	
+	// World::initWorld(1280, 720);
 	// initial projection matrix
 	projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 	s.setMat4fv(projection, "ProjectionMatrix", GL_FALSE);	
