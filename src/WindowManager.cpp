@@ -52,6 +52,11 @@ void WindowManager::swapBuffers(){
     glfwSwapBuffers(this->window);
 }
 
-void WindowManager::pollEvents(){
+std::unordered_set<std::string> WindowManager::pollEvents(){
     glfwPollEvents();
+
+    std::unordered_set<std::string> input;
+
+    return input;
+
 }

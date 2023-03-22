@@ -16,7 +16,7 @@ class WindowManager{
         bool isOpen();
         void getFramebufferSize(int *width, int *height);
         void swapBuffers();
-        void pollEvents();
+        std::unordered_set<std::string> pollEvents();
 
         GLFWwindow* getWindow();
 
