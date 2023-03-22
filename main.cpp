@@ -11,6 +11,7 @@ float nearPlane = 0.1f;  // Near clipping plane
 float farPlane = 1000.0f; // Far clipping plane
 
 void configOpenGL();
+void processInput(std::unordered_set<std::string> input);
 
 int main() {
 	
@@ -31,20 +32,9 @@ int main() {
 	s.setMat4fv(projection, "ProjectionMatrix", GL_FALSE);	
 
 	// camera
-	glm::vec3 	cameraPos = glm::vec3(0.f, 0.f, 0.f),
-				U = glm::vec3(1.f, 0.f, 0.f),
-				V = glm::vec3(0.f, 1.f, 0.f),
-				N = glm::vec3(0.f, 0.f, 1.f);
 
-	// glm::mat4 viewMatrix(
-	// 	U.x, U.y, U.z, -cameraPos.x,
-	// 	V.x, V.y, V.z, -cameraPos.y,
-	// 	N.x, N.y, N.z, -cameraPos.z,
-	// 	0.f, 0.f, 0.f, 1.f
-	// );
-	glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos+N, V);
-	s.setMat4fv(viewMatrix, "ViewMatrix", GL_FALSE);
-	
+	ViewCamera cam(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f) );
+	s.setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
 
 	// load a model
 	BasicMesh* mesh = new BasicMesh();
@@ -53,10 +43,13 @@ int main() {
 
 	float delta = 0.001f;
 
+	std::unordered_set<std::string> input;
+
 	while ( windowManager.isOpen() ) {
 		
 		mesh->rotate( glm::vec3(0.f, 0.f, 30.f*delta) );
 
+		windowManager.pollEvents();
 		windowManager.processInput();
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
@@ -68,7 +61,6 @@ int main() {
 		gui.render();
 
 		windowManager.swapBuffers();
-		windowManager.pollEvents();
 
 	}
 
@@ -87,6 +79,9 @@ void configOpenGL(){
 	glFrontFace(GL_CW);
 	glCullFace(GL_BACK);
 
+}
+
+void processInput(std::unordered_set<std::string> input){
 }
 
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height) {

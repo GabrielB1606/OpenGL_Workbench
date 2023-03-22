@@ -6,6 +6,8 @@
 class ViewCamera{
 private:
 
+    float speed = 0.5f;
+
     glm::vec3 position;
     glm::vec3 front;
     glm::vec3 up;
@@ -19,6 +21,8 @@ public:
 
     glm::mat4 calculateViewMatrix();
     glm::mat4 getViewMatrix();
+
+    void move(glm::vec3 v, bool recalculate = true);
 };
 
 

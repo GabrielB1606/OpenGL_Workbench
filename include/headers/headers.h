@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <unordered_set>
 
 // Graphic User Interface
 #include "imgui.h"

@@ -21,3 +21,12 @@ glm::mat4 ViewCamera::calculateViewMatrix(){
 glm::mat4 ViewCamera::getViewMatrix(){
     return this->viewMatrix;
 }
+
+void ViewCamera::move(glm::vec3 v, bool recalculate){
+
+    this->position += speed*v;
+
+    if(recalculate)
+        this->calculateViewMatrix();
+
+}
