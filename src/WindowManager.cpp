@@ -57,6 +57,25 @@ std::unordered_set<std::string> WindowManager::pollEvents(){
 
     std::unordered_set<std::string> input;
 
+    if(glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        input.insert("ESCAPE");
+
+    if( glfwGetKey(this->window, GLFW_KEY_W ) == GLFW_PRESS )
+        input.insert("W");
+    
+    if( glfwGetKey(this->window, GLFW_KEY_A ) == GLFW_PRESS )
+        input.insert("A");
+    
+    if( glfwGetKey(this->window, GLFW_KEY_S ) == GLFW_PRESS )
+        input.insert("S");
+    
+    if( glfwGetKey(this->window, GLFW_KEY_D ) == GLFW_PRESS )
+        input.insert("D");
+
     return input;
 
+}
+
+void WindowManager::close(){
+    glfwSetWindowShouldClose(this->window, true);
 }

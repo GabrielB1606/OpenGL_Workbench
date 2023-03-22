@@ -6,7 +6,7 @@
 class ViewCamera{
 private:
 
-    float speed = 0.5f;
+    float speed = 1.f;
 
     glm::vec3 position;
     glm::vec3 front;

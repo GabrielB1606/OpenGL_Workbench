@@ -11,7 +11,7 @@ float nearPlane = 0.1f;  // Near clipping plane
 float farPlane = 1000.0f; // Far clipping plane
 
 void configOpenGL();
-void processInput(std::unordered_set<std::string> input);
+void processInput(std::unordered_set<std::string> input, WindowManager *window, ViewCamera *cam, float delta);
 
 int main() {
 	
@@ -26,15 +26,12 @@ int main() {
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	GraphicUserInterface gui(&windowManager, glMajVersion, glMinVersion);
 	
-	// World::initWorld(1280, 720);
 	// initial projection matrix
 	projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 	s.setMat4fv(projection, "ProjectionMatrix", GL_FALSE);	
 
 	// camera
-
 	ViewCamera cam(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f) );
-	s.setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
 
 	// load a model
 	BasicMesh* mesh = new BasicMesh();
@@ -49,8 +46,10 @@ int main() {
 		
 		mesh->rotate( glm::vec3(0.f, 0.f, 30.f*delta) );
 
-		windowManager.pollEvents();
-		windowManager.processInput();
+		input = windowManager.pollEvents();
+		processInput(input, &windowManager, &cam, delta);
+
+		s.setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
@@ -81,7 +80,25 @@ void configOpenGL(){
 
 }
 
-void processInput(std::unordered_set<std::string> input){
+void processInput(std::unordered_set<std::string> input, WindowManager *window, ViewCamera *cam, float delta){
+
+	if( input.find("ESCAPE") != input.end() )
+		window->close();
+	
+	if( input.find("W") != input.end() )
+		cam->move(glm::vec3(0.f, 0.f, delta));
+	
+	if( input.find("A") != input.end() )
+		cam->move(glm::vec3(delta, 0.f, 0.f));
+	
+	if( input.find("S") != input.end() )
+		cam->move(glm::vec3(0.f, 0.f, -delta));
+	
+	if( input.find("D") != input.end() )
+		cam->move(glm::vec3(-delta, 0.f, 0.f));
+	
+	cam->calculateViewMatrix();
+
 }
 
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
