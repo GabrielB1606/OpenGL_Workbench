@@ -9,6 +9,9 @@ class WindowManager{
         GLFWwindow* window = nullptr;
 
     public:
+        enum BTN_STATE { PRESS = GLFW_PRESS, RELEASE = GLFW_RELEASE };
+        enum MOUSE_BUTTON { LEFT = GLFW_MOUSE_BUTTON_LEFT, MIDDLE = GLFW_MOUSE_BUTTON_MIDDLE, RIGHT = GLFW_MOUSE_BUTTON_RIGHT };
+
         WindowManager(int width, int height, std::string title, int GLMajVersion, int GLMinVersion);
         ~WindowManager();
 
@@ -18,6 +21,9 @@ class WindowManager{
         void swapBuffers();
         std::unordered_set<std::string> pollEvents();
         void close();
+
+        BTN_STATE getMouseButtonState(MOUSE_BUTTON btn);
+        void getCursorPos(double *x, double *y);
 
         GLFWwindow* getWindow();
 

@@ -7,7 +7,7 @@ class ViewCamera{
 private:
 
     float speed = 1.f;
-    float sensitivity = 1.f;
+    float sensitivity = 250.f;
 
     glm::vec3 position;
 

@@ -79,3 +79,13 @@ std::unordered_set<std::string> WindowManager::pollEvents(){
 void WindowManager::close(){
     glfwSetWindowShouldClose(this->window, true);
 }
+
+WindowManager::BTN_STATE WindowManager::getMouseButtonState(WindowManager::MOUSE_BUTTON btn){
+    return glfwGetMouseButton(this->window, btn) == GLFW_PRESS? WindowManager::BTN_STATE::PRESS : WindowManager::BTN_STATE::RELEASE;
+}
+
+void WindowManager::getCursorPos(double *x, double *y){
+
+    glfwGetCursorPos(this->window, x, y);
+
+}

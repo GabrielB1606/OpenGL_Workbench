@@ -10,6 +10,9 @@ float aspectRatio = 1280.0f / 720.0f; // Aspect ratio of the window
 float nearPlane = 0.1f;  // Near clipping plane
 float farPlane = 1000.0f; // Far clipping plane
 
+WindowManager::BTN_STATE lastStateRightBtn = WindowManager::BTN_STATE::RELEASE;
+double mouseX, mouseY;
+
 void configOpenGL();
 void processInput(std::unordered_set<std::string> input, WindowManager *window, ViewCamera *cam, float delta);
 
@@ -44,7 +47,8 @@ int main() {
 
 	while ( windowManager.isOpen() ) {
 		
-		mesh->rotate( glm::vec3(0.f, 0.f, 30.f*delta) );
+		mesh->rotate( delta*glm::vec3(0.f, 0.f, 30.f) );
+		// cam.rotate(delta*glm::vec3(0.f, 0.f, 0.f));
 
 		input = windowManager.pollEvents();
 		processInput(input, &windowManager, &cam, delta);
@@ -82,6 +86,29 @@ void configOpenGL(){
 
 void processInput(std::unordered_set<std::string> input, WindowManager *window, ViewCamera *cam, float delta){
 
+	// mouse
+
+	WindowManager::BTN_STATE rightMouse = window->getMouseButtonState( WindowManager::MOUSE_BUTTON::RIGHT );
+
+	if( rightMouse == WindowManager::BTN_STATE::PRESS ){
+		double currMouseX, currMouseY;
+		window->getCursorPos(&currMouseX, &currMouseY);
+		
+		// if(currMouseX != mouseX)
+		// 	std::cout << "(" << currMouseX << ", " << currMouseY << ") | (" << mouseX << ", " << mouseY << ")\n";
+
+		if( lastStateRightBtn == WindowManager::BTN_STATE::PRESS)
+			cam->rotate( delta*glm::vec3( currMouseX - mouseX, mouseY - currMouseY, 0.f ) );
+		
+		
+		mouseX = currMouseX;
+		mouseY = currMouseY;
+	}
+
+	lastStateRightBtn = rightMouse;
+
+	// keyboard
+
 	if( input.find("ESCAPE") != input.end() )
 		window->close();
 	
@@ -89,15 +116,14 @@ void processInput(std::unordered_set<std::string> input, WindowManager *window, 
 		cam->move(glm::vec3(0.f, 0.f, delta));
 	
 	if( input.find("A") != input.end() )
-		cam->move(glm::vec3(delta, 0.f, 0.f));
+		cam->move(glm::vec3(-delta, 0.f, 0.f));
 	
 	if( input.find("S") != input.end() )
 		cam->move(glm::vec3(0.f, 0.f, -delta));
 	
 	if( input.find("D") != input.end() )
-		cam->move(glm::vec3(-delta, 0.f, 0.f));
+		cam->move(glm::vec3(delta, 0.f, 0.f));
 	
-	cam->calculateViewMatrix();
 
 }
 
