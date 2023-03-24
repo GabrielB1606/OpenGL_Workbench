@@ -192,19 +192,38 @@ void BasicMesh::loadColors(const aiMaterial *mat, int index){
 
 void BasicMesh::loadTextures(std::string dir, const aiMaterial *mat, int index){
 
+    aiString path;
+    std::string p;
+
     if( mat->GetTextureCount( aiTextureType_DIFFUSE ) > 0 ){
-        aiString path;
 
         if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
             const aiTexture* paiTexture = scene->GetEmbeddedTexture(path.C_Str());
 
-            std::string p = path.data;
+            p = path.data;
             if( p.substr(0,2) == ".\\" )
                 p = p.substr(2, p.size()-2);
             
             p = dir + "/" + p;
 
             materials[index].textures[Texture::TYPE::DIFFUSE] = new Texture(p, GL_TEXTURE_2D);
+
+        }
+
+    }
+
+    if( mat->GetTextureCount( aiTextureType_SPECULAR ) > 0 ){
+
+        if (mat->GetTexture(aiTextureType_SPECULAR, 0, &path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+            const aiTexture* paiTexture = scene->GetEmbeddedTexture(path.C_Str());
+
+            p = path.data;
+            if( p.substr(0,2) == ".\\" )
+                p = p.substr(2, p.size()-2);
+            
+            p = dir + "/" + p;
+
+            materials[index].textures[Texture::TYPE::SPECULAR] = new Texture(p, GL_TEXTURE_2D);
 
         }
 
@@ -255,6 +274,9 @@ void BasicMesh::render()
 
         if( materials[matIndex].textures[ Texture::TYPE::DIFFUSE ] != nullptr )
             materials[matIndex].textures[ Texture::TYPE::DIFFUSE ]->bind(GL_TEXTURE0);
+        
+        if( materials[matIndex].textures[ Texture::TYPE::SPECULAR ] != nullptr )
+            materials[matIndex].textures[ Texture::TYPE::SPECULAR ]->bind(GL_TEXTURE1);
 
         glDrawElementsBaseVertex(
             GL_TRIANGLES,
