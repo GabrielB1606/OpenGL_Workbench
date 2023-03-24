@@ -45,6 +45,8 @@ int main() {
 
 	std::unordered_set<std::string> input;
 
+	windowManager.getDeltaTime();
+
 	while ( windowManager.isOpen() ) {
 		
 		mesh->rotate( delta*glm::vec3(0.f, 0.f, 30.f) );
@@ -64,6 +66,7 @@ int main() {
 		gui.render();
 
 		windowManager.swapBuffers();
+		delta = windowManager.getDeltaTime();
 
 	}
 
@@ -94,12 +97,8 @@ void processInput(std::unordered_set<std::string> input, WindowManager *window, 
 		double currMouseX, currMouseY;
 		window->getCursorPos(&currMouseX, &currMouseY);
 		
-		// if(currMouseX != mouseX)
-		// 	std::cout << "(" << currMouseX << ", " << currMouseY << ") | (" << mouseX << ", " << mouseY << ")\n";
-
 		if( lastStateRightBtn == WindowManager::BTN_STATE::PRESS)
 			cam->rotate( delta*glm::vec3( currMouseX - mouseX, mouseY - currMouseY, 0.f ) );
-		
 		
 		mouseX = currMouseX;
 		mouseY = currMouseY;

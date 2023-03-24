@@ -89,3 +89,12 @@ void WindowManager::getCursorPos(double *x, double *y){
     glfwGetCursorPos(this->window, x, y);
 
 }
+
+float WindowManager::getDeltaTime(){
+    
+    float timeNow = (float)glfwGetTime();
+    this->deltaTime = timeNow - time;
+    time = timeNow;
+
+    return this->deltaTime;
+}

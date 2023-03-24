@@ -7,6 +7,7 @@ class WindowManager{
 
     private:
         GLFWwindow* window = nullptr;
+        float deltaTime, time;
 
     public:
         enum BTN_STATE { PRESS = GLFW_PRESS, RELEASE = GLFW_RELEASE };
@@ -24,6 +25,8 @@ class WindowManager{
 
         BTN_STATE getMouseButtonState(MOUSE_BUTTON btn);
         void getCursorPos(double *x, double *y);
+
+        float getDeltaTime();
 
         GLFWwindow* getWindow();
 
