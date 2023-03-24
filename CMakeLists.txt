@@ -85,6 +85,7 @@ add_executable(${PROJECT_NAME}
     ${GLAD_DIR}/src/glad.c
     ${IMGUI_SRC}
     ${IMGUI_BACKEND_SRC}
+    src/stb_image.cpp
     src/WindowManager.cpp
     src/ShaderProgram.cpp
     src/GraphicUserInterface.cpp

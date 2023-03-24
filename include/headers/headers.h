@@ -26,6 +26,7 @@
 #include <glm-0.9.9.9/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm-0.9.9.9/gtc/type_ptr.hpp>
 
+#include <stb_image.h>
 
 // Assets Importer
 #include <assimp/scene.h>
