@@ -85,7 +85,7 @@ void configOpenGL(){
 	
 	// Face culling
 	glEnable(GL_CULL_FACE);
-	glFrontFace(GL_CW);
+	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 
 }
