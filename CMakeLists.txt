@@ -90,6 +90,7 @@ add_executable(${PROJECT_NAME}
     src/ShaderProgram.cpp
     src/GraphicUserInterface.cpp
     src/Texture.cpp
+    src/Material.cpp
     src/BasicMesh.cpp
     src/ViewCamera.cpp
     main.cpp
@@ -129,9 +130,17 @@ TARGET ${PROJECT_NAME} POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy
 ${CMAKE_SOURCE_DIR}/build/vendor/assimp/bin/libassimp-5d.dll
 $<TARGET_FILE_DIR:${PROJECT_NAME}>/ )
+
     # copy paste shaders
 add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_SOURCE_DIR}/shaders/
     $<TARGET_FILE_DIR:${PROJECT_NAME}>/shaders/ )
+
+    # copy paste shaders
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/models/
+    $<TARGET_FILE_DIR:${PROJECT_NAME}>/models/ )

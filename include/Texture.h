@@ -1,7 +1,10 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "headers.h"
+#include <iostream>
+#include <string>
+#include <glad/glad.h>
+#include <stb_image.h>
 
 class Texture{
 private:
@@ -10,6 +13,9 @@ private:
     unsigned int target;
     int width, height, nChannels;
 public:
+
+    enum TYPE{ DIFFUSE = 0, SPECULAR, N_TYPES };
+
     Texture(std::string filename, unsigned int target);
     ~Texture();
 

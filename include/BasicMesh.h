@@ -48,6 +48,7 @@ public:
     bool initSingleMesh(unsigned int meshIndex, const aiMesh* aiMeshPointer);
     bool initMaterials(const aiScene* scene, std::string textureDir);
     void loadColors(const aiMaterial *mat, int index);
+    void loadTextures(std::string dir, const aiMaterial *mat, int index);
     void populateBuffers();
     
     // draw/render functions

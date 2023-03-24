@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <array>
 #include <unordered_set>
 
 // Graphic User Interface

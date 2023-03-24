@@ -146,6 +146,7 @@ bool BasicMesh::initMaterials(const aiScene* scene, std::string textureDir){
 
     for (size_t i = 0; i < scene->mNumMaterials; i++){
         const aiMaterial* mat = scene->mMaterials[i];
+        loadTextures(textureDir, mat, i);
         loadColors(mat, i);
     }
 
@@ -189,6 +190,28 @@ void BasicMesh::loadColors(const aiMaterial *mat, int index){
     }
 }
 
+void BasicMesh::loadTextures(std::string dir, const aiMaterial *mat, int index){
+
+    if( mat->GetTextureCount( aiTextureType_DIFFUSE ) > 0 ){
+        aiString path;
+
+        if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+            const aiTexture* paiTexture = scene->GetEmbeddedTexture(path.C_Str());
+
+            std::string p = path.data;
+            if( p.substr(0,2) == ".\\" )
+                p = p.substr(2, p.size()-2);
+            
+            p = dir + "/" + p;
+
+            materials[index].textures[Texture::TYPE::DIFFUSE] = new Texture(p, GL_TEXTURE_2D);
+
+        }
+
+    }
+
+}
+
 void BasicMesh::populateBuffers(){
     glBindBuffer(GL_ARRAY_BUFFER, buffers[POS_VB]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(positions[0]) * positions.size(), &positions[0], GL_STATIC_DRAW);
@@ -229,6 +252,9 @@ void BasicMesh::render()
 
         // if( textures[matIndex] )
         //     textures->bind(COLOR_TEXTURE_UNIT);
+
+        if( materials[matIndex].textures[ Texture::TYPE::DIFFUSE ] != nullptr )
+            materials[matIndex].textures[ Texture::TYPE::DIFFUSE ]->bind(GL_TEXTURE0);
 
         glDrawElementsBaseVertex(
             GL_TRIANGLES,

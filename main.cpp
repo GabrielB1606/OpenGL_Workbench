@@ -41,8 +41,8 @@ int main() {
 	mesh->loadMesh("models/Crate1.obj");
 	mesh->translate( glm::vec3(0.f, 0.f, 5.f) );
 
-	Texture tex = Texture("models/container2.png", GL_TEXTURE_2D);
-	tex.bind(GL_TEXTURE0);
+	// Texture tex = Texture("models/container2.png", GL_TEXTURE_2D);
+	// tex.bind(GL_TEXTURE0);
 
 	float delta = 0.001f;
 
