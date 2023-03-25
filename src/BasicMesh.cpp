@@ -111,7 +111,7 @@ bool BasicMesh::initSingleMesh(unsigned int meshIndex, const aiMesh *aiMeshPoint
         
         const aiVector3D &pos = aiMeshPointer->mVertices[i];
         positions.push_back( glm::vec3(pos.x, pos.y, pos.z) );
-        std::cout << pos.x << " " << pos.y << " " << pos.z << "\n";
+        // std::cout << pos.x << " " << pos.y << " " << pos.z << "\n";
 
         if( aiMeshPointer->mNormals ){
             const aiVector3D &normal = aiMeshPointer->mNormals[i];
@@ -159,14 +159,14 @@ void BasicMesh::loadColors(const aiMaterial *mat, int index){
 
     int ShadingModel = 0;
     if (mat->Get(AI_MATKEY_SHADING_MODEL, ShadingModel) == AI_SUCCESS) {
-        printf("Shading model %d\n", ShadingModel);
+        // printf("Shading model %d\n", ShadingModel);
     }
 
     if (mat->Get(AI_MATKEY_COLOR_AMBIENT, ambientColor) == AI_SUCCESS) {
-        printf("Loaded ambient color [%f %f %f]\n", ambientColor.r, ambientColor.g, ambientColor.b);
-        materials[index].ambientColor.r = ambientColor.r;
-        materials[index].ambientColor.g = ambientColor.g;
-        materials[index].ambientColor.b = ambientColor.b;
+        // printf("Loaded ambient color [%f %f %f]\n", ambientColor.r, ambientColor.g, ambientColor.b);
+        materials[index].ambientColor.x = ambientColor.r;
+        materials[index].ambientColor.y = ambientColor.g;
+        materials[index].ambientColor.z = ambientColor.b;
     } else {
         materials[index].ambientColor = AllOnes;
     }
@@ -174,19 +174,19 @@ void BasicMesh::loadColors(const aiMaterial *mat, int index){
     aiColor3D diffuseColor(0.0f, 0.0f, 0.0f);
 
     if (mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == AI_SUCCESS) {
-        printf("Loaded diffuse color [%f %f %f]\n", diffuseColor.r, diffuseColor.g, diffuseColor.b);
-        materials[index].diffuseColor.r = diffuseColor.r;
-        materials[index].diffuseColor.g = diffuseColor.g;
-        materials[index].diffuseColor.b = diffuseColor.b;
+        // printf("Loaded diffuse color [%f %f %f]\n", diffuseColor.r, diffuseColor.g, diffuseColor.b);
+        materials[index].diffuseColor.x = diffuseColor.r;
+        materials[index].diffuseColor.y = diffuseColor.g;
+        materials[index].diffuseColor.z = diffuseColor.b;
     }
 
     aiColor3D specularColor(0.0f, 0.0f, 0.0f);
 
     if (mat->Get(AI_MATKEY_COLOR_SPECULAR, specularColor) == AI_SUCCESS) {
-        printf("Loaded specular color [%f %f %f]\n", specularColor.r, specularColor.g, specularColor.b);
-        materials[index].specularColor.r = specularColor.r;
-        materials[index].specularColor.g = specularColor.g;
-        materials[index].specularColor.b = specularColor.b;
+        // printf("Loaded specular color [%f %f %f]\n", specularColor.r, specularColor.g, specularColor.b);
+        materials[index].specularColor.x = specularColor.r;
+        materials[index].specularColor.y = specularColor.g;
+        materials[index].specularColor.z = specularColor.b;
     }
 }
 
@@ -255,28 +255,14 @@ void BasicMesh::render(ShaderProgram *shader){
 
     sendUniforms(shader);
     shader->use();
-    render();
-    shader->stopUsing();
 
-}
-
-void BasicMesh::render()
-{
     glBindVertexArray(this->VAO);
 
     for (size_t i = 0; i < meshes.size(); i++){
-        size_t matIndex = meshes[i].materialIndex;
 
-        // assert( matIndex < textures.size() );
+        materials[ meshes[i].materialIndex ].sendUniforms(shader);
 
-        // if( textures[matIndex] )
-        //     textures->bind(COLOR_TEXTURE_UNIT);
-
-        if( materials[matIndex].textures[ Texture::TYPE::DIFFUSE ] != nullptr )
-            materials[matIndex].textures[ Texture::TYPE::DIFFUSE ]->bind(GL_TEXTURE0);
-        
-        if( materials[matIndex].textures[ Texture::TYPE::SPECULAR ] != nullptr )
-            materials[matIndex].textures[ Texture::TYPE::SPECULAR ]->bind(GL_TEXTURE1);
+        shader->use();
 
         glDrawElementsBaseVertex(
             GL_TRIANGLES,
@@ -295,6 +281,8 @@ void BasicMesh::render()
     }
 
     glBindVertexArray(0);
+
+    shader->stopUsing();
 }
 
 void BasicMesh::sendUniforms(ShaderProgram *shader){

@@ -53,7 +53,6 @@ public:
     
     // draw/render functions
     void render(ShaderProgram* shader);
-    void render();
     void sendUniforms(ShaderProgram* shader);
 
     // transformations functions
