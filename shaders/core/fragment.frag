@@ -13,7 +13,13 @@ uniform sampler2D DiffTexture;
 
 out vec4 FragColor;
 
+vec3 calculateAmbient(vec3 ambient, vec3 lightColor, float intensity){
+    return ambient * lightColor * intensity;
+}
+
 void main() {
-	FragColor = texture2D(DiffTexture, texCoord);
-	// FragColor = vec4(mat.specular, 1.0);
+
+	vec4 ambientComponent = vec4(calculateAmbient( mat.ambient, vec3(1.0), 0.5 ), 1.0);
+
+	FragColor = texture2D(DiffTexture, texCoord) * ambientComponent;
 }
