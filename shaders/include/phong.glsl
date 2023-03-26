@@ -1,28 +1,3 @@
-#version 330 core
-
-// #extension GL_GOOGLE_include_directive : enable
-// #include "../include/phong.glsl"
-
-
-struct Colors{
-	vec3 ambient;
-	vec3 diffuse;
-	vec3 specular;
-};
-
-in vec2 texCoord;
-in vec3 vertexPosition;
-in vec3 normal;
-
-uniform Colors mat;
-uniform vec3 cameraPosition;
-uniform sampler2D DiffTexture;
-
-uniform vec3 lightPosition;
-uniform vec3 lightColor;
-
-out vec4 FragColor;
-
 vec3 calculateAmbient(vec3 ambient, vec3 lightColor, float intensity){
     return ambient * lightColor * intensity;
 }
@@ -43,13 +18,4 @@ vec3 calculateSpecular(vec3 specular, vec3 vertexPosition, vec3 normal, vec3 lig
     float specularConstant = pow( max( dot( posToViewNorm, reflectNorm ), 0 ), 35 );
 
     return specular * specularConstant;
-}
-
-void main() {
-
-	vec3 ambientComponent = calculateAmbient( mat.ambient, lightColor, 0.2 );
-	vec3 diffuseComponent = calculateDiffuse(mat.diffuse, vertexPosition, normal, lightPosition );
-	vec3 specularComponent = calculateSpecular(mat.specular, vertexPosition, normal, lightPosition, cameraPosition );
-
-	FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
 }
