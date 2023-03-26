@@ -88,11 +88,12 @@ add_executable(${PROJECT_NAME}
     src/stb_image.cpp
     src/WindowManager.cpp
     src/ShaderProgram.cpp
-    src/GraphicUserInterface.cpp
     src/Texture.cpp
     src/Material.cpp
+    src/Light.cpp
     src/BasicMesh.cpp
     src/ViewCamera.cpp
+    src/GraphicUserInterface.cpp
     main.cpp
 )
 

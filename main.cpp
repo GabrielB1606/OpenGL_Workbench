@@ -41,6 +41,8 @@ int main() {
 	mesh->loadMesh("models/Crate1.obj");
 	mesh->translate( glm::vec3(0.f, 0.f, 5.f) );
 
+	Light light(glm::vec3(0.f));
+
 	float delta = 0.001f;
 
 	std::unordered_set<std::string> input;
@@ -57,6 +59,7 @@ int main() {
 
 		s.setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
 		s.setVec3f(cam.getPosition(), "cameraPosition" );
+		light.sendUniforms(&s);
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);

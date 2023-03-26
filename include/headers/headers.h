@@ -35,10 +35,6 @@
 #include <assimp/postprocess.h>
 #include <assimp/vector3.h>
 #include <assimp/DefaultLogger.hpp>
-// #ifndef STB_IMAGE_IMPLEMENTATION
-// #define STB_IMAGE_IMPLEMENTATION
-//     #include <stb_image.h>
-// #endif
 // assimp Flags
 #define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices | aiProcess_PreTransformVertices)
 
@@ -50,10 +46,9 @@
 #include "OpenglLoader.h"
 #include "WindowManager.h"
 
-#include "GraphicUserInterface.h"
-
 #include "Texture.h"
 #include "Material.h"
+#include "Light.h"
 
 #include "ShaderTypeEnum.h"
 #include "ShaderProgram.h"
@@ -62,5 +57,7 @@
 #include "BasicMesh.h"
 
 #include "ViewCamera.h"
+
+#include "GraphicUserInterface.h"
 
 #endif
