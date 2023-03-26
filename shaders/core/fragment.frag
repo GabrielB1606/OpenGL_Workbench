@@ -1,8 +1,7 @@
-#version 330 core
+#version 460 core
 
 // #extension GL_GOOGLE_include_directive : enable
 // #include "../include/phong.glsl"
-
 
 struct Colors{
 	vec3 ambient;
@@ -17,10 +16,14 @@ in vec3 normal;
 
 uniform Colors mat;
 uniform vec3 cameraPosition;
-uniform sampler2D DiffTexture;
+layout(binding = 0) uniform sampler2D DiffTexture;
+layout(binding = 1) uniform sampler2D SpecularTexture;
 
 uniform vec3 lightPosition;
 uniform vec3 lightColor;
+
+uniform float useDiffTexture;
+uniform float useSpecTexture;
 
 out vec4 FragColor;
 
@@ -48,17 +51,23 @@ vec3 calculateSpecular(Colors mat, vec3 vertexPosition, vec3 normal, vec3 lightP
 	if( dotProduct > 0 && dot( viewDirection, lightDirection ) > 0 )
 		specularConstant = pow( dotProduct, mat.shininess );
 
-    return mat.specular * specularConstant * lightColor;
+	if( useSpecTexture > 0 )
+    	return specularConstant * lightColor * texture2D(SpecularTexture, texCoord).xyz;
+	else
+    	return mat.specular * specularConstant * lightColor;
 }
 
 void main() {
 
 	vec3 ambientComponent = calculateAmbient( mat.ambient, lightColor, 0.2 );
 	vec3 diffuseComponent = calculateDiffuse(mat.diffuse, vertexPosition, normal, lightPosition );
-	
+
 	vec3 specularComponent = vec3(0.0);
 	if( mat.shininess >= 0.0 )
-		specularComponent =calculateSpecular(mat, vertexPosition, normal, lightPosition, cameraPosition, lightColor );
+		specularComponent = calculateSpecular(mat, vertexPosition, normal, lightPosition, cameraPosition, lightColor );
 
-	FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
+	if ( useDiffTexture > 0 )
+		FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
+	else
+		FragColor = vec4(mat.diffuse, 1.0) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
 }

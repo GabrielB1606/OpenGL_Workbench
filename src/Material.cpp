@@ -20,14 +20,31 @@ void Material::sendUniforms(ShaderProgram *shader){
     shader->use();
 
         // Send Textures
-    if( this->textures[ Texture::TYPE::DIFFUSE ] != nullptr )
+    if( this->textures[ Texture::TYPE::DIFFUSE ] != nullptr ){
         this->textures[ Texture::TYPE::DIFFUSE ]->bind(GL_TEXTURE0);
+        shader->set1f(1.f, "useDiffTexture");
+    }else{
+        shader->set1f(-1.f, "useDiffTexture");
+    }
         
-    if( this->textures[ Texture::TYPE::SPECULAR ] != nullptr )
+    if( this->textures[ Texture::TYPE::SPECULAR ] != nullptr ){
         this->textures[ Texture::TYPE::SPECULAR ]->bind(GL_TEXTURE1);
+        shader->set1f(1.f, "useSpecTexture");
+    }else{
+        shader->set1f(-1.f, "useSpecTexture");
+    }
 
     shader->stopUsing();
 
+}
+
+void Material::unbind(){
+            // Send Textures
+    if( this->textures[ Texture::TYPE::DIFFUSE ] != nullptr )
+        this->textures[ Texture::TYPE::DIFFUSE ]->unbind(GL_TEXTURE0);
+        
+    if( this->textures[ Texture::TYPE::SPECULAR ] != nullptr )
+        this->textures[ Texture::TYPE::SPECULAR ]->unbind(GL_TEXTURE1);
 }
 
 Material::Material(){

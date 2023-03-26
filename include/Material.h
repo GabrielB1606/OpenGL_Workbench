@@ -34,6 +34,7 @@ class Material {
     Material();
 
     void sendUniforms(ShaderProgram* shader);
+    void unbind();
 
 };
 

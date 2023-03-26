@@ -20,7 +20,7 @@ public:
     ~Texture();
 
     void bind( const unsigned int texUnit  );
-    void unbind();
+    void unbind(const unsigned int texUnit);
 
     unsigned int getID() { return texture; }
 };

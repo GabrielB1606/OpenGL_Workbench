@@ -7,8 +7,8 @@ void Texture::bind( const unsigned int texUnit ){
     }
 }
 
-void Texture::unbind(){
-    // glActiveTexture(0);
+void Texture::unbind(const unsigned int texUnit){
+    glActiveTexture(texUnit);
     glBindTexture(this->target, 0);
 }
 

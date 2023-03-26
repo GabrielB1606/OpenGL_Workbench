@@ -191,7 +191,7 @@ void BasicMesh::loadColors(const aiMaterial *mat, int index){
 
     if( mat->Get(AI_MATKEY_SHININESS, materials[index].shininess ) != AI_SUCCESS )
         materials[index].shininess = -1.f;
-        
+
 }
 
 void BasicMesh::loadTextures(std::string dir, const aiMaterial *mat, int index){
@@ -275,6 +275,8 @@ void BasicMesh::render(ShaderProgram *shader){
             (void*)(sizeof(unsigned int)*meshes[i].baseIndex),
             meshes[i].baseVertex
         );
+
+        materials[ meshes[i].materialIndex ].unbind();
         
         // Check for OpenGL errors
         GLenum error = glGetError();
