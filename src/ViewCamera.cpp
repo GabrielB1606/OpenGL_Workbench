@@ -40,6 +40,10 @@ glm::mat4 ViewCamera::getViewMatrix(){
     return this->viewMatrix;
 }
 
+glm::vec3 ViewCamera::getPosition(){
+    return this->position;
+}
+
 void ViewCamera::move(glm::vec3 v){
 
     this->position += speed*v.z*this->front;

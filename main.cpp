@@ -56,6 +56,7 @@ int main() {
 		processInput(input, &windowManager, &cam, delta);
 
 		s.setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
+		s.setVec3f(cam.getPosition(), "cameraPosition" );
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
