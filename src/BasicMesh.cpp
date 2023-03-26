@@ -188,6 +188,10 @@ void BasicMesh::loadColors(const aiMaterial *mat, int index){
         materials[index].specularColor.y = specularColor.g;
         materials[index].specularColor.z = specularColor.b;
     }
+
+    if( mat->Get(AI_MATKEY_SHININESS, materials[index].shininess ) != AI_SUCCESS )
+        materials[index].shininess = -1.f;
+        
 }
 
 void BasicMesh::loadTextures(std::string dir, const aiMaterial *mat, int index){

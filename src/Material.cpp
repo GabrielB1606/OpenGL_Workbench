@@ -15,6 +15,7 @@ void Material::sendUniforms(ShaderProgram *shader){
     shader->setVec3f(ambientColor, "mat.ambient");
     shader->setVec3f(diffuseColor, "mat.diffuse");
     shader->setVec3f(specularColor, "mat.specular");
+    shader->set1f(shininess, "mat.shininess");
 
     shader->use();
 

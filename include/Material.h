@@ -21,6 +21,8 @@ class Material {
     glm::vec3 diffuseColor = glm::vec3(0.0f, 0.0f, 0.0f);
     glm::vec3 specularColor = glm::vec3(0.0f, 0.0f, 0.0f);
 
+    float shininess = -1.f;
+
     PBRMaterial PBRmaterial;
 
     // TODO: need to deallocate these
