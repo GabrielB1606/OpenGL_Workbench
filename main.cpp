@@ -51,7 +51,7 @@ int main() {
 
 	while ( windowManager.isOpen() ) {
 		
-		mesh->rotate( delta*glm::vec3(0.f, 0.f, 30.f) );
+		mesh->rotate( delta*glm::vec3(0.f, 30.f, 0.f) );
 		// cam.rotate(delta*glm::vec3(0.f, 0.f, 0.f));
 
 		input = windowManager.pollEvents();
