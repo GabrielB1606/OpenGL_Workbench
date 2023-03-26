@@ -16,6 +16,7 @@ void main() {
 	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(aPos.x , aPos.y, aPos.z, 1.0);
 	texCoord = aTexCoords;
 	vertexPosition = (ModelMatrix * vec4(aPos, 1.0)).xyz;
-	// normal = normalize( vec4(transpose( inverse(ModelMatrix) ) * vec4(aNormal, 1.0)).xyz );
-	normal = normalize(ModelMatrix * vec4(aNormal, 1.0)).xyz;
+	normal = normalize( vec4(transpose( inverse(ModelMatrix) ) * vec4(aNormal, 1.0)).xyz );
+	// normal = normalize(ModelMatrix * vec4(aNormal, 1.0)).xyz;
+	// normal = aNormal;
 }

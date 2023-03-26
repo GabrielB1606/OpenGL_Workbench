@@ -30,7 +30,7 @@ vec3 calculateAmbient(vec3 ambient, vec3 lightColor, float intensity){
 vec3 calculateDiffuse(vec3 diffuse, vec3 vertexPosition, vec3 normal, vec3 lightPosition){
     
     vec3 lightDir = normalize( lightPosition - vertexPosition );
-    float factor = max( dot(lightDir, normalize(normal)), 0.0 );
+    float factor = max( dot(normalize(normal), lightDir), 0.0 );
 
     return factor * diffuse;
 }
