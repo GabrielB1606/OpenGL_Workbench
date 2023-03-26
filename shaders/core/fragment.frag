@@ -35,21 +35,26 @@ vec3 calculateDiffuse(vec3 diffuse, vec3 vertexPosition, vec3 normal, vec3 light
     return factor * diffuse;
 }
 
-vec3 calculateSpecular(vec3 specular, vec3 vertexPosition, vec3 normal, vec3 lightPosition, vec3 camPosition){
+vec3 calculateSpecular(vec3 specular, vec3 vertexPosition, vec3 normal, vec3 lightPosition, vec3 camPosition, vec3 lightColor){
     
-    vec3 lightToPosNorm = normalize( vertexPosition - lightPosition );
-    vec3 reflectNorm = normalize( reflect( lightToPosNorm, normalize(normal) ) );
-    vec3 posToViewNorm = normalize( camPosition - vertexPosition );
-    float specularConstant = pow( max( dot( posToViewNorm, reflectNorm ), 0 ), 35 );
+    vec3 viewDirection = normalize( vertexPosition - camPosition );
 
-    return specular * specularConstant;
+    vec3 lightDirection = normalize( vertexPosition - lightPosition );
+    vec3 reflectDirection = normalize( reflect( -lightDirection, normalize(normal) ) );
+
+	float dotProduct = dot( viewDirection, reflectDirection );
+	float specularConstant = 0.0;
+	if( dotProduct > 0 && dot( viewDirection, lightDirection ) > 0 )
+		specularConstant = pow( dotProduct, 32 );
+
+    return specular * specularConstant * lightColor;
 }
 
 void main() {
 
 	vec3 ambientComponent = calculateAmbient( mat.ambient, lightColor, 0.2 );
 	vec3 diffuseComponent = calculateDiffuse(mat.diffuse, vertexPosition, normal, lightPosition );
-	vec3 specularComponent = calculateSpecular(mat.specular, vertexPosition, normal, lightPosition, cameraPosition );
+	vec3 specularComponent = calculateSpecular(mat.specular, vertexPosition, normal, lightPosition, cameraPosition, lightColor );
 
 	FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
 }
