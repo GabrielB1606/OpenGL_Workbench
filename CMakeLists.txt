@@ -86,6 +86,7 @@ add_executable(${PROJECT_NAME}
     ${IMGUI_SRC}
     ${IMGUI_BACKEND_SRC}
     src/stb_image.cpp
+    src/noc_file_dialog.cpp
     src/WindowManager.cpp
     src/ShaderProgram.cpp
     src/Texture.cpp

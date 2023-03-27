@@ -1,5 +1,7 @@
 #include "headers.h"
 
+#include <noc_file_dialog.h>
+
 const short glMajVersion = 4, glMinVersion = 6;
 
 glm::mat4 projection = glm::mat4(1.f);
@@ -18,6 +20,13 @@ void processInput(std::unordered_set<std::string> input, WindowManager *window, 
 
 int main() {
 	
+	// const char *ret;
+	// ret = noc_file_dialog_open(NOC_FILE_DIALOG_OPEN,
+    //                            "png\0*.png\0jpg\0*.jpg;*.jpeg\0", std::filesystem::current_path().string().c_str(), NULL);
+	
+	// std::cout << ret << "\n";
+	// return 0;
+
 	// create the window
 	WindowManager windowManager(1280, 720, "window manager", glMajVersion, glMinVersion);
 	// setup the graphics pipeline with OpenGL

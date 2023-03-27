@@ -8,6 +8,7 @@
 #include <vector>
 #include <array>
 #include <unordered_set>
+#include <filesystem>
 
 // Graphic User Interface
 #include "imgui.h"
@@ -27,7 +28,11 @@
 #include <glm-0.9.9.9/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm-0.9.9.9/gtc/type_ptr.hpp>
 
+// Load Images
 #include <stb_image.h>
+
+// Open File Dialog
+// #include <noc_file_dialog.h>
 
 // Assets Importer
 #include <assimp/scene.h>
@@ -39,9 +44,6 @@
 #define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices | aiProcess_PreTransformVertices)
 
 #define ARRAY_SIZE_IN_ELEMENTS(arr) (sizeof(arr)/sizeof(arr[0]))
-
-// #include <stb_image.h>
-
 
 #include "OpenglLoader.h"
 #include "WindowManager.h"
