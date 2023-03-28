@@ -21,8 +21,11 @@ void processInput(std::unordered_set<std::string> input, WindowManager *window, 
 int main() {
 	
 	// const char *ret;
-	// ret = noc_file_dialog_open(NOC_FILE_DIALOG_OPEN,
-    //                            "png\0*.png\0jpg\0*.jpg;*.jpeg\0", std::filesystem::current_path().string().c_str(), NULL);
+	// ret = noc_file_dialog_open(
+	// 	NOC_FILE_DIALOG_OPEN,
+	// 	"png\0*.png\0jpg\0*.jpg;*.jpeg\0",
+	// 	std::filesystem::current_path().string().c_str(), NULL
+	// );
 	
 	// std::cout << ret << "\n";
 	// return 0;
