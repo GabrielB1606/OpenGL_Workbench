@@ -10,7 +10,7 @@ private:
     std::vector<BasicMesh*> meshes;
     glm::mat4 perspectiveMatrix;
 
-    std::vector<Light> lights;
+    std::vector<Light*> lights;
 
     // Define the projection matrix
     float fov = 90.0f;  // Field of view in degrees
@@ -29,8 +29,10 @@ public:
 
     glm::mat4 getPerspectiveMatrix();
     std::vector<BasicMesh*> getMeshes();
+    std::vector<Light*> getLights();
     
     void loadMesh(std::string path);
+    void addLight(Light* l);
 
     void render(ShaderProgram *shader);
 };

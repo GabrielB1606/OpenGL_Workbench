@@ -17,6 +17,9 @@ World::~World(){
 
     for(size_t i = 0; i < meshes.size(); i++)
         delete meshes[i];
+    
+    for(size_t i = 0; i < lights.size(); i++)
+        delete lights[i];
 
 }
 
@@ -50,11 +53,19 @@ std::vector<BasicMesh*> World::getMeshes(){
     return this->meshes;
 }
 
+std::vector<Light *> World::getLights(){
+    return lights;
+}
+
 void World::loadMesh(std::string path){
 
     meshes.push_back( new BasicMesh() );
     meshes[ meshes.size()-1 ]->loadMesh(path);
 
+}
+
+void World::addLight(Light *l){
+    lights.push_back(l);    
 }
 
 void World::render(ShaderProgram *shader){

@@ -9,7 +9,6 @@ glm::mat4 projection = glm::mat4(1.f);
 
 // Define the projection matrix
 float fov = 90.0f;  // Field of view in degrees
-float aspectRatio = 1280.0f / 720.0f; // Aspect ratio of the window
 float nearPlane = 0.1f;  // Near clipping plane
 float farPlane = 1000.0f; // Far clipping plane
 
@@ -51,11 +50,11 @@ int main() {
 	ViewCamera cam(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f) );
 
 	// load a model
-	BasicMesh* mesh = new BasicMesh();
-	mesh->loadMesh("models/Crate1.obj");
+	BasicMesh* mesh = w.getMeshes()[0];
 	mesh->translate( glm::vec3(0.f, 0.f, 5.f) );
 
-	Light light(glm::vec3(0.f));
+	w.addLight( new Light(glm::vec3(0.f)) );
+	Light *light = w.getLights()[0];
 
 	float delta = 0.001f;
 
@@ -66,19 +65,17 @@ int main() {
 	while ( windowManager.isOpen() ) {
 		
 		mesh->rotate( delta*glm::vec3(30.f, 30.f, 30.f) );
-		// cam.rotate(delta*glm::vec3(0.f, 0.f, 0.f));
 
 		input = windowManager.pollEvents();
 		processInput(input, &windowManager, &cam, delta);
 
 		s.setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
 		s.setVec3f(cam.getPosition(), "cameraPosition" );
-		light.sendUniforms(&s);
+		light->sendUniforms(&s);
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 
-		mesh->render(&s);
 		w.render(&s);
 
 		gui.draw();
