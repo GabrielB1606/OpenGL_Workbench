@@ -83,6 +83,12 @@ void ShaderProgram::set1f(GLfloat value, const GLchar* name){
     this->stopUsing();
 }
 
+void ShaderProgram::set1i(GLint value, const GLchar *name){
+    this->use();
+    glUniform1i( glGetUniformLocation(this->id, name), value );
+    this->stopUsing();
+}
+
 std::string ShaderProgram::loadShaderSource(const char* filename){
     
     std::string temp = "";

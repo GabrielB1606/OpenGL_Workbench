@@ -41,6 +41,7 @@ class ShaderProgram{
         void setMat4fv(glm::mat4 value, const GLchar* name, GLboolean transpose);
         void setMat3fv(glm::mat3 value, const GLchar* name, GLboolean transpose);
         void set1f(GLfloat value, const GLchar* name);
+        void set1i(GLint value, const GLchar* name);
 };
 
 #endif
