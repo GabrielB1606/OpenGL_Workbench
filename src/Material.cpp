@@ -22,16 +22,16 @@ void Material::sendUniforms(ShaderProgram *shader){
         // Send Textures
     if( this->textures[ Texture::TYPE::DIFFUSE ] != nullptr ){
         this->textures[ Texture::TYPE::DIFFUSE ]->bind(GL_TEXTURE0);
-        shader->set1f(1.f, "useDiffTexture");
+        shader->set1i(1, "useDiffTexture");
     }else{
-        shader->set1f(-1.f, "useDiffTexture");
+        shader->set1i(0, "useDiffTexture");
     }
         
     if( this->textures[ Texture::TYPE::SPECULAR ] != nullptr ){
         this->textures[ Texture::TYPE::SPECULAR ]->bind(GL_TEXTURE1);
-        shader->set1f(1.f, "useSpecTexture");
+        shader->set1i(1, "useSpecTexture");
     }else{
-        shader->set1f(-1.f, "useSpecTexture");
+        shader->set1i(0, "useSpecTexture");
     }
 
     shader->stopUsing();

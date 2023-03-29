@@ -25,8 +25,8 @@ uniform vec3 cameraPosition;
 layout(binding = 0) uniform sampler2D DiffTexture;
 layout(binding = 1) uniform sampler2D SpecularTexture;
 
-uniform float useDiffTexture;
-uniform float useSpecTexture;
+uniform int useDiffTexture;
+uniform int useSpecTexture;
 
 out vec4 FragColor;
 
@@ -54,7 +54,7 @@ vec3 calculateSpecular(PointLight light, vec3 camPosition){
 	if( dotProduct > 0 && dot( viewDirection, lightDirection ) > 0 )
 		specularConstant = pow( dotProduct, mat.shininess );
 
-	if( useSpecTexture > 0 )
+	if( useSpecTexture == 1 )
     	return specularConstant * light.color * texture2D(SpecularTexture, texCoord).xyz;
 	else
     	return mat.specular * specularConstant * light.color;
@@ -69,7 +69,7 @@ void main() {
 	if( mat.shininess >= 0.0 )
 		specularComponent = calculateSpecular(lights[0], cameraPosition);
 
-	if ( useDiffTexture > 0 )
+	if ( useDiffTexture == 1 )
 		FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
 	else
 		FragColor = vec4(mat.diffuse, 1.0) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
