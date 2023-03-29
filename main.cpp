@@ -1,4 +1,5 @@
 #include "headers.h"
+#include "World.h"
 
 #include <noc_file_dialog.h>
 
@@ -11,6 +12,8 @@ float fov = 90.0f;  // Field of view in degrees
 float aspectRatio = 1280.0f / 720.0f; // Aspect ratio of the window
 float nearPlane = 0.1f;  // Near clipping plane
 float farPlane = 1000.0f; // Far clipping plane
+
+World w(fov, 1280, 720, nearPlane, farPlane);
 
 WindowManager::BTN_STATE lastStateRightBtn = WindowManager::BTN_STATE::RELEASE;
 double mouseX, mouseY;
@@ -41,9 +44,8 @@ int main() {
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	GraphicUserInterface gui(&windowManager, glMajVersion, glMinVersion);
 	
-	// initial projection matrix
-	projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
-	s.setMat4fv(projection, "ProjectionMatrix", GL_FALSE);	
+	s.setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
+	w.loadMesh("models/Crate1.obj");
 
 	// camera
 	ViewCamera cam(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f) );
@@ -77,6 +79,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 
 		mesh->render(&s);
+		w.render(&s);
 
 		gui.draw();
 		gui.render();
@@ -145,6 +148,6 @@ void processInput(std::unordered_set<std::string> input, WindowManager *window, 
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
 	
 	glViewport(0, 0, width, height);
-    projection = glm::perspective(glm::radians(fov), (float)width/(float)height, nearPlane, farPlane);
+	w.setAspectRatio((float)width, (float)height);
 
 }
