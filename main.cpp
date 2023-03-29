@@ -5,8 +5,6 @@
 
 const short glMajVersion = 4, glMinVersion = 6;
 
-glm::mat4 projection = glm::mat4(1.f);
-
 // Define the projection matrix
 float fov = 90.0f;  // Field of view in degrees
 float nearPlane = 0.1f;  // Near clipping plane
@@ -71,7 +69,7 @@ int main() {
 
 		s.setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
 		s.setVec3f(cam.getPosition(), "cameraPosition" );
-		light->sendUniforms(&s);
+		light->sendUniforms(&s, 0);
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);

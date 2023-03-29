@@ -1,49 +1,52 @@
 #version 460 core
 
-// #extension GL_GOOGLE_include_directive : enable
-// #include "../include/phong.glsl"
-
 struct Colors{
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
 	float shininess;
+	float useDiffTexture;
+	float useSpecTexture;
+};
+
+struct PointLight{
+	vec3 position;
+	vec3 color;
+	vec3 intensity;
 };
 
 in vec2 texCoord;
-in vec3 vertexPosition;
+in vec3 fragPosition;
 in vec3 normal;
 
+uniform PointLight lights[3];
 uniform Colors mat;
 uniform vec3 cameraPosition;
 layout(binding = 0) uniform sampler2D DiffTexture;
 layout(binding = 1) uniform sampler2D SpecularTexture;
-
-uniform vec3 lightPosition;
-uniform vec3 lightColor;
 
 uniform float useDiffTexture;
 uniform float useSpecTexture;
 
 out vec4 FragColor;
 
-vec3 calculateAmbient(vec3 ambient, vec3 lightColor, float intensity){
-    return ambient * lightColor * intensity;
+vec3 calculateAmbient(PointLight light){
+    return mat.ambient * light.color * light.intensity;
 }
 
-vec3 calculateDiffuse(vec3 diffuse, vec3 vertexPosition, vec3 normal, vec3 lightPosition){
+vec3 calculateDiffuse(PointLight light){
     
-    vec3 lightDir = normalize( lightPosition - vertexPosition );
+    vec3 lightDir = normalize( light.position - fragPosition );
     float factor = max( dot(normalize(normal), lightDir), 0.0 );
 
-    return factor * diffuse;
+    return factor * mat.diffuse;
 }
 
-vec3 calculateSpecular(Colors mat, vec3 vertexPosition, vec3 normal, vec3 lightPosition, vec3 camPosition, vec3 lightColor){
+vec3 calculateSpecular(PointLight light, vec3 camPosition){
     
-    vec3 viewDirection = normalize( vertexPosition - camPosition );
+    vec3 viewDirection = normalize( fragPosition - camPosition );
 
-    vec3 lightDirection = normalize( vertexPosition - lightPosition );
+    vec3 lightDirection = normalize( fragPosition - light.position );
     vec3 reflectDirection = normalize( reflect( -lightDirection, normalize(normal) ) );
 
 	float dotProduct = dot( viewDirection, reflectDirection );
@@ -52,19 +55,19 @@ vec3 calculateSpecular(Colors mat, vec3 vertexPosition, vec3 normal, vec3 lightP
 		specularConstant = pow( dotProduct, mat.shininess );
 
 	if( useSpecTexture > 0 )
-    	return specularConstant * lightColor * texture2D(SpecularTexture, texCoord).xyz;
+    	return specularConstant * light.color * texture2D(SpecularTexture, texCoord).xyz;
 	else
-    	return mat.specular * specularConstant * lightColor;
+    	return mat.specular * specularConstant * light.color;
 }
 
 void main() {
 
-	vec3 ambientComponent = calculateAmbient( mat.ambient, lightColor, 0.2 );
-	vec3 diffuseComponent = calculateDiffuse(mat.diffuse, vertexPosition, normal, lightPosition );
+	vec3 ambientComponent = calculateAmbient(lights[0]);
+	vec3 diffuseComponent = calculateDiffuse(lights[0]);
 
 	vec3 specularComponent = vec3(0.0);
 	if( mat.shininess >= 0.0 )
-		specularComponent = calculateSpecular(mat, vertexPosition, normal, lightPosition, cameraPosition, lightColor );
+		specularComponent = calculateSpecular(lights[0], cameraPosition);
 
 	if ( useDiffTexture > 0 )
 		FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);

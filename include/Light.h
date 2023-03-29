@@ -14,7 +14,7 @@ public:
     Light(glm::vec3 position, glm::vec3 color = glm::vec3(1.f));
     virtual ~Light(){}
 
-    void sendUniforms(ShaderProgram *shader);
+    void sendUniforms(ShaderProgram *shader, int index);
 
     void move(glm::vec3 v);
 
