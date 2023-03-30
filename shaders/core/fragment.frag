@@ -63,13 +63,18 @@ vec3 calculateSpecular(PointLight light, vec3 camPosition){
 }
 
 void main() {
-
-	vec3 ambientComponent = calculateAmbient(lights[0]);
-	vec3 diffuseComponent = calculateDiffuse(lights[0]);
-
+	vec3 ambientComponent = vec3(0.0);
+	vec3 diffuseComponent = vec3(0.0);
 	vec3 specularComponent = vec3(0.0);
-	if( mat.shininess >= 0.0 )
-		specularComponent = calculateSpecular(lights[0], cameraPosition);
+
+	for(int i = 0; i<nLights; i++){
+		ambientComponent += calculateAmbient(lights[i]);
+		diffuseComponent += calculateDiffuse(lights[i]);
+		
+		if( mat.shininess >= 0.0 )
+			specularComponent += calculateSpecular(lights[i], cameraPosition);
+	}
+
 
 	if ( useDiffTexture == 1 )
 		FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
