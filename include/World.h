@@ -3,6 +3,10 @@
 
 #include "headers.h"
 
+#include "ShaderProgram.h"
+#include "Light.h"
+#include "BasicMesh.h"
+
 
 class World{
 private:

@@ -45,21 +45,6 @@
 
 #define ARRAY_SIZE_IN_ELEMENTS(arr) (sizeof(arr)/sizeof(arr[0]))
 
-#include "OpenglLoader.h"
-#include "WindowManager.h"
-
-#include "Texture.h"
-#include "Material.h"
-#include "Light.h"
-
 #include "ShaderTypeEnum.h"
-#include "ShaderProgram.h"
-
-#include "BasicMeshEntry.h"
-#include "BasicMesh.h"
-
-#include "ViewCamera.h"
-
-#include "GraphicUserInterface.h"
 
 #endif

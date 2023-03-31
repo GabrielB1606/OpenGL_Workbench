@@ -1,9 +1,8 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include <string>
-#include <array>
-#include <glm-0.9.9.9/vec3.hpp>
+#include "headers.h"
+
 #include "Texture.h"
 #include "ShaderProgram.h"
 

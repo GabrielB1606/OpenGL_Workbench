@@ -2,7 +2,9 @@
 #define GUI_H
 
 #include "headers.h"
-class WindowManager;
+
+#include "WindowManager.h"
+#include "World.h"
 
 class GraphicUserInterface{
 private:
@@ -20,7 +22,7 @@ public:
     GraphicUserInterface( WindowManager* windowManager, int glMajVersion, int glMinVersion);
     ~GraphicUserInterface();
 
-    void draw();
+    void draw(World* world, ImVec4* clearColor);
     void render();
 };
 

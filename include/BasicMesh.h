@@ -3,6 +3,10 @@
 
 #include "headers.h"
 #include "ShaderProgram.h"
+#include "Texture.h"
+#include "Material.h"
+#include "BasicMeshEntry.h"
+#include "BasicMesh.h"
 
 class BasicMesh{
 private:

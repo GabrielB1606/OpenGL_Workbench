@@ -59,7 +59,7 @@ GraphicUserInterface::~GraphicUserInterface(){
     ImGui::DestroyContext();
 }
 
-void GraphicUserInterface::draw(){
+void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
 
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();

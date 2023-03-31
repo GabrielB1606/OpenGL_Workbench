@@ -1,7 +1,8 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include <glm-0.9.9.9/vec3.hpp>
+#include "headers.h"
+
 #include "ShaderProgram.h"
 
 class Light{

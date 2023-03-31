@@ -2,6 +2,7 @@
 #define WINDOWMANAGER_H
 
 #include "headers.h"
+#include "OpenglLoader.h"
 
 class WindowManager{
 

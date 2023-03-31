@@ -1,5 +1,13 @@
 #include "headers.h"
+
+#include "OpenglLoader.h"
+#include "WindowManager.h"
+#include "ViewCamera.h"
+#include "ShaderProgram.h"
+#include "Light.h"
 #include "World.h"
+#include "BasicMesh.h"
+#include "GraphicUserInterface.h"
 
 #include <noc_file_dialog.h>
 
@@ -77,7 +85,7 @@ int main() {
 
 		w.render(&s);
 
-		gui.draw();
+		gui.draw(&w, &clear_color);
 		gui.render();
 
 		windowManager.swapBuffers();
