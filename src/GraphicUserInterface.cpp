@@ -77,6 +77,15 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
 
         ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
+        if( ImGui::Button("Load OBJ") )
+            world->loadMesh(
+                noc_file_dialog_open(
+                    NOC_FILE_DIALOG_OPEN,
+                    "obj\0*.obj\0",
+                    std::filesystem::current_path().string().c_str(), NULL
+	            )
+            );
+
         ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
         ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
         ImGui::Checkbox("Another Window", &show_another_window);
