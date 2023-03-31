@@ -11,9 +11,9 @@
 class World{
 private:
     
-    std::vector<BasicMesh*> meshes;
     glm::mat4 perspectiveMatrix;
 
+    std::vector<BasicMesh*> meshes;
     std::vector<Light*> lights;
 
     // Define the projection matrix
@@ -34,6 +34,9 @@ public:
     glm::mat4 getPerspectiveMatrix();
     std::vector<BasicMesh*> getMeshes();
     std::vector<Light*> getLights();
+
+    BasicMesh* getMesh(size_t index);
+    Light* getLight(size_t index);
     
     void loadMesh(std::string path);
     void addLight(Light* l);

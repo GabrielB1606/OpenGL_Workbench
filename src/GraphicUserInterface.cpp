@@ -77,12 +77,13 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
 
         ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
-        if( ImGui::Button("Load OBJ") )
+        if( ImGui::Button("Load OBJ") )                         // Load OBJ from GUI
             world->loadMesh(
                 noc_file_dialog_open(
                     NOC_FILE_DIALOG_OPEN,
                     "obj\0*.obj\0",
-                    std::filesystem::current_path().string().c_str(), NULL
+                    std::filesystem::current_path().string().c_str(),
+                    NULL
 	            )
             );
 

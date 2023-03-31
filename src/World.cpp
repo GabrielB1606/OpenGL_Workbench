@@ -57,6 +57,24 @@ std::vector<Light *> World::getLights(){
     return lights;
 }
 
+BasicMesh *World::getMesh(size_t index){
+
+    if( index >= this->meshes.size() )
+        return nullptr;
+    
+    return this->meshes[index];
+
+}
+
+Light *World::getLight(size_t index){
+    
+    if( index >= this->lights.size() )
+        return nullptr;
+
+    return this->lights[index];
+    
+}
+
 void World::loadMesh(std::string path){
 
     meshes.push_back( new BasicMesh() );
