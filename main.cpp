@@ -9,7 +9,7 @@
 #include "BasicMesh.h"
 #include "GraphicUserInterface.h"
 
-#include <noc_file_dialog.h>
+// #include <noc_file_dialog.h>
 
 const short glMajVersion = 4, glMinVersion = 6;
 

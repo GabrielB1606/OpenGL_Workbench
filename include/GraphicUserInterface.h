@@ -2,6 +2,7 @@
 #define GUI_H
 
 #include "headers.h"
+#include <noc_file_dialog.h>
 
 #include "WindowManager.h"
 #include "World.h"
