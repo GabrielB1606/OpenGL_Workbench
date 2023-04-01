@@ -23,8 +23,7 @@ void BasicMesh::clear(){
     }
 }
 
-bool BasicMesh::loadMesh(std::string filename)
-{
+bool BasicMesh::loadMesh(std::string filename){
 
     // just in case lol
     clear();
@@ -87,13 +86,13 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
         initSingleMesh(i, aiMeshPointer);
     }
     
-    std::string::size_type slashIndex = filename.find_last_of("/");
+    std::string::size_type slashIndex = filename.find_last_of("\\");
     std::string textureDir;
 
     if( slashIndex == std::string::npos )
         textureDir = ".";
     else if(slashIndex == 0)
-        textureDir = "/";
+        textureDir = "\\";
     else
         textureDir = filename.substr(0, slashIndex);
     

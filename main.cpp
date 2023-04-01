@@ -50,7 +50,7 @@ int main() {
 	GraphicUserInterface gui(&windowManager, glMajVersion, glMinVersion);
 	
 	s.setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
-	w.loadMesh("models/Crate1.obj");
+	w.loadMesh("models\\Crate1.obj");
 
 	// camera
 	ViewCamera cam(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f) );
