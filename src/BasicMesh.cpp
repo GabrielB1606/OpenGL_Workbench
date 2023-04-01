@@ -301,8 +301,8 @@ void BasicMesh::calculateModelMatrix(){
 
     this->modelMatrix = glm::mat4(1.f);
     this->modelMatrix = glm::translate( this->modelMatrix, this->translation );
-    this->modelMatrix = glm::scale(this->modelMatrix, this->scale);
     this->modelMatrix = this->modelMatrix * this->rotation;
+    this->modelMatrix = glm::scale(this->modelMatrix, this->scale);
 
 }
 
