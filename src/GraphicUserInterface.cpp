@@ -88,8 +88,15 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
                     )
             );
             
-            ImGui::DragFloat3("DragFloat (-inf -> +inf)", &( world->getMesh(0)->getTranslationReference()->x ), 0.005f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
-        
+            ImGui::PushItemWidth(80);
+            ImGui::Text("Translate: ");
+            ImGui::SameLine();
+            ImGui::DragFloat("##PositionX", &( world->getMesh(0)->getTranslationReference()->x ), 0.05f, -FLT_MAX, +FLT_MAX, "x: %.3f", ImGuiSliderFlags_None);
+            ImGui::SameLine();
+            ImGui::DragFloat("##PositionY", &( world->getMesh(0)->getTranslationReference()->y ), 0.05f, -FLT_MAX, +FLT_MAX, "y: %.3f", ImGuiSliderFlags_None);
+            ImGui::SameLine();
+            ImGui::DragFloat("##PositionZ", &( world->getMesh(0)->getTranslationReference()->z ), 0.05f, -FLT_MAX, +FLT_MAX, "z: %.3f", ImGuiSliderFlags_None);
+            ImGui::PushItemWidth(0);
         }
 
         ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
