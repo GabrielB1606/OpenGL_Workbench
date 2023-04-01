@@ -10,7 +10,10 @@ struct BasicMeshEntry {
         baseVertex = 0;
         baseIndex = 0;
         materialIndex = -1;
+        name = "";
     }
+
+    std::string name;
 
     GLuint numIndices;
     GLuint baseVertex;

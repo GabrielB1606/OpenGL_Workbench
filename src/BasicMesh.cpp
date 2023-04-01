@@ -67,6 +67,9 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
     unsigned int numIndices = 0;
 
     for( unsigned int i = 0; i<meshes.size(); i++ ){
+
+        meshes[i].name = scene->mMeshes[i]->mName.length > 0? scene->mMeshes[i]->mName.C_Str() : "Mesh " + std::to_string(i);
+
         meshes[i].materialIndex = scene->mMeshes[i]->mMaterialIndex;
         meshes[i].numIndices = scene->mMeshes[i]->mNumFaces *3;
         meshes[i].baseVertex = numVertices;
