@@ -333,3 +333,7 @@ void BasicMesh::scaleUp(glm::vec3 vec){
 glm::vec3 *BasicMesh::getTranslationReference(){
     return &this->translation;
 }
+
+glm::vec3 *BasicMesh::getScaleReference(){
+    return &this->scale;
+}

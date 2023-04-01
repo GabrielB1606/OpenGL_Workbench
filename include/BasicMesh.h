@@ -67,6 +67,7 @@ public:
 
     // getters
     glm::vec3* getTranslationReference();
+    glm::vec3* getScaleReference();
 };
 
 
