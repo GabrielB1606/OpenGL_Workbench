@@ -64,6 +64,9 @@ public:
     void translate(glm::vec3 vec);
     void rotate(glm::vec3 vec);
     void scaleUp(glm::vec3 vec);
+
+    // getters
+    glm::vec3* getTranslationReference();
 };
 
 

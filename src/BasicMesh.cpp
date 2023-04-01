@@ -86,6 +86,7 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
         initSingleMesh(i, aiMeshPointer);
     }
     
+    // this is not cross platform
     std::string::size_type slashIndex = filename.find_last_of("\\");
     std::string textureDir;
 
@@ -327,4 +328,8 @@ void BasicMesh::scaleUp(glm::vec3 vec){
 
     this->calculateModelMatrix();
 
+}
+
+glm::vec3 *BasicMesh::getTranslationReference(){
+    return &this->translation;
 }

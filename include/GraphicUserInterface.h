@@ -17,7 +17,11 @@ private:
     // Our state
     bool show_demo_window = true;
     bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    size_t selectedModel = -1;
+    size_t selectedLight = -1;
+
+   glm::vec3 vec3f = glm::vec3(0.f, 1.f, 2.f);
 
 public:
     GraphicUserInterface( WindowManager* windowManager, int glMajVersion, int glMinVersion);
