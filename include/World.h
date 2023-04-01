@@ -33,10 +33,12 @@ public:
 
     glm::mat4 getPerspectiveMatrix();
     std::vector<BasicMesh*> getMeshes();
+    std::vector<BasicMesh*>* getMeshesVectorReference();
     std::vector<Light*> getLights();
 
     BasicMesh* getMesh(size_t index);
     Light* getLight(size_t index);
+    size_t getMeshesSize();
     
     void loadMesh(std::string path);
     void addLight(Light* l);

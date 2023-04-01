@@ -91,6 +91,12 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
     
     // this is not cross platform
     std::string::size_type slashIndex = filename.find_last_of("\\");
+
+    if( slashIndex == std::string::npos )
+        this->filename = filename.substr(slashIndex);
+    else
+        this->filename = filename;
+
     std::string textureDir;
 
     if( slashIndex == std::string::npos )
@@ -339,4 +345,20 @@ glm::vec3 *BasicMesh::getTranslationReference(){
 
 glm::vec3 *BasicMesh::getScaleReference(){
     return &this->scale;
+}
+
+std::string BasicMesh::getSubMeshName(size_t index){
+
+    if(index >= this->meshes.size())
+        return "";
+
+    return this->meshes[index].name ;
+}
+
+std::string BasicMesh::getName(){
+    return this->filename;
+}
+
+size_t BasicMesh::getSubMeshesSize(){
+    return this->meshes.size();
 }

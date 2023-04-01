@@ -53,6 +53,11 @@ std::vector<BasicMesh*> World::getMeshes(){
     return this->meshes;
 }
 
+std::vector<BasicMesh *> *World::getMeshesVectorReference()
+{
+    return &this->meshes;
+}
+
 std::vector<Light *> World::getLights(){
     return lights;
 }
@@ -72,7 +77,11 @@ Light *World::getLight(size_t index){
         return nullptr;
 
     return this->lights[index];
-    
+
+}
+
+size_t World::getMeshesSize(){
+    return this->meshes.size();
 }
 
 void World::loadMesh(std::string path){

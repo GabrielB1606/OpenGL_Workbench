@@ -87,27 +87,15 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
                         NULL
                     )
             );
-            
-            if( selectedModel < world->getMeshes().size() ){
-                ImGui::PushItemWidth(80);
-                ImGui::Text("Translate: ");
-                ImGui::SameLine();
-                ImGui::DragFloat("##PositionX", &( world->getMesh(selectedModel)->getTranslationReference()->x ), 0.05f, -FLT_MAX, +FLT_MAX, "x: %.3f", ImGuiSliderFlags_None);
-                ImGui::SameLine();
-                ImGui::DragFloat("##PositionY", &( world->getMesh(selectedModel)->getTranslationReference()->y ), 0.05f, -FLT_MAX, +FLT_MAX, "y: %.3f", ImGuiSliderFlags_None);
-                ImGui::SameLine();
-                ImGui::DragFloat("##PositionZ", &( world->getMesh(selectedModel)->getTranslationReference()->z ), 0.05f, -FLT_MAX, +FLT_MAX, "z: %.3f", ImGuiSliderFlags_None);
-                ImGui::PushItemWidth(0);
+            // selectedModel = 0;
 
-                ImGui::PushItemWidth(80);
-                ImGui::Text("Scale: ");
-                ImGui::SameLine();
-                ImGui::DragFloat("##ScaleX", &( world->getMesh(selectedModel)->getScaleReference()->x ), 0.05f, 0.f, +FLT_MAX, "x: %.3f", ImGuiSliderFlags_None);
-                ImGui::SameLine();
-                ImGui::DragFloat("##ScaleY", &( world->getMesh(selectedModel)->getScaleReference()->y ), 0.05f, 0.f, +FLT_MAX, "y: %.3f", ImGuiSliderFlags_None);
-                ImGui::SameLine();
-                ImGui::DragFloat("##ScaleZ", &( world->getMesh(selectedModel)->getScaleReference()->z ), 0.05f, 0.f, +FLT_MAX, "z: %.3f", ImGuiSliderFlags_None);
-                ImGui::PushItemWidth(0);
+            drawMeshesTree( world->getMeshesVectorReference() );
+
+            if( selectedModel < world->getMeshes().size() ){
+
+                drawDragVec3(world->getMesh(selectedModel)->getTranslationReference(), "Transalate");
+                drawDragVec3(world->getMesh(selectedModel)->getScaleReference(), "Scale", 0.045f);
+
             }
         }
 
@@ -137,6 +125,55 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
         ImGui::End();
     }
 
+}
+
+void GraphicUserInterface::drawMeshesTree(std::vector<BasicMesh*> *tree){
+
+    for (size_t node_index = 0; node_index < tree->size(); node_index++) {
+        
+        const auto& node = (*tree)[node_index];
+
+        ImGuiTreeNodeFlags nodeFlags = treeFlags;
+        
+        if( selectedModel == node_index )
+            nodeFlags |=  ImGuiTreeNodeFlags_Selected;
+
+        if (ImGui::TreeNodeEx((void*)(intptr_t)node_index, nodeFlags, node[0].getName().c_str() )) {
+            
+            if (ImGui::IsItemClicked())
+                selectedModel = node_index;
+
+            for (size_t i = 0; i < node->getSubMeshesSize() ; i++) {
+
+                bool is_selected = this->selectedModel == node_index && this->selectedMesh == static_cast<int>(i - 1);
+                if (ImGui::Selectable( node->getSubMeshName(i).c_str() , is_selected, ImGuiSelectableFlags_Disabled)) {
+                    selectedModel = node_index;
+                    selectedMesh = static_cast<int>(i - 1);
+                }
+                if (is_selected && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Delete))) {
+                    // Do something when the Delete key is pressed on a selected item
+                }
+            }
+            ImGui::TreePop();
+        }
+    }
+
+}
+
+void GraphicUserInterface::drawDragVec3(glm::vec3 *v, std::string name, float v_min, float v_max, float v_speed){
+    ImGui::PushItemWidth(80);
+
+    ImGui::Text( (name + ": ").c_str() );
+    ImGui::SameLine();
+    ImGui::DragFloat(("##" + name + "X").c_str(), &(v->x ), v_speed, v_min, v_max, "x: %.3f", ImGuiSliderFlags_None);
+    
+    ImGui::SameLine();
+    ImGui::DragFloat(("##" + name + "Y").c_str(), &( v->y ), v_speed, v_min, v_max, "y: %.3f", ImGuiSliderFlags_None);
+    
+    ImGui::SameLine();
+    ImGui::DragFloat(("##" + name + "Z").c_str(), &( v->z ), v_speed, v_min, v_max, "z: %.3f", ImGuiSliderFlags_None);
+    
+    ImGui::PushItemWidth(0);
 }
 
 void GraphicUserInterface::render(){

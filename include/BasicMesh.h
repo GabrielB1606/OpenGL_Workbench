@@ -34,6 +34,7 @@ private:
 
     Assimp::Importer importer;
     const aiScene* scene;
+    std::string filename;
 
     // transformations
     glm::mat4 modelMatrix   = glm::mat4(1.f);
@@ -68,6 +69,9 @@ public:
     // getters
     glm::vec3* getTranslationReference();
     glm::vec3* getScaleReference();
+    std::string getSubMeshName(size_t index);
+    std::string getName();
+    size_t getSubMeshesSize();
 };
 
 
