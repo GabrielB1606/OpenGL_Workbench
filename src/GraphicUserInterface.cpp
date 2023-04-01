@@ -88,25 +88,27 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
                     )
             );
             
-            ImGui::PushItemWidth(80);
-            ImGui::Text("Translate: ");
-            ImGui::SameLine();
-            ImGui::DragFloat("##PositionX", &( world->getMesh(0)->getTranslationReference()->x ), 0.05f, -FLT_MAX, +FLT_MAX, "x: %.3f", ImGuiSliderFlags_None);
-            ImGui::SameLine();
-            ImGui::DragFloat("##PositionY", &( world->getMesh(0)->getTranslationReference()->y ), 0.05f, -FLT_MAX, +FLT_MAX, "y: %.3f", ImGuiSliderFlags_None);
-            ImGui::SameLine();
-            ImGui::DragFloat("##PositionZ", &( world->getMesh(0)->getTranslationReference()->z ), 0.05f, -FLT_MAX, +FLT_MAX, "z: %.3f", ImGuiSliderFlags_None);
-            ImGui::PushItemWidth(0);
+            if( selectedModel < world->getMeshes().size() ){
+                ImGui::PushItemWidth(80);
+                ImGui::Text("Translate: ");
+                ImGui::SameLine();
+                ImGui::DragFloat("##PositionX", &( world->getMesh(selectedModel)->getTranslationReference()->x ), 0.05f, -FLT_MAX, +FLT_MAX, "x: %.3f", ImGuiSliderFlags_None);
+                ImGui::SameLine();
+                ImGui::DragFloat("##PositionY", &( world->getMesh(selectedModel)->getTranslationReference()->y ), 0.05f, -FLT_MAX, +FLT_MAX, "y: %.3f", ImGuiSliderFlags_None);
+                ImGui::SameLine();
+                ImGui::DragFloat("##PositionZ", &( world->getMesh(selectedModel)->getTranslationReference()->z ), 0.05f, -FLT_MAX, +FLT_MAX, "z: %.3f", ImGuiSliderFlags_None);
+                ImGui::PushItemWidth(0);
 
-            ImGui::PushItemWidth(80);
-            ImGui::Text("Scale: ");
-            ImGui::SameLine();
-            ImGui::DragFloat("##ScaleX", &( world->getMesh(0)->getScaleReference()->x ), 0.05f, 0.f, +FLT_MAX, "x: %.3f", ImGuiSliderFlags_None);
-            ImGui::SameLine();
-            ImGui::DragFloat("##ScaleY", &( world->getMesh(0)->getScaleReference()->y ), 0.05f, 0.f, +FLT_MAX, "y: %.3f", ImGuiSliderFlags_None);
-            ImGui::SameLine();
-            ImGui::DragFloat("##ScaleZ", &( world->getMesh(0)->getScaleReference()->z ), 0.05f, 0.f, +FLT_MAX, "z: %.3f", ImGuiSliderFlags_None);
-            ImGui::PushItemWidth(0);
+                ImGui::PushItemWidth(80);
+                ImGui::Text("Scale: ");
+                ImGui::SameLine();
+                ImGui::DragFloat("##ScaleX", &( world->getMesh(selectedModel)->getScaleReference()->x ), 0.05f, 0.f, +FLT_MAX, "x: %.3f", ImGuiSliderFlags_None);
+                ImGui::SameLine();
+                ImGui::DragFloat("##ScaleY", &( world->getMesh(selectedModel)->getScaleReference()->y ), 0.05f, 0.f, +FLT_MAX, "y: %.3f", ImGuiSliderFlags_None);
+                ImGui::SameLine();
+                ImGui::DragFloat("##ScaleZ", &( world->getMesh(selectedModel)->getScaleReference()->z ), 0.05f, 0.f, +FLT_MAX, "z: %.3f", ImGuiSliderFlags_None);
+                ImGui::PushItemWidth(0);
+            }
         }
 
         ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
