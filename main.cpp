@@ -5,43 +5,33 @@
 #include "ViewCamera.h"
 #include "ShaderProgram.h"
 #include "Light.h"
+#include "Skybox.h"
 #include "World.h"
 #include "BasicMesh.h"
 #include "GraphicUserInterface.h"
 
-// #include <noc_file_dialog.h>
-
 const short glMajVersion = 4, glMinVersion = 6;
 
 // Define the projection matrix
-float fov = 90.0f;  // Field of view in degrees
-float nearPlane = 0.1f;  // Near clipping plane
-float farPlane = 1000.0f; // Far clipping plane
+World w(90.f, 1280, 720, 0.1f, 1000.f);
 
-World w(fov, 1280, 720, nearPlane, farPlane);
+// create the window
+WindowManager windowManager(1280, 720, "window manager", glMajVersion, glMinVersion);
+
+// define shader program
+std::array<ShaderProgram*, 2> shaderPrograms = {
+	new ShaderProgram("460", glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag"),
+	new ShaderProgram("460", glMajVersion, glMinVersion, "shaders/skybox/skybox.vert", "shaders/skybox/skybox.frag")
+};
 
 WindowManager::BTN_STATE lastStateRightBtn = WindowManager::BTN_STATE::RELEASE;
 double mouseX, mouseY;
+void processInput(std::unordered_set<std::string> input, WindowManager *window, ViewCamera *cam, float delta);
 
 void configOpenGL();
-void processInput(std::unordered_set<std::string> input, WindowManager *window, ViewCamera *cam, float delta);
 
 int main() {
 	
-	// const char *ret;
-	// ret = noc_file_dialog_open(
-	// 	NOC_FILE_DIALOG_OPEN,
-	// 	"png\0*.png\0jpg\0*.jpg;*.jpeg\0",
-	// 	std::filesystem::current_path().string().c_str(), NULL
-	// );
-	
-	// std::cout << ret << "\n";
-	// return 0;
-
-	// create the window
-	WindowManager windowManager(1280, 720, "window manager", glMajVersion, glMinVersion);
-	// setup the graphics pipeline with OpenGL
-	ShaderProgram s("460", glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag");
 	// initial configuration
 	configOpenGL();
 
@@ -49,7 +39,9 @@ int main() {
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	GraphicUserInterface gui(&windowManager, glMajVersion, glMinVersion);
 	
-	s.setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
+	shaderPrograms[CORE_PROGRAM]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
+	shaderPrograms[SKYBOX_PROGRAM]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
+
 	w.loadMesh("models\\Crate1.obj");
 	w.loadMesh("models\\Crate1.obj");
 
@@ -69,6 +61,8 @@ int main() {
 
 	std::unordered_set<std::string> input;
 
+	Skybox sb(shaderPrograms[SKYBOX_PROGRAM], "shaders/skybox/sky/", "jpg");
+
 	windowManager.getDeltaTime();
 
 	while ( windowManager.isOpen() ) {
@@ -78,15 +72,16 @@ int main() {
 		input = windowManager.pollEvents();
 		processInput(input, &windowManager, &cam, delta);
 
-		s.setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
-		s.setVec3f(cam.getPosition(), "cameraPosition" );
-		light->sendUniforms(&s, 0);
-		s.set1i(w.getLights().size(), "nLights");
+		shaderPrograms[CORE_PROGRAM]->setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
+		shaderPrograms[CORE_PROGRAM]->setVec3f(cam.getPosition(), "cameraPosition" );
+		light->sendUniforms(shaderPrograms[CORE_PROGRAM], 0);
+		shaderPrograms[CORE_PROGRAM]->set1i(w.getLights().size(), "nLights");
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 
-		w.render(&s);
+		w.render(shaderPrograms[CORE_PROGRAM]);
+		sb.render( cam.getViewMatrix() );
 
 		gui.draw(&w, &clear_color);
 		gui.render();
@@ -95,6 +90,9 @@ int main() {
 		delta = windowManager.getDeltaTime();
 
 	}
+
+	for( ShaderProgram* sp : shaderPrograms )
+		delete sp;
 
 	return 0;
 }
@@ -105,6 +103,7 @@ void configOpenGL(){
 	glEnable(GL_DEPTH_TEST);
 	// Specify the depth function
 	glDepthFunc(GL_LESS);
+	// glDepthFunc(GL_LEQUAL);
 	
 	// Face culling
 	glEnable(GL_CULL_FACE);

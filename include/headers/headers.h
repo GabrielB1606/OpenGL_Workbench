@@ -49,4 +49,7 @@
 
 #include "ShaderTypeEnum.h"
 
+#define CORE_PROGRAM    0
+#define SKYBOX_PROGRAM  1
+
 #endif

@@ -5,7 +5,6 @@
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
@@ -38,6 +37,8 @@ build/*
 .vscode/*
 
 vendor/glfw-3.3.8.bin.WIN32/docs/*
+models/*
+example/*
 
 *.jpg
 *.mtl

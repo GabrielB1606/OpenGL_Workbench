@@ -184,6 +184,7 @@ add_executable(${PROJECT_NAME}
     src/Light.cpp
     src/BasicMesh.cpp
     src/ViewCamera.cpp
+    src/Skybox.cpp
     src/World.cpp
     src/GraphicUserInterface.cpp
     main.cpp
