@@ -93,8 +93,11 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
 
             if( selectedModel < world->getMeshes().size() ){
 
-                drawDragVec3(world->getMesh(selectedModel)->getTranslationReference(), "Transalate");
-                drawDragVec3(world->getMesh(selectedModel)->getScaleReference(), "Scale", 0.045f);
+                if (drawDragVec3(world->getMesh(selectedModel)->getTranslationReference(), "Transalate"))
+                    world->getMesh(selectedModel)->calculateModelMatrix();
+
+                if (drawDragVec3(world->getMesh(selectedModel)->getScaleReference(), "Scale", 0.045f))
+                    world->getMesh(selectedModel)->calculateModelMatrix();
 
             }
         }
@@ -161,20 +164,24 @@ void GraphicUserInterface::drawMeshesTree(std::vector<BasicMesh*> *tree){
 
 }
 
-void GraphicUserInterface::drawDragVec3(glm::vec3 *v, std::string name, float v_min, float v_max, float v_speed){
+bool GraphicUserInterface::drawDragVec3(glm::vec3 *v, std::string name, float v_min, float v_max, float v_speed){
+    bool ans = false;
+
     ImGui::PushItemWidth(80);
 
     ImGui::Text( (name + ": ").c_str() );
     ImGui::SameLine();
-    ImGui::DragFloat(("##" + name + "X").c_str(), &(v->x ), v_speed, v_min, v_max, "x: %.3f", ImGuiSliderFlags_None);
+    ans |= ImGui::DragFloat(("##" + name + "X").c_str(), &(v->x ), v_speed, v_min, v_max, "x: %.3f", ImGuiSliderFlags_None);
     
     ImGui::SameLine();
-    ImGui::DragFloat(("##" + name + "Y").c_str(), &( v->y ), v_speed, v_min, v_max, "y: %.3f", ImGuiSliderFlags_None);
+    ans |= ImGui::DragFloat(("##" + name + "Y").c_str(), &( v->y ), v_speed, v_min, v_max, "y: %.3f", ImGuiSliderFlags_None);
     
     ImGui::SameLine();
-    ImGui::DragFloat(("##" + name + "Z").c_str(), &( v->z ), v_speed, v_min, v_max, "z: %.3f", ImGuiSliderFlags_None);
+    ans |= ImGui::DragFloat(("##" + name + "Z").c_str(), &( v->z ), v_speed, v_min, v_max, "z: %.3f", ImGuiSliderFlags_None);
     
     ImGui::PushItemWidth(0);
+
+    return ans;
 }
 
 void GraphicUserInterface::render(){

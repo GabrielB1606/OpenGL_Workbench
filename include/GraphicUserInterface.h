@@ -32,7 +32,7 @@ public:
 
     void draw(World* world, ImVec4* clearColor);
     void drawMeshesTree(std::vector<BasicMesh*> *tree);
-    void drawDragVec3(glm::vec3 *v, std::string name, float v_min = -FLT_MAX, float v_max = +FLT_MAX, float v_speed = 0.05f);
+    bool drawDragVec3(glm::vec3 *v, std::string name, float v_min = -FLT_MAX, float v_max = +FLT_MAX, float v_speed = 0.05f);
     void render();
 };
 
