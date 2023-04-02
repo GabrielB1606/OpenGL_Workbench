@@ -86,7 +86,7 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
                         std::filesystem::current_path().string().c_str(),
                         NULL
                     )
-            );
+                );
             // selectedModel = 0;
 
             drawMeshesTree( world->getMeshesVectorReference() );
@@ -134,7 +134,7 @@ void GraphicUserInterface::drawMeshesTree(std::vector<BasicMesh*> *tree){
         const auto& node = (*tree)[node_index];
 
         ImGuiTreeNodeFlags nodeFlags = treeFlags;
-        
+
         if( selectedModel == node_index )
             nodeFlags |=  ImGuiTreeNodeFlags_Selected;
 
@@ -145,9 +145,10 @@ void GraphicUserInterface::drawMeshesTree(std::vector<BasicMesh*> *tree){
 
             for (size_t i = 0; i < node->getSubMeshesSize() ; i++) {
 
-                bool is_selected = this->selectedModel == node_index && this->selectedMesh == static_cast<int>(i - 1);
+                // bool is_selected = this->selectedModel == node_index && this->selectedMesh == static_cast<int>(i - 1);
+                bool is_selected = this->selectedModel == node_index;
                 if (ImGui::Selectable( node->getSubMeshName(i).c_str() , is_selected, ImGuiSelectableFlags_Disabled)) {
-                    selectedModel = node_index;
+                    // selectedModel = node_index;
                     selectedMesh = static_cast<int>(i - 1);
                 }
                 if (is_selected && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Delete))) {

@@ -302,6 +302,8 @@ void BasicMesh::render(ShaderProgram *shader){
 
 void BasicMesh::sendUniforms(ShaderProgram *shader){
 
+    // oof
+    calculateModelMatrix();
     shader->setMat4fv(this->modelMatrix, "ModelMatrix", false);
 
 }

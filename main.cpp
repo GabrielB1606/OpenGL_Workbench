@@ -51,6 +51,7 @@ int main() {
 	
 	s.setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
 	w.loadMesh("models\\Crate1.obj");
+	w.loadMesh("models\\Crate1.obj");
 
 	// camera
 	ViewCamera cam(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f) );
@@ -58,6 +59,8 @@ int main() {
 	// load a model
 	BasicMesh* mesh = w.getMeshes()[0];
 	mesh->translate( glm::vec3(0.f, 0.f, 5.f) );
+
+	w.getMeshes()[1]->translate(glm::vec3(1.f, 1.f, 2.5f));
 
 	w.addLight( new Light(glm::vec3(0.f)) );
 	Light *light = w.getLights()[0];
