@@ -111,6 +111,20 @@ void World::addLight(Light *l){
     lights.push_back(l);    
 }
 
+void World::removeMesh(size_t index){
+
+    delete this->meshes[index];
+    this->meshes.erase( this->meshes.begin()+index );
+
+}
+
+void World::removeLight(size_t index){
+
+    delete this->lights[index];
+    this->lights.erase( this->lights.begin()+index );
+
+}
+
 void World::sendUniforms(ShaderProgram *shader){
 
     for(size_t i =0; i<lights.size(); i++)

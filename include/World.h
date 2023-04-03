@@ -47,6 +47,8 @@ public:
     
     void loadMesh(std::string path);
     void addLight(Light* l);
+    void removeMesh(size_t index);
+    void removeLight(size_t index);
 
     void sendUniforms(ShaderProgram *shader);
     void renderMeshes(ShaderProgram *shader);

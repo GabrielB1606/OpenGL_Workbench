@@ -107,6 +107,11 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
 
                 if (drawDragVec3(world->getMesh(selectedModel)->getScaleReference(), "Scale", 0.045f))
                     world->getMesh(selectedModel)->calculateModelMatrix();
+                
+                if( ImGui::Button("Remove Mesh") ){
+                    world->removeMesh( selectedModel );
+                    selectedModel = -1;
+                }
 
             }
 
@@ -114,7 +119,7 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
 
             ImGui::Text("Point Lights");
 
-            if( ImGui::Button("Add Light") )
+            if( ImGui::Button("Add Light") && world->getLights().size()<3 )
                 world->addLight( new Light() );
 
             ImGui::ListBox(
@@ -124,6 +129,7 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
                 static_cast<int>(world->getLights().size())
             );
 
+
             if( (size_t)selectedLight < world->getLights().size() ){
                 
                 drawDragVec3(world->getLight(selectedLight)->getPositionReference(), "Position");
@@ -132,6 +138,11 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
                 ImGui::SameLine();
                 ImGui::DragFloat("##Intensity Drag", world->getLight(selectedLight)->getIntensityReference(), 0.025f, 0.f, 1.f);
                 ImGui::ColorEdit3("Light color", glm::value_ptr( *world->getLight(selectedLight)->getColorReference() ));
+                
+                if( ImGui::Button("Remove Light") ){
+                    world->removeLight( selectedLight );
+                    selectedLight = -1;
+                }
 
             }
 
