@@ -66,17 +66,29 @@ vec3 calculateSpecular(PointLight light, vec3 camPosition){
     	return mat.specular * specularConstant * light.color;
 }
 
+
+float calculateAttenuation(PointLight light){
+
+    float dist = length( light.position - fragPosition );
+    return 1.f/ ( light.constant + (light.linear*dist) +  ( light.quadratic*dist*dist ) );
+
+}
+
 void main() {
 	vec3 ambientComponent = vec3(0.0);
 	vec3 diffuseComponent = vec3(0.0);
 	vec3 specularComponent = vec3(0.0);
+	float attenuation = 1.f;
 
 	for(int i = 0; i<nLights; i++){
-		ambientComponent += calculateAmbient(lights[i]);
-		diffuseComponent += calculateDiffuse(lights[i]);
+
+		attenuation = calculateAttenuation(lights[i]);
+
+		ambientComponent += calculateAmbient(lights[i]) * attenuation;
+		diffuseComponent += calculateDiffuse(lights[i]) * attenuation;
 		
 		if( mat.shininess >= 0.0 )
-			specularComponent += calculateSpecular(lights[i], cameraPosition);
+			specularComponent += calculateSpecular(lights[i], cameraPosition) * attenuation;
 	}
 
 

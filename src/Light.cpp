@@ -5,7 +5,7 @@ Light::Light(glm::vec3 position, glm::vec3 color){
     this->position = position;
     this->color = color;
 
-    this->attenuation = glm::vec3(1.f);
+    this->attenuation = glm::vec3(0.f, 0.f, 1.f);
 
 }
 
