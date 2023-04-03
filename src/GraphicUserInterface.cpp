@@ -78,6 +78,9 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
         ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
         {
+
+            ImGui::Checkbox("Show Skybox", world->getShowSkyboxReference());
+
             if( ImGui::Button("Load OBJ") )                         // Load OBJ from GUI
                 world->loadMesh(
                     noc_file_dialog_open(
@@ -167,17 +170,17 @@ void GraphicUserInterface::drawMeshesTree(std::vector<BasicMesh*> *tree){
 bool GraphicUserInterface::drawDragVec3(glm::vec3 *v, std::string name, float v_min, float v_max, float v_speed){
     bool ans = false;
 
-    ImGui::PushItemWidth(80);
+    ImGui::PushItemWidth(60);
 
     ImGui::Text( (name + ": ").c_str() );
     ImGui::SameLine();
-    ans |= ImGui::DragFloat(("##" + name + "X").c_str(), &(v->x ), v_speed, v_min, v_max, "x: %.3f", ImGuiSliderFlags_None);
+    ans |= ImGui::DragFloat(("##" + name + "X").c_str(), &(v->x ), v_speed, v_min, v_max, "x: %.2f", ImGuiSliderFlags_None);
     
     ImGui::SameLine();
-    ans |= ImGui::DragFloat(("##" + name + "Y").c_str(), &( v->y ), v_speed, v_min, v_max, "y: %.3f", ImGuiSliderFlags_None);
+    ans |= ImGui::DragFloat(("##" + name + "Y").c_str(), &( v->y ), v_speed, v_min, v_max, "y: %.2f", ImGuiSliderFlags_None);
     
     ImGui::SameLine();
-    ans |= ImGui::DragFloat(("##" + name + "Z").c_str(), &( v->z ), v_speed, v_min, v_max, "z: %.3f", ImGuiSliderFlags_None);
+    ans |= ImGui::DragFloat(("##" + name + "Z").c_str(), &( v->z ), v_speed, v_min, v_max, "z: %.2f", ImGuiSliderFlags_None);
     
     ImGui::PushItemWidth(0);
 

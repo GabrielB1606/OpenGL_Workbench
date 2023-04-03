@@ -25,6 +25,7 @@ private:
     float farPlane = 1000.0f; // Far clipping plane
 
     bool perspectiveUpdated = true;
+    bool showSkybox = true;
 
 public:
     World(float fov, float width, float height, float nearClippingPlane, float farClippingPlane);
@@ -50,6 +51,8 @@ public:
     void sendUniforms(ShaderProgram *shader);
     void renderMeshes(ShaderProgram *shader);
     void renderSkybox(glm::mat4 viewMatrix);
+
+    bool* getShowSkyboxReference();
 };
 
 #endif

@@ -100,9 +100,6 @@ void configOpenGL(){
 	// Enable multisample anti-aliasing (MSAA)
 	glEnable(GL_MULTISAMPLE);
 
-	// Specify the number of samples to use for MSAA
-	// glHint(GL_MULTISAMPLE_FILTER_HINT_NV, 4);
-
 	// Enable depth testing
 	glEnable(GL_DEPTH_TEST);
 	// Specify the depth function

@@ -128,7 +128,11 @@ void World::renderMeshes(ShaderProgram *shader){
 
 void World::renderSkybox(glm::mat4 viewMatrix){
 
-    if( this->skybox != nullptr )
+    if( this->showSkybox && this->skybox != nullptr )
         skybox->render(viewMatrix);
 
+}
+
+bool *World::getShowSkyboxReference(){
+    return &this->showSkybox;
 }
