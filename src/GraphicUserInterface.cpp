@@ -80,10 +80,13 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
         {
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
+            ImGui::Separator();
+
             ImGui::Checkbox("Show Skybox", world->getShowSkyboxReference());
             if( !*world->getShowSkyboxReference() )
                 ImGui::ColorEdit3("clear color", (float*)clearColor); // Edit 3 floats representing a color
 
+            ImGui::Separator();
 
             if( ImGui::Button("Load OBJ") )                         // Load OBJ from GUI
                 world->loadMesh(
@@ -94,7 +97,6 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
                         NULL
                     )
                 );
-            // selectedModel = 0;
 
             drawMeshesTree( world->getMeshesVectorReference() );
 
@@ -108,6 +110,8 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
 
             }
 
+            ImGui::Separator();
+
             ImGui::Text("Point Lights");
             ImGui::ListBox(
                 "##Point Lights List",
@@ -115,6 +119,16 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
                 pointLightLabels,
                 static_cast<int>(world->getLights().size())
             );
+
+            if( (size_t)selectedLight < world->getLights().size() ){
+                
+                drawDragVec3(world->getLight(selectedLight)->getPositionReference(), "Position");
+                drawDragVec3(world->getLight(selectedLight)->getAttentionReference(), "Attenuation");
+                ImGui::Text( "Intensity: " );
+                ImGui::SameLine();
+                ImGui::DragFloat("##Intensity Drag", world->getLight(selectedLight)->getIntensityReference(), 0.025f, 0.f, 1.f);
+                
+            }
 
         }
 

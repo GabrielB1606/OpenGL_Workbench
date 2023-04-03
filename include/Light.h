@@ -10,6 +10,8 @@ private:
 
     glm::vec3 color;
     glm::vec3 position;
+    float intensity = 0.05f;
+    glm::vec3 attenuation;
 
 public:
     Light(glm::vec3 position, glm::vec3 color = glm::vec3(1.f));
@@ -18,6 +20,10 @@ public:
     void sendUniforms(ShaderProgram *shader, int index);
 
     void move(glm::vec3 v);
+
+    glm::vec3* getPositionReference();
+    glm::vec3* getAttentionReference();
+    float* getIntensityReference();
 
 };
 

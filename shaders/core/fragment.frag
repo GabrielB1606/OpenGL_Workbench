@@ -12,7 +12,11 @@ struct Colors{
 struct PointLight{
 	vec3 position;
 	vec3 color;
-	vec3 intensity;
+	float intensity;
+
+	float quadratic;
+	float linear;
+	float constant;
 };
 
 in vec2 texCoord;
