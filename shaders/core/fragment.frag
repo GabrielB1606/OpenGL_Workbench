@@ -45,7 +45,7 @@ vec3 calculateDiffuse(PointLight light){
     vec3 lightDir = normalize( light.position - fragPosition );
     float factor = max( dot(normalize(normal), lightDir), 0.0 );
 
-    return factor * mat.diffuse;
+    return factor * mat.diffuse  * light.color;
 }
 
 vec3 calculateSpecular(PointLight light, vec3 camPosition){
