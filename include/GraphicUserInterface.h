@@ -26,7 +26,7 @@ private:
 
    glm::vec3 vec3f = glm::vec3(0.f, 1.f, 2.f);
 
-   const char* pointLightLabels[3]= {"Point Lights #1", "Point Lights #2" , "Point Lights #3"};
+   const char* pointLightLabels[3]= {"Point Light #1", "Point Light #2" , "Point Light #3"};
 
 public:
     GraphicUserInterface( WindowManager* windowManager, int glMajVersion, int glMinVersion);
