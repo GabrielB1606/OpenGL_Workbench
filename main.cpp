@@ -72,8 +72,7 @@ int main() {
 		input = windowManager.pollEvents();
 		processInput(input, &windowManager, &cam, delta);
 
-		shaderPrograms[CORE_PROGRAM]->setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
-		shaderPrograms[CORE_PROGRAM]->setVec3f(cam.getPosition(), "cameraPosition" );
+		cam.sendUniforms( shaderPrograms[CORE_PROGRAM] );
 		w.sendUniforms(shaderPrograms[CORE_PROGRAM]);
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);

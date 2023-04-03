@@ -2,6 +2,7 @@
 #define VIEWCAMERA_H
 
 #include "headers.h"
+#include "ShaderProgram.h"
 
 class ViewCamera{
 private:
@@ -29,6 +30,8 @@ public:
     glm::mat4 calculateViewMatrix();
     glm::mat4 getViewMatrix();
     glm::vec3 getPosition();
+
+    void sendUniforms(ShaderProgram* shader);
 
     void move(glm::vec3 v);
     void rotate(glm::vec3 r);
