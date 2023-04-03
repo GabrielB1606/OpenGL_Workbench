@@ -39,6 +39,22 @@ void World::setAspectRatio(float width, float height){
 
 }
 
+void World::createSkybox(ShaderProgram *skyboxProgram, std::string directory, std::string format){
+
+    if( this->skybox != nullptr )
+        delete this->skybox;
+    
+    this->skybox = new Skybox(skyboxProgram, directory, format);
+
+}
+
+void World::changeSkybox(std::string directory, std::string format){
+
+    if( this->skybox != nullptr )
+        this->skybox->loadCubeTextures(directory, format);
+
+}
+
 glm::mat4 World::getPerspectiveMatrix(){
 
     if( !this->perspectiveUpdated ){
@@ -95,9 +111,24 @@ void World::addLight(Light *l){
     lights.push_back(l);    
 }
 
-void World::render(ShaderProgram *shader){
+void World::sendUniforms(ShaderProgram *shader){
+
+    for(size_t i =0; i<lights.size(); i++)
+        lights[i]->sendUniforms(shader, i);
+
+    shader->set1i( lights.size() , "nLights");
+
+}
+
+void World::renderMeshes(ShaderProgram *shader){
 
     for(BasicMesh* m: this->meshes)
         m->render(shader);
+}
+
+void World::renderSkybox(glm::mat4 viewMatrix){
+
+    if( this->skybox != nullptr )
+        skybox->render(viewMatrix);
 
 }

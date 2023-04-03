@@ -61,7 +61,7 @@ int main() {
 
 	std::unordered_set<std::string> input;
 
-	Skybox sb(shaderPrograms[SKYBOX_PROGRAM], "shaders/skybox/sky/", "jpg");
+	w.createSkybox(shaderPrograms[SKYBOX_PROGRAM], "shaders/skybox/sky/", "jpg");
 
 	windowManager.getDeltaTime();
 
@@ -74,14 +74,13 @@ int main() {
 
 		shaderPrograms[CORE_PROGRAM]->setMat4fv(cam.getViewMatrix(), "ViewMatrix", GL_FALSE);
 		shaderPrograms[CORE_PROGRAM]->setVec3f(cam.getPosition(), "cameraPosition" );
-		light->sendUniforms(shaderPrograms[CORE_PROGRAM], 0);
-		shaderPrograms[CORE_PROGRAM]->set1i(w.getLights().size(), "nLights");
+		w.sendUniforms(shaderPrograms[CORE_PROGRAM]);
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 
-		w.render(shaderPrograms[CORE_PROGRAM]);
-		sb.render( cam.getViewMatrix() );
+		w.renderMeshes(shaderPrograms[CORE_PROGRAM]);
+		w.renderSkybox( cam.getViewMatrix() );
 
 		gui.draw(&w, &clear_color);
 		gui.render();
