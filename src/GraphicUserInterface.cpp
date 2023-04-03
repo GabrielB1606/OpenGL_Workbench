@@ -133,7 +133,7 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
             if( (size_t)selectedLight < world->getLights().size() ){
                 
                 drawDragVec3(world->getLight(selectedLight)->getPositionReference(), "Position");
-                drawDragVec3(world->getLight(selectedLight)->getAttentionReference(), "Attenuation");
+                drawDragVec3(world->getLight(selectedLight)->getAttentionReference(), "Attenuation", 0.f, +FLT_MAX, 0.025f, {"x²", "x", "c"});
                 ImGui::Text( "Intensity: " );
                 ImGui::SameLine();
                 ImGui::DragFloat("##Intensity Drag", world->getLight(selectedLight)->getIntensityReference(), 0.025f, 0.f, 1.f);
@@ -208,20 +208,20 @@ void GraphicUserInterface::drawMeshesTree(std::vector<BasicMesh*> *tree){
 
 }
 
-bool GraphicUserInterface::drawDragVec3(glm::vec3 *v, std::string name, float v_min, float v_max, float v_speed){
+bool GraphicUserInterface::drawDragVec3(glm::vec3 *v, std::string name, float v_min, float v_max, float v_speed, std::array<std::string, 3> labels){
     bool ans = false;
 
     ImGui::PushItemWidth(60);
 
     ImGui::Text( (name + ": ").c_str() );
     ImGui::SameLine();
-    ans |= ImGui::DragFloat(("##" + name + "X").c_str(), &(v->x ), v_speed, v_min, v_max, "x: %.2f", ImGuiSliderFlags_None);
+    ans |= ImGui::DragFloat(("##" + name + "X").c_str(), &(v->x ), v_speed, v_min, v_max, (labels[0]+": %.2f").c_str(), ImGuiSliderFlags_None);
     
     ImGui::SameLine();
-    ans |= ImGui::DragFloat(("##" + name + "Y").c_str(), &( v->y ), v_speed, v_min, v_max, "y: %.2f", ImGuiSliderFlags_None);
+    ans |= ImGui::DragFloat(("##" + name + "Y").c_str(), &( v->y ), v_speed, v_min, v_max, (labels[1]+": %.2f").c_str(), ImGuiSliderFlags_None);
     
     ImGui::SameLine();
-    ans |= ImGui::DragFloat(("##" + name + "Z").c_str(), &( v->z ), v_speed, v_min, v_max, "z: %.2f", ImGuiSliderFlags_None);
+    ans |= ImGui::DragFloat(("##" + name + "Z").c_str(), &( v->z ), v_speed, v_min, v_max, (labels[2]+": %.2f").c_str(), ImGuiSliderFlags_None);
     
     ImGui::PushItemWidth(0);
 
