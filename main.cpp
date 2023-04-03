@@ -99,6 +99,12 @@ int main() {
 
 void configOpenGL(){
 
+	// Enable multisample anti-aliasing (MSAA)
+	glEnable(GL_MULTISAMPLE);
+
+	// Specify the number of samples to use for MSAA
+	// glHint(GL_MULTISAMPLE_FILTER_HINT_NV, 4);
+
 	// Enable depth testing
 	glEnable(GL_DEPTH_TEST);
 	// Specify the depth function
@@ -123,7 +129,7 @@ void processInput(std::unordered_set<std::string> input, WindowManager *window, 
 		window->getCursorPos(&currMouseX, &currMouseY);
 		
 		if( lastStateRightBtn == WindowManager::BTN_STATE::PRESS)
-			cam->rotate( delta*glm::vec3( currMouseX - mouseX, mouseY - currMouseY, 0.f ) );
+			cam->rotate( -delta*glm::vec3( currMouseX - mouseX, mouseY - currMouseY, 0.f ) );
 		
 		mouseX = currMouseX;
 		mouseY = currMouseY;
@@ -140,13 +146,13 @@ void processInput(std::unordered_set<std::string> input, WindowManager *window, 
 		cam->move(glm::vec3(0.f, 0.f, delta));
 	
 	if( input.find("A") != input.end() )
-		cam->move(glm::vec3(-delta, 0.f, 0.f));
+		cam->move(glm::vec3(delta, 0.f, 0.f));
 	
 	if( input.find("S") != input.end() )
 		cam->move(glm::vec3(0.f, 0.f, -delta));
 	
 	if( input.find("D") != input.end() )
-		cam->move(glm::vec3(delta, 0.f, 0.f));
+		cam->move(glm::vec3(-delta, 0.f, 0.f));
 	
 
 }
@@ -155,5 +161,8 @@ void frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
 	
 	glViewport(0, 0, width, height);
 	w.setAspectRatio((float)width, (float)height);
+
+	for( ShaderProgram* sp : shaderPrograms )
+		sp->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
 
 }

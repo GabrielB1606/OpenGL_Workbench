@@ -22,7 +22,7 @@ glm::mat4 ViewCamera::calculateViewMatrix(){
 
     this->front = glm::normalize(this->front);
     this->right = glm::normalize(glm::cross(glm::vec3(0.f, 1.f, 0.f), this->front));
-    this->up = glm::normalize(glm::cross(this->right, this->front));
+    this->up = glm::normalize(glm::cross(this->front, this->right));
 
     this->viewMatrix = glm::lookAt( position, position+front, up );
 

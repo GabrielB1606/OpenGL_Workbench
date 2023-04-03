@@ -6,6 +6,7 @@ WindowManager::WindowManager(int width, int height, std::string title, int GLMaj
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GLMajVersion);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GLMinVersion);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, 4);
 	
     this->window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
