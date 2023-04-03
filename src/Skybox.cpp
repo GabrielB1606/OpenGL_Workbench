@@ -6,6 +6,34 @@ Skybox::Skybox(ShaderProgram *skyboxProgram, std::string directory, std::string 
 
     this->skyboxProgram = skyboxProgram;
 
+    loadCubeTextures(directory, format);
+
+}
+
+void Skybox::initCubeModel(){
+
+    glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(skyboxIndices), &skyboxIndices, GL_STATIC_DRAW);
+	
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	
+    glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+}
+
+void Skybox::loadCubeTextures(std::string directory, std::string format){
+
     facesCubemap[0] = directory + "right." + format;
     facesCubemap[1] = directory + "left." + format;
     facesCubemap[2] = directory + "top." + format;
@@ -42,38 +70,14 @@ Skybox::Skybox(ShaderProgram *skyboxProgram, std::string directory, std::string 
 
 }
 
-void Skybox::initCubeModel(){
-
-    glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
-	
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(skyboxIndices), &skyboxIndices, GL_STATIC_DRAW);
-	
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	
-    glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-}
-
 void Skybox::render(glm::mat4 viewMatrix){
 
     // Since the cubemap will always have a depth of 1.0, we need that equal sign so it doesn't get discarded
     glDepthFunc(GL_LEQUAL);
 
-    glm::mat4 view = glm::mat4(1.0f);
-    glm::mat4 projection = glm::mat4(1.0f);
     // We make the mat4 into a mat3 and then a mat4 again in order to get rid of the last row and column
     // The last row and column affect the translation of the skybox (which we don't want to affect)
-    view = glm::mat4(glm::mat3(viewMatrix));
+    glm::mat4 view = glm::mat4(glm::mat3(viewMatrix));
     skyboxProgram->setMat4fv(view, "ViewMatrix", GL_FALSE);
 
     skyboxProgram->use();

@@ -53,6 +53,7 @@ public:
     virtual ~Skybox(){}
 
     void initCubeModel();
+    void loadCubeTextures(std::string directory, std::string format = "jpg");
 
     void render(glm::mat4 viewMatrix);
 };
