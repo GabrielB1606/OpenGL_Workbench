@@ -22,9 +22,11 @@ private:
 
     size_t selectedModel = -1;
     size_t selectedMesh = -1;
-    size_t selectedLight = -1;
+    int selectedLight = -1;
 
    glm::vec3 vec3f = glm::vec3(0.f, 1.f, 2.f);
+
+   const char* pointLightLabels[3]= {"Point Lights #1", "Point Lights #2" , "Point Lights #3"};
 
 public:
     GraphicUserInterface( WindowManager* windowManager, int glMajVersion, int glMinVersion);
