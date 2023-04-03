@@ -35,6 +35,10 @@ glm::vec3 *Light::getAttentionReference(){
     return &this->attenuation;
 }
 
+glm::vec3 *Light::getColorReference(){
+    return &this->color;
+}
+
 float *Light::getIntensityReference(){
     return &this->intensity;
 }

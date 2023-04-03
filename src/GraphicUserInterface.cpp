@@ -113,6 +113,10 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
             ImGui::Separator();
 
             ImGui::Text("Point Lights");
+
+            if( ImGui::Button("Add Light") )
+                world->addLight( new Light() );
+
             ImGui::ListBox(
                 "##Point Lights List",
                 &selectedLight,
@@ -127,7 +131,8 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
                 ImGui::Text( "Intensity: " );
                 ImGui::SameLine();
                 ImGui::DragFloat("##Intensity Drag", world->getLight(selectedLight)->getIntensityReference(), 0.025f, 0.f, 1.f);
-                
+                ImGui::ColorEdit3("Light color", glm::value_ptr( *world->getLight(selectedLight)->getColorReference() ));
+
             }
 
         }

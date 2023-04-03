@@ -14,7 +14,7 @@ private:
     glm::vec3 attenuation;
 
 public:
-    Light(glm::vec3 position, glm::vec3 color = glm::vec3(1.f));
+    Light(glm::vec3 position = glm::vec3(0.f), glm::vec3 color = glm::vec3(1.f));
     virtual ~Light(){}
 
     void sendUniforms(ShaderProgram *shader, int index);
@@ -23,6 +23,7 @@ public:
 
     glm::vec3* getPositionReference();
     glm::vec3* getAttentionReference();
+    glm::vec3* getColorReference();
     float* getIntensityReference();
 
 };
