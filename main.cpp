@@ -50,7 +50,7 @@ int main() {
 
 	// load a model
 	BasicMesh* mesh = w.getMeshes()[0];
-	mesh->translate( glm::vec3(0.f, 0.f, 5.f) );
+	mesh->translate( glm::vec3(0.f, 0.f, 7.f) );
 
 	w.getMeshes()[1]->translate(glm::vec3(1.f, 1.f, 2.5f));
 

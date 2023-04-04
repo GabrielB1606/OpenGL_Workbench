@@ -163,14 +163,6 @@ else()
 endif()
 
 # main project
-# add_executable(${PROJECT_NAME}
-#     main.cpp
-#     ${GLAD_DIR}/src/glad.c
-#     ${IMGUI_SRC}
-#     ${IMGUI_BACKEND_SRC}
-#     ${PROJECT_SRC}
-# )
-
 add_executable(${PROJECT_NAME}
     ${GLAD_DIR}/src/glad.c
     ${IMGUI_SRC}
@@ -184,6 +176,7 @@ add_executable(${PROJECT_NAME}
     src/Light.cpp
     src/BasicMesh.cpp
     src/ViewCamera.cpp
+    src/ShadowCubeMapFBO.cpp
     src/Skybox.cpp
     src/World.cpp
     src/GraphicUserInterface.cpp
