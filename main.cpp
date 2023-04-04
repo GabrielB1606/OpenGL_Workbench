@@ -88,7 +88,10 @@ int main() {
 		// these are pretty much light uniforms
 		w.sendUniforms(shaderPrograms[CORE_PROGRAM]);
 
+		w.renderShadowCubeMaps(shaderPrograms[SHADOW_PASS]);
+
 		// clear main framebuffer
+		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 

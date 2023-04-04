@@ -23,6 +23,14 @@ World::~World(){
 
 }
 
+float World::getWidth(){
+    return this->width;
+}
+
+float World::getHeight(){
+    return this->height;
+}
+
 void World::setFOV(float fov){
 
     this->perspectiveUpdated = false;
@@ -147,7 +155,7 @@ void World::renderSkybox(glm::mat4 viewMatrix){
 
 }
 
-void World::renderShadowCubeMap(ShaderProgram *shader){
+void World::renderShadowCubeMaps(ShaderProgram *shader){
 
     for( Light* l:lights )
         l->renderShadowCubeMap(shader, this->meshes);

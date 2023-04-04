@@ -31,6 +31,9 @@ public:
     World(float fov, float width, float height, float nearClippingPlane, float farClippingPlane);
     virtual ~World();
 
+    float getWidth();
+    float getHeight();
+
     void setFOV(float fov);
     void setAspectRatio(float width, float height);
     void createSkybox(ShaderProgram* skyboxProgram, std::string directory, std::string format = "jpg");
@@ -53,7 +56,7 @@ public:
     void sendUniforms(ShaderProgram *shader);
     void renderMeshes(ShaderProgram *shader);
     void renderSkybox(glm::mat4 viewMatrix);
-    void renderShadowCubeMap(ShaderProgram *shader);
+    void renderShadowCubeMaps(ShaderProgram *shader);
 
     bool* getShowSkyboxReference();
 };

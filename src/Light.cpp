@@ -7,6 +7,8 @@ Light::Light(glm::vec3 position, glm::vec3 color){
 
     this->attenuation = glm::vec3(0.f, 0.f, 1.f);
 
+    shadowMap.init(1024);
+
 }
 
 void Light::sendUniforms(ShaderProgram *shader, int index){
@@ -58,7 +60,8 @@ void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> 
             mesh->render(shader);
 
     }
-    
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);    
 
 }
 
