@@ -21,8 +21,43 @@ void Light::sendUniforms(ShaderProgram *shader, int index){
 
 }
 
-void Light::renderShadowCubeMap(ShaderProgram *shader){
+glm::vec3 cubeMapTargets[6] = {
+    glm::vec3(1.0f, 0.0f, 0.0f),
+    glm::vec3(-1.0f, 0.0f, 0.0f),
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    glm::vec3(0.0f, -1.0f, 0.0f),
+    glm::vec3(0.0f, 0.0f, 1.0f),
+    glm::vec3(0.0f, 0.0f, -1.0f)
+};
 
+glm::vec3 cubeMapUps[6] = {
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    glm::vec3(0.0f, 0.0f, -1.0f),
+    glm::vec3(0.0f, 0.0f, 1.0f),
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    glm::vec3(0.0f, 1.0f, 0.0f)
+};
+
+void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> meshes){
+
+    shader->setVec3f(this->position, "lightPosition");
+    glClearColor(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+
+    glm::mat4 lightView;
+
+    for (size_t i = 0; i < 6; i++){
+        
+        shadowMap.bindWrite( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i );
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+        lightView = glm::lookAt( this->position, cubeMapTargets[i], cubeMapUps[i] );
+        shader->setMat4fv(lightView, "ViewMatrix", GL_FALSE);
+        
+        for(BasicMesh* mesh : meshes)
+            mesh->render(shader);
+
+    }
     
 
 }

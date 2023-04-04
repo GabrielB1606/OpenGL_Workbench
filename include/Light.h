@@ -4,6 +4,7 @@
 #include "headers.h"
 
 #include "ShaderProgram.h"
+#include "BasicMesh.h"
 #include "ShadowCubeMapFBO.h"
 
 class Light{
@@ -20,7 +21,7 @@ public:
     virtual ~Light(){}
 
     void sendUniforms(ShaderProgram *shader, int index);
-    void renderShadowCubeMap(ShaderProgram *shader);
+    void renderShadowCubeMap(ShaderProgram *shader, std::vector<BasicMesh*> meshes);
 
     void move(glm::vec3 v);
 
