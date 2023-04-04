@@ -54,7 +54,7 @@ int main() {
 	w.loadMesh("models\\Crate1.obj");
 	
 	// translate models
-	w.getMeshes()[0]->translate( glm::vec3(0.f, 0.f, 7.f) );
+	w.getMeshes()[0]->translate(glm::vec3(0.f, 0.f, 7.f) );
 	w.getMeshes()[1]->translate(glm::vec3(1.f, 1.f, 2.5f));
 
 	// add default light

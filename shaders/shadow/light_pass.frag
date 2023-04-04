@@ -28,13 +28,30 @@ uniform int nLights;
 
 uniform Colors mat;
 uniform vec3 cameraPosition;
-layout(binding = 0) uniform sampler2D DiffTexture;
-layout(binding = 1) uniform sampler2D SpecularTexture;
+layout(binding = 0) uniform sampler2D   DiffTexture;
+layout(binding = 1) uniform sampler2D   SpecularTexture;
+layout(binding = 2) uniform samplerCube CubeMapLight0;
+layout(binding = 3) uniform samplerCube CubeMapLight1;
+layout(binding = 4) uniform samplerCube CubeMapLight2;
 
 uniform int useDiffTexture;
 uniform int useSpecTexture;
 
 out vec4 FragColor;
+
+float calculateShadow(vec3 lightToPixel, samplerCube shadowMap){
+
+    float dist = length(lightToPixel);
+    lightToPixel.y = -lightToPixel.y;
+    float sample = texture(shadowMap, lightToPixel).r;
+    float bias = 0.015;
+
+    if( smaple + bias < dist )
+        return 0.15;
+    else
+        return 1.0;
+
+}
 
 vec3 calculateAmbient(PointLight light){
     return mat.ambient * light.color * light.intensity;
