@@ -4,6 +4,7 @@
 #include "headers.h"
 
 #include "ShaderProgram.h"
+#include "ShadowCubeMapFBO.h"
 
 class Light{
 private:
@@ -12,12 +13,14 @@ private:
     glm::vec3 position;
     float intensity = 0.05f;
     glm::vec3 attenuation;
+    ShadowCubeMapFBO shadowMap;
 
 public:
     Light(glm::vec3 position = glm::vec3(0.f), glm::vec3 color = glm::vec3(1.f));
     virtual ~Light(){}
 
     void sendUniforms(ShaderProgram *shader, int index);
+    void renderShadowCubeMap(ShaderProgram *shader);
 
     void move(glm::vec3 v);
 

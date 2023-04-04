@@ -53,6 +53,7 @@ public:
     void sendUniforms(ShaderProgram *shader);
     void renderMeshes(ShaderProgram *shader);
     void renderSkybox(glm::mat4 viewMatrix);
+    void renderShadowCubeMap(ShaderProgram *shader);
 
     bool* getShowSkyboxReference();
 };

@@ -124,7 +124,6 @@ void configOpenGL(){
 	glEnable(GL_DEPTH_TEST);
 	// Specify the depth function
 	glDepthFunc(GL_LESS);
-	// glDepthFunc(GL_LEQUAL);
 	
 	// Face culling
 	glEnable(GL_CULL_FACE);
@@ -142,14 +141,19 @@ void updateProjectionViewMatrix(){
 
 }
 
+void updateProjectionMatrix(){
+
+	shaderPrograms[SKYBOX_PROGRAM]->setMat4fv(w.getPerspectiveMatrix(), "ProjViewMatrix", GL_FALSE);
+	shaderPrograms[SHADOW_PASS]->setMat4fv(w.getPerspectiveMatrix(), "ProjViewMatrix", GL_FALSE);
+
+}
+
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
 	
 	glViewport(0, 0, width, height);
 	w.setAspectRatio((float)width, (float)height);
 
-	for( ShaderProgram* sp : shaderPrograms )
-		sp->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
-	
+	updateProjectionMatrix();
 	updateProjectionViewMatrix();
 
 }

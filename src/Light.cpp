@@ -21,6 +21,12 @@ void Light::sendUniforms(ShaderProgram *shader, int index){
 
 }
 
+void Light::renderShadowCubeMap(ShaderProgram *shader){
+
+    
+
+}
+
 void Light::move(glm::vec3 v){
 
     this->position += v;

@@ -147,6 +147,13 @@ void World::renderSkybox(glm::mat4 viewMatrix){
 
 }
 
+void World::renderShadowCubeMap(ShaderProgram *shader){
+
+    for( Light* l:lights )
+        l->renderShadowCubeMap(shader);
+
+}
+
 bool *World::getShowSkyboxReference(){
     return &this->showSkybox;
 }
