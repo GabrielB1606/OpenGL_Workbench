@@ -173,13 +173,14 @@ add_executable(${PROJECT_NAME}
     src/ShaderProgram.cpp
     src/Texture.cpp
     src/Material.cpp
+    src/ShadowCubeMapFBO.cpp
     src/Light.cpp
     src/BasicMesh.cpp
     src/ViewCamera.cpp
-    src/ShadowCubeMapFBO.cpp
     src/Skybox.cpp
     src/World.cpp
     src/GraphicUserInterface.cpp
+    src/inputProcessor.cpp
     main.cpp
 )
 
