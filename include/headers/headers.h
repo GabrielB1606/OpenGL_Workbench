@@ -51,5 +51,6 @@
 
 #define CORE_PROGRAM    0
 #define SKYBOX_PROGRAM  1
+#define SHADOW_PASS     2
 
 #endif

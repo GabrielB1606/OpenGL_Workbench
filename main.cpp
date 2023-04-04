@@ -19,9 +19,10 @@ World w(90.f, 1280, 720, 0.1f, 1000.f);
 WindowManager windowManager(1280, 720, "window manager", glMajVersion, glMinVersion);
 
 // define shader program
-std::array<ShaderProgram*, 2> shaderPrograms = {
+std::array<ShaderProgram*, 3> shaderPrograms = {
 	new ShaderProgram("460", glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag"),
-	new ShaderProgram("460", glMajVersion, glMinVersion, "shaders/skybox/skybox.vert", "shaders/skybox/skybox.frag")
+	new ShaderProgram("460", glMajVersion, glMinVersion, "shaders/skybox/skybox.vert", "shaders/skybox/skybox.frag"),
+	new ShaderProgram("460", glMajVersion, glMinVersion, "shaders/shadow/shadow.vert", "shaders/shadow/shadow.frag")
 };
 
 WindowManager::BTN_STATE lastStateRightBtn = WindowManager::BTN_STATE::RELEASE;
