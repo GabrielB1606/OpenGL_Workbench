@@ -69,6 +69,7 @@ int main() {
 
 	// send uniforms
 	mainCamera.sendUniforms( shaderPrograms[CORE_PROGRAM] );
+	mainCamera.sendUniforms( shaderPrograms[LIGHT_PASS] );
 	updateProjectionViewMatrix();
 
 	// start counting time between frames
@@ -82,11 +83,13 @@ int main() {
 		// Only if there's camera movement, send the view matrix again
 		if(input.process(&mainCamera, delta)){
 			mainCamera.sendUniforms( shaderPrograms[CORE_PROGRAM] );
+			mainCamera.sendUniforms( shaderPrograms[LIGHT_PASS] );
 			updateProjectionViewMatrix();
 		}
 
 		// these are pretty much light uniforms
 		w.sendUniforms(shaderPrograms[CORE_PROGRAM]);
+		w.sendUniforms( shaderPrograms[LIGHT_PASS] );
 
 		w.renderShadowCubeMaps(shaderPrograms[SHADOW_PASS]);
 
@@ -96,7 +99,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 
 		// render meshes
-		w.renderMeshes(shaderPrograms[CORE_PROGRAM]);
+		w.renderMeshes(shaderPrograms[LIGHT_PASS]);
 		
 		// render skybox
 		w.renderSkybox( mainCamera.getViewMatrix() );

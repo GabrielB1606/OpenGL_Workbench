@@ -43,10 +43,10 @@ float calculateShadow(vec3 lightToPixel, samplerCube shadowMap){
 
     float dist = length(lightToPixel);
     lightToPixel.y = -lightToPixel.y;
-    float sample = texture(shadowMap, lightToPixel).r;
+    float cubeSample = texture(shadowMap, lightToPixel).r;
     float bias = 0.015;
 
-    if( smaple + bias < dist )
+    if( cubeSample + bias < dist )
         return 0.15;
     else
         return 1.0;
@@ -97,6 +97,8 @@ void main() {
 	vec3 specularComponent = vec3(0.0);
 	float attenuation = 1.f;
 
+    float shadowComponent = calculateShadow( fragPosition - lights[0].position, CubeMapLight0 );
+
 	for(int i = 0; i<nLights; i++){
 
 		attenuation = calculateAttenuation(lights[i]);
@@ -110,7 +112,8 @@ void main() {
 
 
 	if ( useDiffTexture == 1 )
-		FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
+		FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + shadowComponent*(diffuseComponent + specularComponent), 1.0);
+		// FragColor = texture2D(DiffTexture, texCoord) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
 	else
 		FragColor = vec4(mat.diffuse, 1.0) * vec4(ambientComponent + diffuseComponent + specularComponent, 1.0);
 }
