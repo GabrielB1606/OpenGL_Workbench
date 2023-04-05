@@ -15,11 +15,13 @@
 const short glMajVersion = 4, glMinVersion = 6;
 std::string glVersion_str = std::to_string(glMajVersion) + std::to_string(glMinVersion) + "0";
 
+const int initial_width = 1280, inital_height = 720;
+
 // Define the current state of the 3D world
-World w(90.f, 1280, 720, 0.1f, 1000.f);
+World w(90.f, initial_width, inital_height, 0.1f, 1000.f);
 
 // Manage window creation
-WindowManager windowManager(1280, 720, "window manager", glMajVersion, glMinVersion);
+WindowManager windowManager(initial_width, inital_height, "window manager", glMajVersion, glMinVersion);
 
 // All shader programs used in the application
 std::array<ShaderProgram*, 4> shaderPrograms = {

@@ -7,7 +7,7 @@ Light::Light(glm::vec3 position, glm::vec3 color){
 
     this->attenuation = glm::vec3(0.f, 0.f, 1.f);
 
-    shadowMap.init(1024);
+    shadowMap.init(SHADOW_MAP_SIZE);
 
 }
 
