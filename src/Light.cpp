@@ -74,7 +74,7 @@ void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> 
         shadowMap.bindWrite( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i );
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-        lightView = glm::lookAt( this->position, cubeMapTargets[i], cubeMapUps[i] );
+        lightView = glm::lookAt( this->position, this->position + cubeMapTargets[i], cubeMapUps[i] );
         shader->setMat4fv(lightView, "ViewMatrix", GL_FALSE);
         
         for(BasicMesh* mesh : meshes)
