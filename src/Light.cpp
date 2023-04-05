@@ -64,7 +64,7 @@ glm::vec3 cubeMapUps[6] = {
 void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> meshes){
 
     shader->setVec3f(this->position, "lightPosition");
-    shader->setMat4fv( glm::perspective(90.f, 1.f, 0.1f, 1000.f), "ProjectionMatrix", GL_FALSE );
+    shader->setMat4fv( glm::perspective(glm::radians(90.f), 1.f, 0.1f, 1000.f), "ProjectionMatrix", GL_FALSE );
     glClearColor(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
 
     glm::mat4 lightView;
