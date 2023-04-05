@@ -43,6 +43,7 @@ float calculateShadow(vec3 lightToPixel, samplerCube shadowMap){
 
     float dist = length(lightToPixel);
     lightToPixel.y = -lightToPixel.y;
+    lightToPixel.x = -lightToPixel.x;
     float cubeSample = texture(shadowMap, lightToPixel).r;
     float bias = 0.015;
 

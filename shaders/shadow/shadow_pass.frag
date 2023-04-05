@@ -7,5 +7,6 @@ uniform vec3 lightPosition;
 out float lightToPixelDistance;
 
 void main(){
-    lightToPixelDistance = length( position - lightPosition ) ;
+    vec3 lightToFragment = position - lightPosition;
+    lightToPixelDistance = length( lightToFragment ) ;
 }
