@@ -96,9 +96,16 @@ void main() {
 	vec3 ambientComponent = vec3(0.0);
 	vec3 diffuseComponent = vec3(0.0);
 	vec3 specularComponent = vec3(0.0);
-	float attenuation = 1.f;
+	float attenuation = 1.0;
 
-    float shadowComponent = calculateShadow( fragPosition - lights[0].position, CubeMapLight0 );
+    float shadowComponent = 1.0;
+
+    if( nLights >= 1 )
+        shadowComponent *= calculateShadow( fragPosition - lights[0].position, CubeMapLight0 );
+    if( nLights >= 2 )
+        shadowComponent *= calculateShadow( fragPosition - lights[1].position, CubeMapLight1 );
+    if( nLights >= 3 )
+        shadowComponent *= calculateShadow( fragPosition - lights[2].position, CubeMapLight2 );
 
 	for(int i = 0; i<nLights; i++){
 

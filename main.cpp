@@ -78,7 +78,7 @@ int main() {
 	while ( windowManager.isOpen() ) {
 		
 		// rotate just bc
-		// w.getMeshes()[0]->rotate( delta*glm::vec3(30.f, 30.f, 30.f) );
+		w.getMeshes()[0]->rotate( delta*glm::vec3(30.f, 30.f, 30.f) );
 
 		// Only if there's camera movement, send the view matrix again
 		if(input.process(&mainCamera, delta)){
