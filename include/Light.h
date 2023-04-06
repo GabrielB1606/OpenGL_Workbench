@@ -20,7 +20,7 @@ public:
     Light(glm::vec3 position = glm::vec3(0.f), glm::vec3 color = glm::vec3(1.f));
     virtual ~Light(){}
 
-    void sendUniforms(ShaderProgram *shader, int index);
+    void sendUniforms(ShaderProgram *shader, size_t index);
     void renderShadowCubeMap(ShaderProgram *shader, std::vector<BasicMesh*> meshes);
 
     void move(glm::vec3 v);

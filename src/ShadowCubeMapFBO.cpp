@@ -30,7 +30,7 @@ bool ShadowCubeMapFBO::init(size_t size){
     // Create the depth buffer
     glGenTextures(1, &depth);
     glBindTexture(GL_TEXTURE_2D, depth);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, size, size, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, size, size, 0, GL_DEPTH_COMPONENT, GL_FLOAT, (GLsizei)0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -48,7 +48,7 @@ bool ShadowCubeMapFBO::init(size_t size){
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     
     for (size_t i = 0 ; i < 6 ; i++) 
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_R32F, size, size, 0, GL_RED, GL_FLOAT, NULL);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_R32F, size, size, 0, GL_RED, GL_FLOAT, (GLsizei)0);
     
 
     // Create the FBO
@@ -78,7 +78,7 @@ bool ShadowCubeMapFBO::init(size_t size){
 void ShadowCubeMapFBO::bindWrite(GLenum cubeFace){
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-    glViewport(0, 0, size, size);  // set the width/height of the shadow map
+    glViewport(0, 0, size, (GLsizei)size);  // set the width/height of the shadow map
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, cubeFace, shadowMap, 0);
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
 

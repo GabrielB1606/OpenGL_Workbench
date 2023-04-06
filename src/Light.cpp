@@ -11,7 +11,7 @@ Light::Light(glm::vec3 position, glm::vec3 color){
 
 }
 
-void Light::sendUniforms(ShaderProgram *shader, int index){
+void Light::sendUniforms(ShaderProgram *shader, size_t index){
 
     shader->setVec3f(this->position, ("lights[" + std::to_string(index) + "].position").c_str() );
     shader->setVec3f(this->color, ("lights[" + std::to_string(index) + "].color").c_str());
@@ -71,14 +71,18 @@ void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> 
 
     for (size_t i = 0; i < 6; i++){
         
-        shadowMap.bindWrite( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i );
+        shadowMap.bindWrite( GL_TEXTURE_CUBE_MAP_POSITIVE_X + (GLenum)i );
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
         lightView = glm::lookAt( this->position, this->position + cubeMapTargets[i], cubeMapUps[i] );
         shader->setMat4fv(lightView, "ViewMatrix", GL_FALSE);
         
-        for(BasicMesh* mesh : meshes)
-            mesh->render(shader);
+        for(BasicMesh* mesh : meshes){
+        
+            if( glm::length( glm::normalize(*(mesh->getTranslationReference())) - glm::normalize(this->position + cubeMapTargets[i]) ) <= 1.45f )
+                mesh->render(shader);
+        
+        }
 
     }
 

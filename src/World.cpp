@@ -138,7 +138,7 @@ void World::sendUniforms(ShaderProgram *shader){
     for(size_t i =0; i<lights.size(); i++)
         lights[i]->sendUniforms(shader, i);
 
-    shader->set1i( lights.size() , "nLights");
+    shader->set1i( (GLint)lights.size() , "nLights");
 
 }
 

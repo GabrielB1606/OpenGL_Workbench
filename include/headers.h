@@ -54,6 +54,6 @@
 #define SHADOW_PASS     2
 #define LIGHT_PASS      3
 
-#define SHADOW_MAP_SIZE 2048
+#define SHADOW_MAP_SIZE 1024
 
 #endif

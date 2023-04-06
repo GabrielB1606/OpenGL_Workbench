@@ -50,10 +50,10 @@ public:
     // loading related functions
     bool loadMesh(std::string filename);
     bool initFromScene(const aiScene* scene, std::string filename);
-    bool initSingleMesh(unsigned int meshIndex, const aiMesh* aiMeshPointer);
+    bool initSingleMesh(size_t meshIndex, const aiMesh* aiMeshPointer);
     bool initMaterials(const aiScene* scene, std::string textureDir);
-    void loadColors(const aiMaterial *mat, int index);
-    void loadTextures(std::string dir, const aiMaterial *mat, int index);
+    void loadColors(const aiMaterial *mat, size_t index);
+    void loadTextures(std::string dir, const aiMaterial *mat, size_t index);
     void populateBuffers();
     
     // draw/render functions

@@ -113,7 +113,7 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
     return 1;
 }
 
-bool BasicMesh::initSingleMesh(unsigned int meshIndex, const aiMesh *aiMeshPointer){
+bool BasicMesh::initSingleMesh(size_t meshIndex, const aiMesh *aiMeshPointer){
 
     // get the information of each vertex
     for( size_t i=0; i<aiMeshPointer->mNumVertices; i++ ){
@@ -162,7 +162,7 @@ bool BasicMesh::initMaterials(const aiScene* scene, std::string textureDir){
     return ans;
 }
 
-void BasicMesh::loadColors(const aiMaterial *mat, int index){
+void BasicMesh::loadColors(const aiMaterial *mat, size_t index){
     aiColor3D ambientColor(0.0f, 0.0f, 0.0f);
     glm::vec3 AllOnes(1.0f, 1.0f, 1.0f);
 
@@ -203,7 +203,7 @@ void BasicMesh::loadColors(const aiMaterial *mat, int index){
 
 }
 
-void BasicMesh::loadTextures(std::string dir, const aiMaterial *mat, int index){
+void BasicMesh::loadTextures(std::string dir, const aiMaterial *mat, size_t index){
 
     aiString path;
     std::string p;
