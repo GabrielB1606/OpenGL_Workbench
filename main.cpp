@@ -76,7 +76,7 @@ int main() {
 	mainCamera.sendUniforms( shaderPrograms[LIGHT_PASS] );
 	updateProjectionViewMatrix();
 
-	Plane p(4, 4);
+	Plane p(100, 100, glm::vec3(-50.f, -1.75f, -50.f));
 
 	// start counting time between frames
 	windowManager.getDeltaTime();
@@ -106,7 +106,7 @@ int main() {
 
 		// render meshes
 		w.renderMeshes(shaderPrograms[LIGHT_PASS]);
-		p.render( shaderPrograms[PLAIN_PROGRAM] );
+		p.render( shaderPrograms[LIGHT_PASS] );
 		
 		// render skybox
 		w.renderSkybox( mainCamera.getViewMatrix() );

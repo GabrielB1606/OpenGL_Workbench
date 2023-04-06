@@ -12,16 +12,18 @@ private:
     int div;
     float width;
 
-    unsigned int VAO, VBO, EBO;
+    GLuint VAO, VBO, EBO, TBO, NBO;
 
     std::vector<glm::vec3> vertices;
+    std::vector<glm::vec3> normals;
     std::vector<GLuint> indices;
+    std::vector<glm::vec2> texCoords;
 
     Material material;
 
 public:
-    Plane(int div, float width);
-    virtual ~Plane(){}
+    Plane(int div, float width, glm::vec3 init_pos = glm::vec3(0.f));
+    virtual ~Plane();
 
     void render(ShaderProgram* shader);
 };
