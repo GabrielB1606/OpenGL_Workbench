@@ -10,6 +10,7 @@
 #include "BasicMesh.h"
 #include "InputProcessor.h"
 #include "GraphicUserInterface.h"
+#include "Plane.h"
 
 // GLSL Version
 const short glMajVersion = 4, glMinVersion = 6;
@@ -74,6 +75,8 @@ int main() {
 	mainCamera.sendUniforms( shaderPrograms[LIGHT_PASS] );
 	updateProjectionViewMatrix();
 
+	Plane p(4, 4);
+
 	// start counting time between frames
 	windowManager.getDeltaTime();
 
@@ -92,6 +95,7 @@ int main() {
 		// these are pretty much light uniforms
 		w.sendUniforms(shaderPrograms[CORE_PROGRAM]);
 		w.sendUniforms( shaderPrograms[LIGHT_PASS] );
+		p.render( shaderPrograms[LIGHT_PASS] );
 
 		w.renderShadowCubeMaps(shaderPrograms[SHADOW_PASS]);
 
