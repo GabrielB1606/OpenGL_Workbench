@@ -25,11 +25,12 @@ World w(90.f, initial_width, inital_height, 0.1f, 1000.f);
 WindowManager windowManager(initial_width, inital_height, "window manager", glMajVersion, glMinVersion);
 
 // All shader programs used in the application
-std::array<ShaderProgram*, 4> shaderPrograms = {
+std::array<ShaderProgram*, 5> shaderPrograms = {
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/skybox/skybox.vert", "shaders/skybox/skybox.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/shadow_pass.vert", "shaders/shadow/shadow_pass.frag"),
-	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/light_pass.vert", "shaders/shadow/light_pass.frag")
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/light_pass.vert", "shaders/shadow/light_pass.frag"),
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/plain/vertex.vert", "shaders/plain/fragment.frag")
 };
 
 // camera
@@ -95,7 +96,6 @@ int main() {
 		// these are pretty much light uniforms
 		w.sendUniforms(shaderPrograms[CORE_PROGRAM]);
 		w.sendUniforms( shaderPrograms[LIGHT_PASS] );
-		p.render( shaderPrograms[LIGHT_PASS] );
 
 		w.renderShadowCubeMaps(shaderPrograms[SHADOW_PASS]);
 
@@ -106,6 +106,7 @@ int main() {
 
 		// render meshes
 		w.renderMeshes(shaderPrograms[LIGHT_PASS]);
+		p.render( shaderPrograms[PLAIN_PROGRAM] );
 		
 		// render skybox
 		w.renderSkybox( mainCamera.getViewMatrix() );
@@ -150,13 +151,14 @@ void updateProjectionViewMatrix(){
 	
 	shaderPrograms[CORE_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
 	shaderPrograms[LIGHT_PASS]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
+	shaderPrograms[PLAIN_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
 
 }
 
 void updateProjectionMatrix(){
 
-	shaderPrograms[SKYBOX_PROGRAM]->setMat4fv(w.getPerspectiveMatrix(), "ProjViewMatrix", GL_FALSE);
-	shaderPrograms[SHADOW_PASS]->setMat4fv(w.getPerspectiveMatrix(), "ProjViewMatrix", GL_FALSE);
+	shaderPrograms[SKYBOX_PROGRAM]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
+	shaderPrograms[SHADOW_PASS]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
 
 }
 
