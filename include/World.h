@@ -6,6 +6,7 @@
 #include "ShaderProgram.h"
 #include "Light.h"
 #include "BasicMesh.h"
+#include "Plane.h"
 #include "Skybox.h"
 
 class World{
@@ -17,6 +18,7 @@ private:
     std::vector<Light*> lights;
 
     Skybox* skybox = nullptr;
+    Plane* floor = nullptr;
 
     // Define the projection matrix
     float fov = 90.0f;  // Field of view in degrees
@@ -36,8 +38,11 @@ public:
 
     void setFOV(float fov);
     void setAspectRatio(float width, float height);
+    
     void createSkybox(ShaderProgram* skyboxProgram, std::string directory, std::string format = "jpg");
     void changeSkybox(std::string directory, std::string format = "jpg");
+
+    void createFloor();
 
     glm::mat4 getPerspectiveMatrix();
     std::vector<BasicMesh*> getMeshes();
@@ -57,6 +62,7 @@ public:
     void renderMeshes(ShaderProgram *shader);
     void renderSkybox(glm::mat4 viewMatrix);
     void renderShadowCubeMaps(ShaderProgram *shader);
+    void renderFloor(ShaderProgram *shader);
 
     bool* getShowSkyboxReference();
 };

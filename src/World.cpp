@@ -21,6 +21,12 @@ World::~World(){
     for(size_t i = 0; i < lights.size(); i++)
         delete lights[i];
 
+    if(skybox != nullptr)
+        delete skybox;
+
+    if(floor != nullptr)
+        delete floor;
+
 }
 
 float World::getWidth(){
@@ -60,6 +66,15 @@ void World::changeSkybox(std::string directory, std::string format){
 
     if( this->skybox != nullptr )
         this->skybox->loadCubeTextures(directory, format);
+
+}
+
+void World::createFloor(){
+
+    if( this->floor == nullptr )
+        delete this->floor;
+    
+    this->floor = new Plane(100, 100, glm::vec3(-50.f, -1.75f, -50.f));
 
 }
 
@@ -159,6 +174,13 @@ void World::renderShadowCubeMaps(ShaderProgram *shader){
 
     for( Light* l:lights )
         l->renderShadowCubeMap(shader, this->meshes);
+
+}
+
+void World::renderFloor(ShaderProgram *shader){
+
+    if(this->floor != nullptr)
+        this->floor->render(shader);
 
 }
 
