@@ -35,6 +35,7 @@ build/*
 
 #VSCode
 .vscode/*
+.fleet/*
 
 vendor/glfw-3.3.8.bin.WIN32/docs/*
 models/*
