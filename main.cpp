@@ -112,7 +112,7 @@ int main() {
 		w.renderSkybox( mainCamera.getViewMatrix() );
 
 		// render GUI
-		gui.draw(&w, &clear_color);
+		gui.draw(&w, &mainCamera, &input, &clear_color);
 		gui.render();
 
 		// end frame

@@ -84,3 +84,11 @@ void ViewCamera::rotate(glm::vec3 r){
     matrixUpdated = false;
 
 }
+
+float *ViewCamera::getSensitivyReference(){
+    return &this->sensitivity;
+}
+
+float *ViewCamera::getSpeedReference(){
+    return &this->speed;
+}

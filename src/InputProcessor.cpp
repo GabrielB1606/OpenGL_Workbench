@@ -75,3 +75,7 @@ bool InputProcessor::process(ViewCamera *cam, float delta){
 
     return ans;
 }
+
+bool *InputProcessor::getGodReference(){
+    return &god;
+}

@@ -59,7 +59,7 @@ GraphicUserInterface::~GraphicUserInterface(){
     ImGui::DestroyContext();
 }
 
-void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
+void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProcessor* input, ImVec4* clearColor){
 
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
@@ -79,6 +79,13 @@ void GraphicUserInterface::draw(World* world, ImVec4* clearColor){
 
         {
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+            ImGui::Separator();
+
+            ImGui::Checkbox("God Mode", input->getGodReference());
+
+            ImGui::DragFloat("Sensitivity", mainCamera->getSensitivyReference(), 0.5f, 0.f, FLT_MAX);
+            ImGui::DragFloat("Movement Speed", mainCamera->getSpeedReference(), 0.5f, 0.f, FLT_MAX);
 
             ImGui::Separator();
 

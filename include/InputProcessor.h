@@ -22,6 +22,8 @@ public:
     virtual ~InputProcessor(){}
 
     bool process(ViewCamera *cam, float delta);
+
+    bool* getGodReference();
 };
 
 #endif
