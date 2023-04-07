@@ -61,6 +61,7 @@ public:
     void sendUniforms(ShaderProgram *shader);
     void renderMeshes(ShaderProgram *shader);
     void renderSkybox(glm::mat4 viewMatrix);
+    void renderLights(ShaderProgram *shader);
     void renderShadowCubeMaps(ShaderProgram *shader);
     void renderFloor(ShaderProgram *shader);
 

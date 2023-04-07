@@ -2,6 +2,9 @@
 
 Light::Light(glm::vec3 position, glm::vec3 color){
 
+    // lightModel = new BasicMesh();
+    // lightModel->loadMesh("models/estrellica.obj");
+    
     this->position = position;
     this->color = color;
 
@@ -9,6 +12,12 @@ Light::Light(glm::vec3 position, glm::vec3 color){
 
     shadowMap.init(SHADOW_MAP_SIZE);
 
+
+}
+
+Light::~Light(){
+    if( lightModel != nullptr )
+        delete lightModel;
 }
 
 void Light::sendUniforms(ShaderProgram *shader, size_t index){
@@ -94,6 +103,9 @@ void Light::move(glm::vec3 v){
 
     this->position += v;
 
+    if( lightModel != nullptr )
+        lightModel->translate(v);
+
 }
 
 glm::vec3 *Light::getPositionReference(){
@@ -110,4 +122,25 @@ glm::vec3 *Light::getColorReference(){
 
 float *Light::getIntensityReference(){
     return &this->intensity;
+}
+
+void Light::attatchModel(BasicMesh *model){
+
+    this->lightModel = model;
+
+}
+
+void Light::loadMesh(std::string filePath){
+
+    this->lightModel = new BasicMesh();
+    this->lightModel->loadMesh(filePath);
+    this->lightModel->scaleUp(-glm::vec3(0.975f, 0.975f, 0.975f));
+	this->lightModel->rotate(glm::vec3(90.f, 0.f, 0.f));
+    
+}
+
+void Light::render(ShaderProgram *shader){
+
+    if(this->lightModel != nullptr)
+        this->lightModel->render(shader);
 }

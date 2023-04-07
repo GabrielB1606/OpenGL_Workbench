@@ -170,6 +170,13 @@ void World::renderSkybox(glm::mat4 viewMatrix){
 
 }
 
+void World::renderLights(ShaderProgram *shader){
+
+    for(Light* l:lights)
+        l->render(shader);
+
+}
+
 void World::renderShadowCubeMaps(ShaderProgram *shader){
 
     for( Light* l:lights )
