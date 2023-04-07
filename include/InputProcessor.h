@@ -11,6 +11,8 @@ private:
 
     WindowManager* window;
 
+    bool god = false;
+
     WindowManager::BTN_STATE lastStateRightBtn = WindowManager::BTN_STATE::RELEASE;
     double mouseX, mouseY;
     std::unordered_set<std::string> input;

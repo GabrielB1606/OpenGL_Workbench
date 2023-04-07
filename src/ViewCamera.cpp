@@ -59,6 +59,15 @@ void ViewCamera::move(glm::vec3 v){
 
 }
 
+void ViewCamera::walk(glm::vec3 v){
+
+    this->position += speed*(v.z + v.y)* glm::vec3( front.x, 0.f, front.z + abs(front.y) );
+    this->position += speed*v.x* glm::vec3( right.x + right.y, 0.f, right.z );
+
+    this->matrixUpdated = false;
+
+}
+
 void ViewCamera::rotate(glm::vec3 r){
 
     this->pitch += r.y * this->sensitivity;

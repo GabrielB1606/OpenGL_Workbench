@@ -34,6 +34,7 @@ public:
     void sendUniforms(ShaderProgram* shader);
 
     void move(glm::vec3 v);
+    void walk(glm::vec3 v);
     void rotate(glm::vec3 r);
 };
 

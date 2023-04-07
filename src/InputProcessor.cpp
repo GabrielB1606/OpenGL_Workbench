@@ -34,22 +34,42 @@ bool InputProcessor::process(ViewCamera *cam, float delta){
 		window->close();
 	
 	if( input.find("W") != input.end() ){
-		cam->move(glm::vec3(0.f, 0.f, delta));
+		
+		if(!god)
+			cam->walk(glm::vec3(0.f, 0.f, delta));
+		else
+			cam->move(glm::vec3(0.f, 0.f, delta));
+
         ans = true;
     }
 	
 	if( input.find("A") != input.end() ){
-		cam->move(glm::vec3(delta, 0.f, 0.f));
+
+		if(!god)
+			cam->walk(glm::vec3(delta, 0.f, 0.f));
+		else
+			cam->move(glm::vec3(delta, 0.f, 0.f));
+
         ans = true;
     }
 	
 	if( input.find("S") != input.end() ){
-		cam->move(glm::vec3(0.f, 0.f, -delta));
+
+		if(!god)
+			cam->walk(glm::vec3(0.f, 0.f, -delta));
+		else
+			cam->move(glm::vec3(0.f, 0.f, -delta));
+
         ans = true;
     }
 	
 	if( input.find("D") != input.end() ){
-		cam->move(glm::vec3(-delta, 0.f, 0.f));
+
+		if(!god)
+			cam->walk(glm::vec3(-delta, 0.f, 0.f));
+		else
+			cam->move(glm::vec3(-delta, 0.f, 0.f));
+
         ans = true;
     }
 
