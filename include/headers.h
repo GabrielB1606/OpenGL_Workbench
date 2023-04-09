@@ -54,7 +54,8 @@
 #define SKYBOX_PROGRAM  1
 #define SHADOW_PASS     2
 #define LIGHT_PASS      3
-#define PLAIN_PROGRAM   4   
+#define PLAIN_PROGRAM   4
+#define RENDER_REFLECT  5
 
 #define SHADOW_MAP_SIZE 1024
 

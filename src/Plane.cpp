@@ -2,6 +2,11 @@
 
 Plane::Plane(int div, float width, glm::vec3 init_pos){
 
+    reflection.init(2048, 2048);
+
+    this->position.x = init_pos.x + (width/2);
+    this->position.z = init_pos.z + (width/2);
+
     material.diffuseColor = glm::vec3(1.f);
     material.ambientColor = glm::vec3(1.f);
     material.specularColor = glm::vec3(1.f);
@@ -81,6 +86,8 @@ Plane::~Plane(){
 void Plane::render(ShaderProgram *shader){
 
     material.sendUniforms(shader);
+
+    reflection.bindRead(GL_TEXTURE0);
     shader->setMat4fv(glm::mat4(1.f), "ModelMatrix", false);
 
     shader->use();
@@ -90,5 +97,29 @@ void Plane::render(ShaderProgram *shader){
     glBindVertexArray(0);
 
     shader->stopUsing();
+
+}
+
+void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes){
+
+    // shader->setVec3f(*this->position, "lightPosition");
+
+    reflection.bindWrite();
+
+    glViewport(0, 0, 2048, 2048);
+
+    glm::mat4 projectionMatrix = glm::perspective(glm::radians(90.f), 1.f, 0.01f, 1000.f);
+    shader->setMat4fv( projectionMatrix, "ProjectionMatrix", GL_FALSE );
+    
+    glm::mat4 viewMatrix = glm::lookAt( this->position, this->position + glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 1.f) );
+    shader->setMat4fv(viewMatrix, "ViewMatrix", GL_FALSE);
+    
+    // glClearColor(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    
+    for(BasicMesh* mesh : meshes)
+        mesh->render(shader);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);    
 
 }

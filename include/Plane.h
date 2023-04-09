@@ -5,6 +5,8 @@
 
 #include "ShaderProgram.h"
 #include "Material.h"
+#include "SceneFBO.h"
+#include "BasicMesh.h"
 
 class Plane{
 private:
@@ -20,12 +22,16 @@ private:
     std::vector<glm::vec2> texCoords;
 
     Material material;
+    SceneFBO reflection;
+
+    glm::vec3 position = glm::vec3(0.f);
 
 public:
     Plane(int div, float width, glm::vec3 init_pos = glm::vec3(0.f));
     virtual ~Plane();
 
     void render(ShaderProgram* shader);
+    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes);
 };
 
 #endif

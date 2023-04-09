@@ -8,4 +8,5 @@ uniform sampler2D SceneTexture;
 
 void main(){
     fragColor = texture(SceneTexture, texCoord); 
+    // fragColor = vec4(1.0, 0.0, 0.0, 1.0); 
 }

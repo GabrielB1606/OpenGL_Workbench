@@ -30,6 +30,9 @@ class ShaderProgram{
         void setMat3fv(glm::mat3 value, const GLchar* name, GLboolean transpose);
         void set1f(GLfloat value, const GLchar* name);
         void set1i(GLint value, const GLchar* name);
+
+        // getters
+        GLuint getID();
 };
 
 #endif

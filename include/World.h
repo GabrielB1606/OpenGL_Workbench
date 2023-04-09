@@ -64,6 +64,7 @@ public:
     void renderLights(ShaderProgram *shader);
     void renderShadowCubeMaps(ShaderProgram *shader);
     void renderFloor(ShaderProgram *shader);
+    void renderReflections(ShaderProgram *shader);
 
     bool* getShowSkyboxReference();
 };

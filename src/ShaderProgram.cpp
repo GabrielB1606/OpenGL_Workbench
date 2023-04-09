@@ -89,6 +89,10 @@ void ShaderProgram::set1i(GLint value, const GLchar *name){
     this->stopUsing();
 }
 
+GLuint ShaderProgram::getID(){
+    return this->id;
+}
+
 std::string ShaderProgram::loadShaderSource(const char* filename){
     
     std::string temp = "";

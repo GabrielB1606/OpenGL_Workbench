@@ -11,6 +11,7 @@
 #include "InputProcessor.h"
 #include "GraphicUserInterface.h"
 #include "Plane.h"
+#include "SceneFBO.h"
 
 // GLSL Version
 const short glMajVersion = 4, glMinVersion = 6;
@@ -25,12 +26,13 @@ World w(90.f, initial_width, inital_height, 0.1f, 1000.f);
 WindowManager windowManager(initial_width, inital_height, "window manager", glMajVersion, glMinVersion);
 
 // All shader programs used in the application
-std::array<ShaderProgram*, 5> shaderPrograms = {
+std::array<ShaderProgram*, 6> shaderPrograms = {
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/skybox/skybox.vert", "shaders/skybox/skybox.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/shadow_pass.vert", "shaders/shadow/shadow_pass.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/light_pass.vert", "shaders/shadow/light_pass.frag"),
-	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/plain/vertex.vert", "shaders/plain/fragment.frag")
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/plain/vertex.vert", "shaders/plain/fragment.frag"),
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/reflect/reflect.vert", "shaders/reflect/reflect.frag")
 };
 
 // camera
@@ -100,19 +102,26 @@ int main() {
 		}
 
 		// these are pretty much light uniforms
-		w.sendUniforms(shaderPrograms[CORE_PROGRAM]);
+		w.sendUniforms( shaderPrograms[CORE_PROGRAM]);
 		w.sendUniforms( shaderPrograms[LIGHT_PASS] );
 
+		// render shadow cubemap
 		w.renderShadowCubeMaps(shaderPrograms[SHADOW_PASS]);
 
 		// clear main framebuffer
-		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 
+		// render the scene from the reflective surface
+		w.renderReflections(shaderPrograms[PLAIN_PROGRAM]);
+
+		// render the normal scene
+		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
 		// render meshes
 		w.renderMeshes(shaderPrograms[LIGHT_PASS]);
-		w.renderFloor(shaderPrograms[LIGHT_PASS]);
+		
+		// render the floor using the texture of the reflected scene
+		w.renderFloor(shaderPrograms[RENDER_REFLECT]);
 		// w.renderLights(shaderPrograms[PLAIN_PROGRAM]);
 		
 		// render skybox
@@ -159,6 +168,7 @@ void updateProjectionViewMatrix(){
 	shaderPrograms[CORE_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
 	shaderPrograms[LIGHT_PASS]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
 	shaderPrograms[PLAIN_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
+	shaderPrograms[RENDER_REFLECT]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
 
 }
 
