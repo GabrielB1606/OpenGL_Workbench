@@ -98,7 +98,7 @@ void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> 
         for(BasicMesh* mesh : meshes){
         
             // if( glm::length( glm::normalize(*(mesh->getTranslationReference())) - glm::normalize(this->position + cubeMapTargets[i]) ) <= 1.45f )
-            if( mesh->isShadowReceiver() ) 
+            if( mesh->isShadowReceiver() && mesh->getTranslationReference().get() != position.get() ) 
                 mesh->render(shader);
         
         }
