@@ -9,6 +9,7 @@
 #include <array>
 #include <unordered_set>
 #include <filesystem>
+#include <memory>
 
 // Graphic User Interface
 #include <imgui.h>

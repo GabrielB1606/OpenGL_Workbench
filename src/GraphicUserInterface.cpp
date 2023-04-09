@@ -110,10 +110,10 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
 
             if( selectedModel < world->getMeshes().size() ){
 
-                if (drawDragVec3(world->getMesh(selectedModel)->getTranslationReference(), "Transalate"))
+                if (drawDragVec3( world->getMesh(selectedModel)->getTranslationReference().get(), "Transalate"))
                     world->getMesh(selectedModel)->calculateModelMatrix();
 
-                if (drawDragVec3(world->getMesh(selectedModel)->getScaleReference(), "Scale", 0.045f))
+                if (drawDragVec3( world->getMesh(selectedModel)->getScaleReference().get(), "Scale", 0.045f))
                     world->getMesh(selectedModel)->calculateModelMatrix();
                 
                 if( ImGui::Button("Remove Mesh") ){

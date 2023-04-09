@@ -37,10 +37,10 @@ private:
     std::string filename;
 
     // transformations
-    glm::mat4 modelMatrix   = glm::mat4(1.f);
-    glm::vec3 translation   = glm::vec3(0.f);
-    glm::mat4 rotation      = glm::mat4(1.f);
-    glm::vec3 scale         = glm::vec3(1.f);
+    glm::mat4 modelMatrix = glm::mat4(1.f);
+    std::shared_ptr<glm::vec3> translation;
+    std::shared_ptr<glm::mat4> rotation;
+    std::shared_ptr<glm::vec3> scale;
 
 public:
     BasicMesh();
@@ -67,8 +67,8 @@ public:
     void scaleUp(glm::vec3 vec);
 
     // getters
-    glm::vec3* getTranslationReference();
-    glm::vec3* getScaleReference();
+    std::shared_ptr<glm::vec3> getTranslationReference();
+    std::shared_ptr<glm::vec3> getScaleReference();
     std::string getSubMeshName(size_t index);
     std::string getName();
     size_t getSubMeshesSize();

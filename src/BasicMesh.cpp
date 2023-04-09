@@ -9,6 +9,11 @@ BasicMesh::~BasicMesh(){
 }
 
 BasicMesh::BasicMesh(){
+
+    translation = std::shared_ptr<glm::vec3>(new glm::vec3(0.f));
+    rotation    = std::shared_ptr<glm::mat4>(new glm::mat4(1.f));
+    scale       = std::shared_ptr<glm::vec3>(new glm::vec3(1.f));
+
     calculateModelMatrix();
 }
 
@@ -309,23 +314,23 @@ void BasicMesh::sendUniforms(ShaderProgram *shader){
 void BasicMesh::calculateModelMatrix(){
 
     this->modelMatrix = glm::mat4(1.f);
-    this->modelMatrix = glm::translate( this->modelMatrix, this->translation );
-    this->modelMatrix = this->modelMatrix * this->rotation;
-    this->modelMatrix = glm::scale(this->modelMatrix, this->scale);
+    this->modelMatrix = glm::translate( this->modelMatrix, *this->translation.get() );
+    this->modelMatrix = this->modelMatrix * (*this->rotation.get());
+    this->modelMatrix = glm::scale(this->modelMatrix, *this->scale.get());
 
 }
 
 void BasicMesh::translate(glm::vec3 vec)
 {
-    this->translation += vec;
+    (*this->translation) += vec;
     this->calculateModelMatrix();
 }
 
 void BasicMesh::rotate(glm::vec3 vec){
 
-    this->rotation = glm::rotate( glm::mat4(1.f), glm::radians(vec.x), glm::vec3(1.f, 0.f, 0.f) ) * this->rotation;
-    this->rotation = glm::rotate( glm::mat4(1.f), glm::radians(vec.y), glm::vec3(0.f, 1.f, 0.f) ) * this->rotation;
-    this->rotation = glm::rotate( glm::mat4(1.f), glm::radians(vec.z), glm::vec3(0.f, 0.f, 1.f) ) * this->rotation;
+    (*this->rotation) = glm::rotate( glm::mat4(1.f), glm::radians(vec.x), glm::vec3(1.f, 0.f, 0.f) ) * (*this->rotation);
+    (*this->rotation) = glm::rotate( glm::mat4(1.f), glm::radians(vec.y), glm::vec3(0.f, 1.f, 0.f) ) * (*this->rotation);
+    (*this->rotation) = glm::rotate( glm::mat4(1.f), glm::radians(vec.z), glm::vec3(0.f, 0.f, 1.f) ) * (*this->rotation);
 
     this->calculateModelMatrix();
 
@@ -333,18 +338,18 @@ void BasicMesh::rotate(glm::vec3 vec){
 
 void BasicMesh::scaleUp(glm::vec3 vec){
 
-    this->scale += vec;
+    (*this->scale) += vec;
 
     this->calculateModelMatrix();
 
 }
 
-glm::vec3 *BasicMesh::getTranslationReference(){
-    return &this->translation;
+std::shared_ptr<glm::vec3> BasicMesh::getTranslationReference(){
+    return this->translation;
 }
 
-glm::vec3 *BasicMesh::getScaleReference(){
-    return &this->scale;
+std::shared_ptr<glm::vec3> BasicMesh::getScaleReference(){
+    return this->scale;
 }
 
 std::string BasicMesh::getSubMeshName(size_t index){
