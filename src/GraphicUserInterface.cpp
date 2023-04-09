@@ -140,7 +140,7 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
 
             if( (size_t)selectedLight < world->getLights().size() ){
                 
-                drawDragVec3(world->getLight(selectedLight)->getPositionReference(), "Position");
+                drawDragVec3(world->getLight(selectedLight)->getPositionReference().get(), "Position");
                 drawDragVec3(world->getLight(selectedLight)->getAttentionReference(), "Attenuation", 0.f, +FLT_MAX, 0.025f, {"x²", "x", "c"});
                 ImGui::Text( "Intensity: " );
                 ImGui::SameLine();

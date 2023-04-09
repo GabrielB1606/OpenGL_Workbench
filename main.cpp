@@ -53,6 +53,10 @@ int main() {
 	// background color
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	
+	// add default light
+	w.addLight( new Light(glm::vec3(0.f)) );
+	// w.getLight(0)->loadMesh("models\\estrellica.obj");
+	
 	// load a model
 	w.loadMesh("models\\Crate1.obj");
 	w.loadMesh("models\\estrellica.obj");
@@ -62,10 +66,8 @@ int main() {
 	w.getMeshes()[1]->translate(glm::vec3(1.f, 1.f, 2.5f));
 	w.getMeshes()[1]->scaleUp(-glm::vec3(0.975f, 0.975f, 0.975f));
 	w.getMeshes()[1]->rotate(glm::vec3(90.f, 0.f, 0.f));
-
-	// add default light
-	w.addLight( new Light(glm::vec3(0.f)) );
-	w.getLight(0)->loadMesh("models\\estrellica.obj");
+	w.getMeshes()[1]->attatchPosition( w.getLight(0)->getPositionReference() );
+	
 
 	// time between frames
 	float delta = 0.001f;
@@ -111,7 +113,7 @@ int main() {
 		// render meshes
 		w.renderMeshes(shaderPrograms[LIGHT_PASS]);
 		w.renderFloor(shaderPrograms[LIGHT_PASS]);
-		w.renderLights(shaderPrograms[PLAIN_PROGRAM]);
+		// w.renderLights(shaderPrograms[PLAIN_PROGRAM]);
 		
 		// render skybox
 		w.renderSkybox( mainCamera.getViewMatrix() );

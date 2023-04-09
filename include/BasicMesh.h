@@ -42,6 +42,9 @@ private:
     std::shared_ptr<glm::mat4> rotation;
     std::shared_ptr<glm::vec3> scale;
 
+    bool shadowCaster = false;
+    bool shadowReceiver = true;
+
 public:
     BasicMesh();
     ~BasicMesh();
@@ -72,6 +75,13 @@ public:
     std::string getSubMeshName(size_t index);
     std::string getName();
     size_t getSubMeshesSize();
+    bool isShadowCaster();
+    bool isShadowReceiver();
+
+    // setters
+    void setShadowCaster(bool b);
+    void setShadowReceiver(bool b);
+    void attatchPosition( std::shared_ptr<glm::vec3> position );
 };
 
 

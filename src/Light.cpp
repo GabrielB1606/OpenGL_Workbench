@@ -5,7 +5,7 @@ Light::Light(glm::vec3 position, glm::vec3 color){
     // lightModel = new BasicMesh();
     // lightModel->loadMesh("models/estrellica.obj");
     
-    this->position = position;
+    this->position = std::shared_ptr<glm::vec3>( new glm::vec3(position) );
     this->color = color;
 
     this->attenuation = glm::vec3(0.f, 0.f, 1.f);
@@ -15,14 +15,23 @@ Light::Light(glm::vec3 position, glm::vec3 color){
 
 }
 
+Light::Light(std::shared_ptr<glm::vec3> position_ptr, glm::vec3 color){
+    this->position = position_ptr;
+    this->color = color;
+
+    this->attenuation = glm::vec3(0.f, 0.f, 1.f);
+
+    shadowMap.init(SHADOW_MAP_SIZE);
+}
+
 Light::~Light(){
-    if( lightModel != nullptr )
-        delete lightModel;
+    // if( lightModel != nullptr )
+    //     delete lightModel;
 }
 
 void Light::sendUniforms(ShaderProgram *shader, size_t index){
 
-    shader->setVec3f(this->position, ("lights[" + std::to_string(index) + "].position").c_str() );
+    shader->setVec3f(*this->position, ("lights[" + std::to_string(index) + "].position").c_str() );
     shader->setVec3f(this->color, ("lights[" + std::to_string(index) + "].color").c_str());
     shader->set1f(this->intensity, ("lights[" + std::to_string(index) + "].intensity").c_str());
     
@@ -72,7 +81,7 @@ glm::vec3 cubeMapUps[6] = {
 
 void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> meshes){
 
-    shader->setVec3f(this->position, "lightPosition");
+    shader->setVec3f(*this->position, "lightPosition");
     shader->setMat4fv( glm::perspective(glm::radians(90.f), 1.f, 0.1f, 1000.f), "ProjectionMatrix", GL_FALSE );
     glClearColor(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
 
@@ -83,12 +92,13 @@ void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> 
         shadowMap.bindWrite( GL_TEXTURE_CUBE_MAP_POSITIVE_X + (GLenum)i );
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-        lightView = glm::lookAt( this->position, this->position + cubeMapTargets[i], cubeMapUps[i] );
+        lightView = glm::lookAt( *this->position, *this->position + cubeMapTargets[i], cubeMapUps[i] );
         shader->setMat4fv(lightView, "ViewMatrix", GL_FALSE);
         
         for(BasicMesh* mesh : meshes){
         
             // if( glm::length( glm::normalize(*(mesh->getTranslationReference())) - glm::normalize(this->position + cubeMapTargets[i]) ) <= 1.45f )
+            if( mesh->isShadowReceiver() ) 
                 mesh->render(shader);
         
         }
@@ -101,15 +111,15 @@ void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> 
 
 void Light::move(glm::vec3 v){
 
-    this->position += v;
+    *this->position += v;
 
-    if( lightModel != nullptr )
-        lightModel->translate(v);
+    // if( lightModel != nullptr )
+    //     lightModel->translate(v);
 
 }
 
-glm::vec3 *Light::getPositionReference(){
-    return &this->position;
+std::shared_ptr<glm::vec3> Light::getPositionReference(){
+    return this->position;
 }
 
 glm::vec3 *Light::getAttentionReference(){
@@ -124,23 +134,9 @@ float *Light::getIntensityReference(){
     return &this->intensity;
 }
 
-void Light::attatchModel(BasicMesh *model){
+void Light::attatchPosition(std::shared_ptr<glm::vec3> position){
 
-    this->lightModel = model;
+    this->position.reset();
+    this->position = position;
 
-}
-
-void Light::loadMesh(std::string filePath){
-
-    this->lightModel = new BasicMesh();
-    this->lightModel->loadMesh(filePath);
-    this->lightModel->scaleUp(-glm::vec3(0.975f, 0.975f, 0.975f));
-	this->lightModel->rotate(glm::vec3(90.f, 0.f, 0.f));
-    
-}
-
-void Light::render(ShaderProgram *shader){
-
-    if(this->lightModel != nullptr)
-        this->lightModel->render(shader);
 }

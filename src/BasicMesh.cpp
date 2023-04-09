@@ -367,3 +367,24 @@ std::string BasicMesh::getName(){
 size_t BasicMesh::getSubMeshesSize(){
     return this->meshes.size();
 }
+
+bool BasicMesh::isShadowCaster(){
+    return this->shadowCaster;
+}
+
+bool BasicMesh::isShadowReceiver(){
+    return this->shadowReceiver;
+}
+
+void BasicMesh::setShadowCaster(bool b){
+    this->shadowCaster = b;
+}
+
+void BasicMesh::setShadowReceiver(bool b){
+    this->shadowReceiver = b;
+}
+
+void BasicMesh::attatchPosition(std::shared_ptr<glm::vec3> position){
+    this->translation.reset();
+    this->translation = position;
+}
