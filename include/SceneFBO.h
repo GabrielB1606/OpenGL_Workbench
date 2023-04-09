@@ -15,7 +15,7 @@ public:
     virtual ~SceneFBO();
 
     bool init(size_t width, size_t height);
-    void bindWrite(GLenum cubeFace);
+    void bindWrite();
     void bindRead(GLenum textureUnit);
 };
 
