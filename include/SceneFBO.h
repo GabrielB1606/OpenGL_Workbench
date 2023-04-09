@@ -3,6 +3,9 @@
 
 #include "headers.h"
 
+#include "ShaderProgram.h"
+#include "BasicMesh.h"
+
 class SceneFBO{
 private:
 
