@@ -174,6 +174,7 @@ add_executable(${PROJECT_NAME}
     src/Texture.cpp
     src/Material.cpp
     src/ShadowCubeMapFBO.cpp
+    src/SceneFBO.cpp
     src/BasicMesh.cpp
     src/Light.cpp
     src/ViewCamera.cpp
