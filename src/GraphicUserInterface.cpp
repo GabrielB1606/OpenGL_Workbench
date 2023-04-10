@@ -110,6 +110,38 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
 
             if( selectedModel < world->getMeshes().size() ){
 
+                // float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+                ImGui::PushButtonRepeat(true);
+                ImGui::Text( "Rotate: " );
+                ImGui::SameLine(0.f, 10.f);
+
+                ImGui::Text( "x:" );
+                ImGui::SameLine(0.f, 0.f);
+                if (ImGui::Button("-##rotate x-"))
+                    world->getMesh(selectedModel)->rotate(glm::vec3(-5.f, 0.f, 0.f));
+                ImGui::SameLine();
+                if (ImGui::Button("+##rotate x+"))
+                    world->getMesh(selectedModel)->rotate(glm::vec3(5.f, 0.f, 0.f));
+                ImGui::SameLine(0.f, 10.f);
+
+                ImGui::Text( "y:" );
+                ImGui::SameLine(0.f, 0.f);
+                if (ImGui::Button("-##rotate y-"))
+                    world->getMesh(selectedModel)->rotate(glm::vec3(0.f, -5.f, 0.f));
+                ImGui::SameLine();
+                if (ImGui::Button("+##rotate y+"))
+                    world->getMesh(selectedModel)->rotate(glm::vec3(0.f, 5.f, 0.f));
+                ImGui::SameLine(0.f, 10.f);
+
+                ImGui::Text( "z:" );
+                ImGui::SameLine(0.f, 0.f);
+                if (ImGui::Button("-##rotate z-"))
+                    world->getMesh(selectedModel)->rotate(glm::vec3(0.f, 0.f, -5.f));
+                ImGui::SameLine();
+                if (ImGui::Button("+##rotate z+"))
+                    world->getMesh(selectedModel)->rotate(glm::vec3(0.f, 0.f, 5.f));
+                ImGui::PopButtonRepeat();
+
                 if (drawDragVec3( world->getMesh(selectedModel)->getTranslationReference().get(), "Transalate"))
                     world->getMesh(selectedModel)->calculateModelMatrix();
 
