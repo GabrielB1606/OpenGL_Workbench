@@ -1,6 +1,7 @@
 #version 460 core
 
 layout (location = 0) in vec3 aPos;
+// layout (location = 1) in vec2 aTexCoords;
 
 uniform mat4 ProjViewMatrix;
 uniform mat4 ModelMatrix;
@@ -12,4 +13,5 @@ void main() {
     gl_Position = pos;
 
 	texCoord = vec2((aPos.x+50)/100, (aPos.z+50)/100);
+    // texCoord = normalize(texCoord);
 }

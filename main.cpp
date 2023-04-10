@@ -113,8 +113,9 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 
 		// render the scene from the reflective surface
-		w.renderReflections(shaderPrograms[PLAIN_PROGRAM]);
-
+		w.renderReflections(shaderPrograms[LIGHT_PASS], mainCamera);
+		updateProjectionViewMatrix();
+		
 		// render the normal scene
 		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
 		// render meshes

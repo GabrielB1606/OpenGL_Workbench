@@ -100,7 +100,7 @@ void Plane::render(ShaderProgram *shader){
 
 }
 
-void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes){
+void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewCamera cam){
 
     // shader->setVec3f(*this->position, "lightPosition");
 
@@ -108,12 +108,34 @@ void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes){
 
     glViewport(0, 0, 2048, 2048);
 
-    glm::mat4 projectionMatrix = glm::perspective(glm::radians(90.f), 1.f, 0.01f, 1000.f);
+    // Compute the mirror plane by using the normal of the mirror quad
+    glm::vec3 mirrorNormal = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec4 mirrorPlane = glm::vec4(mirrorNormal, 0.0f);
+
+
+    // Compute the reflected camera position
+    glm::vec4 reflectedCameraPosition = glm::reflect(glm::vec4(cam.getPosition(), 1.0f), mirrorPlane);
+
+    // Compute the reflected camera target
+    // glm::vec4 reflectedCameraTarget = glm::reflect(glm::vec4(cam.getTarget(), 1.0f), mirrorNormal);
+
+    // Compute the reflected camera up vector
+    glm::vec4 reflectedCameraUp = glm::reflect(glm::vec4(cam.getUp(), 0.0f), mirrorPlane);
+
+
+    // glm::mat4 projectionMatrix = glm::perspective(glm::radians(90.f), 1.f, 0.01f, 1000.f);
+    // glm::mat4 projectionMatrix = glm::perspective(glm::radians(90.f), 1.f, 0.01f, 1000.f);
+    glm::mat4 projectionMatrix = glm::ortho(-50.f, 50.0f, -50.0f, 50.0f, -10.f, 1000.0f);
     shader->setMat4fv( projectionMatrix, "ProjectionMatrix", GL_FALSE );
     
-    glm::mat4 viewMatrix = glm::lookAt( this->position, this->position + glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 1.f) );
+    // glm::mat4 viewMatrix = glm::lookAt(this->position, position + glm::vec3(reflectedCameraTarget), glm::vec3(reflectedCameraUp));
+    // glm::mat4 viewMatrix = glm::lookAt( this->position, this->position + glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 1.f) );
+    glm::mat4 viewMatrix = glm::lookAt( glm::vec3(0.f, -1.75f, 0.f), glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 1.f) );
     shader->setMat4fv(viewMatrix, "ViewMatrix", GL_FALSE);
     
+    glm::mat4 projViewMatrix = projectionMatrix * viewMatrix;
+    shader->setMat4fv(projViewMatrix, "ProjViewMatrix", GL_FALSE);
+
     // glClearColor(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
     

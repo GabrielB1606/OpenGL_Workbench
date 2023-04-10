@@ -7,6 +7,7 @@
 #include "Material.h"
 #include "SceneFBO.h"
 #include "BasicMesh.h"
+#include "ViewCamera.h"
 
 class Plane{
 private:
@@ -31,7 +32,7 @@ public:
     virtual ~Plane();
 
     void render(ShaderProgram* shader);
-    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes);
+    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera cam);
 };
 
 #endif

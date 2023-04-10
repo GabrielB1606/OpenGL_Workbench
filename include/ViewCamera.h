@@ -30,6 +30,8 @@ public:
     glm::mat4 calculateViewMatrix();
     glm::mat4 getViewMatrix();
     glm::vec3 getPosition();
+    glm::vec3 getTarget();
+    glm::vec3 getUp();
 
     void sendUniforms(ShaderProgram* shader);
 

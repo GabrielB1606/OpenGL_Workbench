@@ -191,9 +191,9 @@ void World::renderFloor(ShaderProgram *shader){
 
 }
 
-void World::renderReflections(ShaderProgram *shader){
+void World::renderReflections(ShaderProgram *shader, ViewCamera cam){
     if(this->floor != nullptr)
-        this->floor->mirror(shader, this->meshes);
+        this->floor->mirror(shader, this->meshes, cam);
 }
 
 bool *World::getShowSkyboxReference(){

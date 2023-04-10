@@ -44,6 +44,20 @@ glm::vec3 ViewCamera::getPosition(){
     return this->position;
 }
 
+glm::vec3 ViewCamera::getTarget(){
+    if(!matrixUpdated)
+        calculateViewMatrix();
+
+    return position+front;
+}
+
+glm::vec3 ViewCamera::getUp(){
+    if(!matrixUpdated)
+        calculateViewMatrix();
+        
+    return up;
+}
+
 void ViewCamera::sendUniforms(ShaderProgram *shader){
     shader->setMat4fv(this->getViewMatrix(), "ViewMatrix", GL_FALSE);
     shader->setVec3f(this->getPosition(), "cameraPosition" );
