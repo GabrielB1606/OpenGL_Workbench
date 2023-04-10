@@ -110,14 +110,14 @@ int main() {
 
 		// clear main framebuffer
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
 
 		// render the scene from the reflective surface
 		w.renderReflections(shaderPrograms[LIGHT_PASS], mainCamera);
 		updateProjectionViewMatrix();
 		
 		// render the normal scene
-		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
 		// render meshes
 		w.renderMeshes(shaderPrograms[LIGHT_PASS]);
 		
@@ -159,6 +159,9 @@ void configOpenGL(){
 	glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
+
+	// mirrors
+	glEnable(GL_STENCIL_TEST);
 
 }
 

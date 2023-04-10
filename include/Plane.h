@@ -32,7 +32,7 @@ public:
     virtual ~Plane();
 
     void render(ShaderProgram* shader);
-    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera cam);
+    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera cam, glm::mat4 projectionMatrix);
 };
 
 #endif

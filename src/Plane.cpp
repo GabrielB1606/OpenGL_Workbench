@@ -100,50 +100,47 @@ void Plane::render(ShaderProgram *shader){
 
 }
 
-void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewCamera cam){
+void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewCamera cam, glm::mat4 projectionMatrix){
 
-    // shader->setVec3f(*this->position, "lightPosition");
+    glClearStencil(0);
+    glStencilFunc(GL_ALWAYS, 1, 0xFF);
+    glStencilMask(0xFF);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
-    reflection.bindWrite();
+    this->render(shader);
 
-    glViewport(0, 0, 2048, 2048);
+    glStencilFunc(GL_EQUAL, 1, 0xFF);
+    glStencilMask(0x00);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 
-    // Compute the mirror plane by using the normal of the mirror quad
-    glm::vec3 mirrorNormal = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec4 mirrorPlane = glm::vec4(mirrorNormal, 0.0f);
+    glDisable(GL_DEPTH_TEST);
+
+    // Normalize the normal vector
+    glm::vec3 n = glm::normalize( glm::vec3(0.f, 1.f, 0.f) );
+
+    // Compute the reflection matrix using the formula: I - 2 * (N * N^T)
+    float nxn[16] = {
+        n.x * n.x, n.x * n.y, n.x * n.z, 0.0f,
+        n.x * n.y, n.y * n.y, n.y * n.z, 0.0f,
+        n.x * n.z, n.y * n.z, n.z * n.z, 0.0f,
+        0.0f,       0.0f,       0.0f,       1.0f
+    };
+
+    glm::mat4 reflectionMatrix = glm::mat4(1.0f) - 2.0f * glm::make_mat4(nxn);
+    // Translate the reflection matrix by the position of the quad
+    reflectionMatrix[3] = glm::vec4(-2.0f * position * n, 1.0f);
 
 
-    // Compute the reflected camera position
-    glm::vec4 reflectedCameraPosition = glm::reflect(glm::vec4(cam.getPosition(), 1.0f), mirrorPlane);
-
-    // Compute the reflected camera target
-    glm::vec4 reflectedCameraTarget = glm::reflect(glm::vec4(cam.getTarget(), 1.0f), mirrorPlane);
-
-    // Compute the reflected camera up vector
-    glm::vec4 reflectedCameraUp = glm::reflect(glm::vec4(cam.getUp(), 0.0f), mirrorPlane);
-
-
-    // glm::mat4 projectionMatrix = glm::perspective(glm::radians(90.f), 1.f, 0.01f, 1000.f);
-    // glm::mat4 projectionMatrix = glm::perspective(glm::radians(90.f), 1.f, 0.01f, 1000.f);
-    glm::mat4 projectionMatrix = glm::ortho(-50.f, 50.0f, -50.0f, 50.0f, -1000.f, 100.f);
-    shader->setMat4fv( projectionMatrix, "ProjectionMatrix", GL_FALSE );
-    
-    // glm::mat4 viewMatrix = glm::lookAt(this->position, position + glm::reflect(cam.getTarget(), mirrorNormal) , glm::vec3(0.f, 0.f, 1.f));
-    // glm::mat4 viewMatrix = glm::lookAt(glm::vec3(reflectedCameraPosition), glm::vec3(reflectedCameraTarget), glm::vec3(reflectedCameraUp));
-    glm::mat4 viewMatrix = glm::lookAt(glm::vec3(reflectedCameraPosition), glm::vec3(reflectedCameraTarget), -cam.getUp());
-    // glm::mat4 viewMatrix = glm::lookAt( this->position, this->position + glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 1.f) );
-    // glm::mat4 viewMatrix = glm::lookAt( glm::vec3(0.f, -1.75f, 0.f), glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 1.f) );
-    shader->setMat4fv(viewMatrix, "ViewMatrix", GL_FALSE);
-    
+    glm::mat4 viewMatrix = reflectionMatrix * cam.getViewMatrix();
     glm::mat4 projViewMatrix = projectionMatrix * viewMatrix;
     shader->setMat4fv(projViewMatrix, "ProjViewMatrix", GL_FALSE);
-
-    // glClearColor(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
-    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
     
-    for(BasicMesh* mesh : meshes)
-        mesh->render(shader);
+    glEnable(GL_DEPTH_TEST);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);    
+    for(BasicMesh* mesh : meshes)
+        mesh->render(shader);  
+
+    glStencilMask(0xFF);
+    glStencilFunc(GL_ALWAYS, 0, 0xFF);
 
 }
