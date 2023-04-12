@@ -193,7 +193,7 @@ void World::renderFloor(ShaderProgram *shader){
 
 void World::renderReflections(ShaderProgram *shader, ViewCamera cam){
     if(this->floor != nullptr)
-        this->floor->mirror(shader, this->meshes, cam, this->getPerspectiveMatrix());
+        this->floor->mirror(shader, this->meshes, cam, this->getPerspectiveMatrix(), this->skybox);
 }
 
 bool *World::getShowSkyboxReference(){

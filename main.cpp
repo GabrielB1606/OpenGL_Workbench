@@ -162,6 +162,7 @@ void configOpenGL(){
 
 	// mirrors
 	glEnable(GL_STENCIL_TEST);
+	// glEnable(GL_CLIP_DISTANCE0);
 
 }
 

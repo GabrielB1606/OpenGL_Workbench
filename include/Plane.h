@@ -8,6 +8,7 @@
 #include "SceneFBO.h"
 #include "BasicMesh.h"
 #include "ViewCamera.h"
+#include "Skybox.h"
 
 class Plane{
 private:
@@ -32,7 +33,7 @@ public:
     virtual ~Plane();
 
     void render(ShaderProgram* shader);
-    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera cam, glm::mat4 projectionMatrix);
+    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera cam, glm::mat4 projectionMatrix, Skybox* sky = nullptr);
 };
 
 #endif
