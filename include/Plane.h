@@ -24,7 +24,9 @@ private:
     std::vector<glm::vec2> texCoords;
 
     Material material;
-    SceneFBO reflection;
+    glm::mat4 reflection;
+    glm::vec4 plane;
+    glm::vec3 normal;
 
     glm::vec3 position = glm::vec3(0.f);
 

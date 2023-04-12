@@ -2,10 +2,22 @@
 
 Plane::Plane(int div, float width, glm::vec3 init_pos){
 
-    reflection.init(2048, 2048);
-
     this->position.x = init_pos.x + (width/2);
+    this->position.y = init_pos.y;
     this->position.z = init_pos.z + (width/2);
+
+    // Normalize the normal vector
+    this->normal = glm::normalize( glm::vec3(0.f, 1.f, 0.f) );
+    this->plane = { this->normal.x, this->normal.y, this->normal.z, -glm::dot(this->position, this->normal) };
+
+    this->reflection = glm::mat4{
+        1-2*plane.x*plane.x,  -2*plane.x*plane.y,  -2*plane.x*plane.z, -2*plane.x*plane.w,
+         -2*plane.y*plane.x, 1-2*plane.y*plane.y,  -2*plane.y*plane.z, -2*plane.y*plane.w,
+         -2*plane.z*plane.x,  -2*plane.z*plane.y, 1-2*plane.z*plane.z, -2*plane.z*plane.w,
+                          0,                   0,                   0,                  1
+    };
+
+    this->reflection = glm::transpose(this->reflection);
 
     material.diffuseColor = glm::vec3(1.f);
     material.ambientColor = glm::vec3(1.f);
@@ -87,13 +99,12 @@ void Plane::render(ShaderProgram *shader){
 
     material.sendUniforms(shader);
 
-    reflection.bindRead(GL_TEXTURE0);
     shader->setMat4fv(glm::mat4(1.f), "ModelMatrix", false);
 
     shader->use();
 
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (GLsizei)0);
     glBindVertexArray(0);
 
     shader->stopUsing();
@@ -115,26 +126,13 @@ void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewC
 
     glDisable(GL_DEPTH_TEST);
 
-    // Normalize the normal vector
-    glm::vec3 n = glm::normalize( glm::vec3(0.f, 1.f, 0.f) );
-    glm::vec4 plane = { n.x, n.y, n.z, -glm::dot(glm::vec3(0.f, -1.75f, 0.f), n) };
-
-    glm::mat4 reflectionMatrix = glm::mat4{
-        1-2*plane.x*plane.x,  -2*plane.x*plane.y,  -2*plane.x*plane.z, -2*plane.x*plane.w,
-         -2*plane.y*plane.x, 1-2*plane.y*plane.y,  -2*plane.y*plane.z, -2*plane.y*plane.w,
-         -2*plane.z*plane.x,  -2*plane.z*plane.y, 1-2*plane.z*plane.z, -2*plane.z*plane.w,
-                          0,                   0,                   0,                  1
-    };
-
-    reflectionMatrix = glm::transpose(reflectionMatrix);
-
-    glm::mat4 projViewMatrix = projectionMatrix * cam.getViewMatrix() * reflectionMatrix;
+    glm::mat4 projViewMatrix = projectionMatrix * cam.getViewMatrix() * this->reflection;
     shader->setMat4fv(projViewMatrix, "ProjViewMatrix", GL_FALSE);
 
     glCullFace(GL_FRONT); // Invert front face culling
 
     if(sky != nullptr)
-        sky->render(cam.getViewMatrix() * reflectionMatrix);
+        sky->render(cam.getViewMatrix() * this->reflection);
 
     for(BasicMesh* mesh : meshes)
         mesh->render(shader);  
