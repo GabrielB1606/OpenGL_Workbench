@@ -45,7 +45,6 @@ InputProcessor input(&windowManager);
 GraphicUserInterface gui(&windowManager, glMajVersion, glMinVersion);
 
 void configOpenGL();
-void updateProjectionViewMatrix();
 
 int main() {
 	
@@ -81,7 +80,6 @@ int main() {
 	// send uniforms
 	mainCamera.sendUniforms( shaderPrograms[CORE_PROGRAM] );
 	mainCamera.sendUniforms( shaderPrograms[LIGHT_PASS] );
-	updateProjectionViewMatrix();
 
 	w.createFloor();
 
@@ -98,7 +96,6 @@ int main() {
 		if(input.process(&mainCamera, delta)){
 			mainCamera.sendUniforms( shaderPrograms[CORE_PROGRAM] );
 			mainCamera.sendUniforms( shaderPrograms[LIGHT_PASS] );
-			updateProjectionViewMatrix();
 		}
 
 		// these are pretty much light uniforms
@@ -115,7 +112,6 @@ int main() {
 
 		// render the scene from the reflective surface
 		w.renderReflections(shaderPrograms[LIGHT_PASS], &mainCamera);
-		updateProjectionViewMatrix();
 		
 		// render the normal scene
 		// render meshes
@@ -163,24 +159,6 @@ void configOpenGL(){
 	// mirrors
 	glEnable(GL_STENCIL_TEST);
 	// glEnable(GL_CLIP_DISTANCE0);
-
-}
-
-void updateProjectionViewMatrix(){
-
-	// glm::mat4 ProjView = w.getPerspectiveMatrix() * mainCamera.getViewMatrix();
-	
-	// shaderPrograms[CORE_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
-	// shaderPrograms[LIGHT_PASS]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
-	// shaderPrograms[PLAIN_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
-	// shaderPrograms[RENDER_REFLECT]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
-
-}
-
-void updateProjectionMatrix(){
-
-	// shaderPrograms[SKYBOX_PROGRAM]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
-	// shaderPrograms[SHADOW_PASS]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
 
 }
 
