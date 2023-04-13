@@ -114,15 +114,15 @@ int main() {
 		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
 
 		// render the scene from the reflective surface
-		w.renderReflections(shaderPrograms[LIGHT_PASS], mainCamera);
+		w.renderReflections(shaderPrograms[LIGHT_PASS], &mainCamera);
 		updateProjectionViewMatrix();
 		
 		// render the normal scene
 		// render meshes
-		w.renderMeshes(shaderPrograms[LIGHT_PASS]);
+		w.renderMeshes(shaderPrograms[LIGHT_PASS], &mainCamera);
 		
 		// render the floor using the texture of the reflected scene
-		w.renderFloor(shaderPrograms[RENDER_REFLECT]);
+		// w.renderFloor(shaderPrograms[RENDER_REFLECT]);
 		// w.renderLights(shaderPrograms[PLAIN_PROGRAM]);
 		
 		// render skybox

@@ -38,7 +38,7 @@ public:
 
     void render(ShaderProgram* shader);
     void render(ShaderProgram* shader, glm::mat4 projViewMatrix);
-    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera cam, glm::mat4 projectionMatrix, Skybox* sky = nullptr);
+    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera *cam, glm::mat4 projectionMatrix, Skybox* sky = nullptr);
 };
 
 #endif

@@ -112,14 +112,14 @@ void Plane::render(ShaderProgram *shader){
 
 }
 
-void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewCamera cam, glm::mat4 projectionMatrix, Skybox* sky){
+void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewCamera *cam, glm::mat4 projectionMatrix, Skybox* sky){
 
     // glClearStencil(0);
     glStencilFunc(GL_ALWAYS, 1, 0xFF);
     glStencilMask(0xFF);
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
-    this->render(shader);
+    this->render(shader, projectionMatrix * cam->getViewMatrix());
 
     glStencilFunc(GL_EQUAL, 1, 0xFF);
     glStencilMask(0x00);
@@ -127,16 +127,16 @@ void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewC
 
     glDisable(GL_DEPTH_TEST);
 
-    glm::mat4 projViewMatrix = projectionMatrix * cam.getViewMatrix() * this->reflection;
-    shader->setMat4fv(projViewMatrix, "ProjViewMatrix", GL_FALSE);
+    glm::mat4 projViewMatrix = projectionMatrix * cam->getViewMatrix() * this->reflection;
+
 
     glCullFace(GL_FRONT); // Invert front face culling
 
     if(sky != nullptr)
-        sky->render(cam.getViewMatrix() * this->reflection);
+        sky->render(cam->getViewMatrix() * this->reflection);
 
     for(BasicMesh* mesh : meshes)
-        mesh->render(shader);  
+        mesh->render(shader, projViewMatrix);  
     
     glCullFace(GL_BACK); // Revert front face culling to its original state
 

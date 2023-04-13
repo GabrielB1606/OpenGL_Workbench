@@ -157,10 +157,12 @@ void World::sendUniforms(ShaderProgram *shader){
 
 }
 
-void World::renderMeshes(ShaderProgram *shader){
+void World::renderMeshes(ShaderProgram *shader, ViewCamera* cam){
+
+    glm::mat4 projView = this->getPerspectiveMatrix() * cam->getViewMatrix();
 
     for(BasicMesh* m: this->meshes)
-        m->render(shader);
+        m->render(shader, projView);
 }
 
 void World::renderSkybox(glm::mat4 viewMatrix){
@@ -191,7 +193,7 @@ void World::renderFloor(ShaderProgram *shader){
 
 }
 
-void World::renderReflections(ShaderProgram *shader, ViewCamera cam){
+void World::renderReflections(ShaderProgram *shader, ViewCamera *cam){
     if(this->floor != nullptr)
         this->floor->mirror(shader, this->meshes, cam, this->getPerspectiveMatrix(), this->skybox);
 }
