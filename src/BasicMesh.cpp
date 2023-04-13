@@ -309,6 +309,7 @@ void BasicMesh::render(ShaderProgram *shader){
 void BasicMesh::sendUniforms(ShaderProgram *shader){
 
     shader->setMat4fv(this->modelMatrix, "ModelMatrix", false);
+    shader->setMat4fv(this->invModelMatrix, "InverseModelMatrix", false);
 
 }
 
@@ -318,6 +319,7 @@ void BasicMesh::calculateModelMatrix(){
     this->modelMatrix = glm::translate( this->modelMatrix, *this->translation.get() );
     this->modelMatrix = this->modelMatrix * (*this->rotation.get());
     this->modelMatrix = glm::scale(this->modelMatrix, *this->scale.get());
+    this->invModelMatrix = glm::inverse(this->modelMatrix);
 
 }
 

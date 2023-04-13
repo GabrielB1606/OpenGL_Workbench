@@ -7,6 +7,7 @@ layout (location = 2) in vec3 aNormal;
 uniform mat4 ProjViewMatrix;
 uniform mat4 ModelMatrix;
 uniform mat4 ViewMatrix;
+uniform mat4 InverseModelMatrix;
 
 out vec2 texCoord;
 out vec3 fragPosition;
@@ -18,6 +19,6 @@ void main() {
 	
 	texCoord = aTexCoords;
 	fragPosition = (ModelMatrix * vec4(aPos, 1.0)).xyz;
-	normal = normalize( vec4(transpose( inverse(ModelMatrix) ) * vec4(aNormal, 1.0)).xyz );
+	normal = normalize( vec4(transpose( InverseModelMatrix) * vec4(aNormal, 1.0)).xyz );
 
 }

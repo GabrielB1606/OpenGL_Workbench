@@ -100,6 +100,7 @@ void Plane::render(ShaderProgram *shader){
     material.sendUniforms(shader);
 
     shader->setMat4fv(glm::mat4(1.f), "ModelMatrix", false);
+    shader->setMat4fv(glm::mat4(1.f), "InverseModelMatrix", false);
 
     shader->use();
 

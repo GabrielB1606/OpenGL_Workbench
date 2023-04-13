@@ -38,6 +38,7 @@ private:
 
     // transformations
     glm::mat4 modelMatrix = glm::mat4(1.f);
+    glm::mat4 invModelMatrix = glm::mat4(1.f);
     std::shared_ptr<glm::vec3> translation;
     std::shared_ptr<glm::mat4> rotation;
     std::shared_ptr<glm::vec3> scale;
