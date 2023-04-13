@@ -145,7 +145,7 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
                 world->getFloor()->calculateReflectionMatrix();
 
             glm::vec2 floorScale = glm::vec2( world->getFloor()->getScale().x, world->getFloor()->getScale().z );
-            if (drawDragVec2( &floorScale, "Scale", 0.045f)){
+            if (drawDragVec2( &floorScale, "Scale", 0.02f, FLT_MAX, 0.025, {"x", "z"})){
                 world->getFloor()->setScale( glm::vec3(floorScale.x, 1.f, floorScale.y) );
                 world->getFloor()->calculateReflectionMatrix();
             }
