@@ -32,6 +32,7 @@ public:
     // scale
     void scaleUp(glm::vec3 v);
     void uniformScaleUp(float s);
+    void setScale(glm::vec3 v);
     void bindScale(std::shared_ptr<glm::vec3> v);
     glm::vec3 getScale();
     std::shared_ptr<glm::vec3> getScaleReference();

@@ -56,6 +56,10 @@ void Transformable::uniformScaleUp(float s){
     *this->scale += glm::vec3(s);
 }
 
+void Transformable::setScale(glm::vec3 v){
+    *this->scale = v;
+}
+
 void Transformable::bindScale(std::shared_ptr<glm::vec3> v){
     this->scale = v;
 }

@@ -99,10 +99,10 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             ImGui::Text("Floor");
 
             ImGui::PushButtonRepeat(true);
-            ImGui::Text( "Rotate: ##floor" );
+            ImGui::Text( "Rotate: " );
             ImGui::SameLine(0.f, 10.f);
 
-            ImGui::Text( "x:##floor" );
+            ImGui::Text( "x:" );
             ImGui::SameLine(0.f, 0.f);
             if (ImGui::Button("-##rotate x- floor")){
                 world->getFloor()->rotate(glm::vec3(-5.f, 0.f, 0.f));
@@ -115,7 +115,7 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             }
             ImGui::SameLine(0.f, 10.f);
 
-            ImGui::Text( "y:##floor" );
+            ImGui::Text( "y:" );
             ImGui::SameLine(0.f, 0.f);
             if (ImGui::Button("-##rotate y- floor")){
                 world->getFloor()->rotate(glm::vec3(0.f, -5.f, 0.f));
@@ -128,7 +128,7 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             }
             ImGui::SameLine(0.f, 10.f);
 
-            ImGui::Text( "z:##floor" );
+            ImGui::Text( "z:" );
             ImGui::SameLine(0.f, 0.f);
             if (ImGui::Button("-##rotate z- floor")){
                 world->getFloor()->rotate(glm::vec3(0.f, 0.f, -5.f));
@@ -141,11 +141,14 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             }
             ImGui::PopButtonRepeat();
 
-            if (drawDragVec3( world->getFloor()->getTranslationReference().get(), "Transalate##floor"))
+            if (drawDragVec3( world->getFloor()->getTranslationReference().get(), "Transalate"))
                 world->getFloor()->calculateReflectionMatrix();
 
-            if (drawDragVec3( world->getFloor()->getScaleReference().get(), "Scale##floor", 0.045f))
+            glm::vec2 floorScale = glm::vec2( world->getFloor()->getScale().x, world->getFloor()->getScale().z );
+            if (drawDragVec2( &floorScale, "Scale", 0.045f)){
+                world->getFloor()->setScale( glm::vec3(floorScale.x, 1.f, floorScale.y) );
                 world->getFloor()->calculateReflectionMatrix();
+            }
 
             ImGui::Separator();
 
@@ -315,6 +318,23 @@ bool GraphicUserInterface::drawDragVec3(glm::vec3 *v, std::string name, float v_
     
     ImGui::SameLine();
     ans |= ImGui::DragFloat(("##" + name + "Z").c_str(), &( v->z ), v_speed, v_min, v_max, (labels[2]+": %.2f").c_str(), ImGuiSliderFlags_None);
+    
+    ImGui::PushItemWidth(0);
+
+    return ans;
+}
+
+bool GraphicUserInterface::drawDragVec2(glm::vec2 *v, std::string name, float v_min, float v_max, float v_speed, std::array<std::string, 2> labels){
+    bool ans = false;
+
+    ImGui::PushItemWidth(60);
+
+    ImGui::Text( (name + ": ").c_str() );
+    ImGui::SameLine();
+    ans |= ImGui::DragFloat(("##" + name + "X").c_str(), &(v->x ), v_speed, v_min, v_max, (labels[0]+": %.2f").c_str(), ImGuiSliderFlags_None);
+    
+    ImGui::SameLine();
+    ans |= ImGui::DragFloat(("##" + name + "Y").c_str(), &( v->y ), v_speed, v_min, v_max, (labels[1]+": %.2f").c_str(), ImGuiSliderFlags_None);
     
     ImGui::PushItemWidth(0);
 
