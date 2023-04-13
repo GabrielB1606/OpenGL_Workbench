@@ -271,47 +271,17 @@ void BasicMesh::populateBuffers(){
 
 void BasicMesh::render(ShaderProgram *shader){
 
-    // Check for OpenGL errors
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            std::cerr << shader->getID() << ") OpenGL error: " << error << std::endl;
-        }
-
     sendUniforms(shader);
-
-    // Check for OpenGL errors
-         error = glGetError();
-        if (error != GL_NO_ERROR) {
-            std::cerr << shader->getID() << ") OpenGL error: " << error << std::endl;
-        }
 
     shader->use();
 
     glBindVertexArray(this->VAO);
 
-    // Check for OpenGL errors
-         error = glGetError();
-        if (error != GL_NO_ERROR) {
-            std::cerr << shader->getID() << ") OpenGL error: " << error << std::endl;
-        }
-
     for (size_t i = 0; i < meshes.size(); i++){
 
         materials[ meshes[i].materialIndex ].sendUniforms(shader);
 
-        // Check for OpenGL errors
-         error = glGetError();
-        if (error != GL_NO_ERROR) {
-            std::cerr << shader->getID() << ") OpenGL error: " << error << std::endl;
-        }
-
         shader->use();
-
-        // Check for OpenGL errors
-         error = glGetError();
-        if (error != GL_NO_ERROR) {
-            std::cerr << shader->getID() << ") OpenGL error: " << error << std::endl;
-        }
 
         glDrawElementsBaseVertex(
             GL_TRIANGLES,
@@ -321,16 +291,10 @@ void BasicMesh::render(ShaderProgram *shader){
             meshes[i].baseVertex
         );
 
-        // Check for OpenGL errors
-         error = glGetError();
-        if (error != GL_NO_ERROR) {
-            std::cerr << shader->getID() << ") OpenGL error: " << error << std::endl;
-        }
-
         materials[ meshes[i].materialIndex ].unbind();
         
         //  for OpenGL errors
-         error = glGetError();
+        GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
             std::cerr << shader->getID() << ") OpenGL error: " << error << std::endl;
         }
