@@ -101,6 +101,10 @@ std::vector<Light *> World::getLights(){
     return lights;
 }
 
+Plane *World::getFloor(){
+    return this->floor;
+}
+
 BasicMesh *World::getMesh(size_t index){
 
     if( index >= this->meshes.size() )

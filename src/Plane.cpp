@@ -7,17 +7,7 @@ Plane::Plane(int div, float width, glm::vec3 init_pos){
     this->translation->z = init_pos.z + (width/2);
 
     // Normalize the normal vector
-    this->normal = glm::normalize( glm::vec3(0.f, 1.f, 0.f) );
-    this->plane = { this->normal.x, this->normal.y, this->normal.z, -glm::dot(*this->translation, this->normal) };
-
-    this->reflection = glm::mat4{
-        1-2*plane.x*plane.x,  -2*plane.x*plane.y,  -2*plane.x*plane.z, -2*plane.x*plane.w,
-         -2*plane.y*plane.x, 1-2*plane.y*plane.y,  -2*plane.y*plane.z, -2*plane.y*plane.w,
-         -2*plane.z*plane.x,  -2*plane.z*plane.y, 1-2*plane.z*plane.z, -2*plane.z*plane.w,
-                          0,                   0,                   0,                  1
-    };
-
-    this->reflection = glm::transpose(this->reflection);
+    calculateReflectionMatrix();
 
     material.diffuseColor = glm::vec3(1.f);
     material.ambientColor = glm::vec3(1.f);
@@ -109,6 +99,25 @@ void Plane::render(ShaderProgram *shader){
     glBindVertexArray(0);
 
     shader->stopUsing();
+
+}
+
+void Plane::calculateReflectionMatrix(){
+
+    calculateModelMatrix();
+
+    // Normalize the normal vector
+    this->normal = (glm::transpose( this->invModelMatrix ) * glm::vec4(0.f, 1.f, 0.f, 0.f));
+    this->plane = { this->normal.x, this->normal.y, this->normal.z, -glm::dot(*this->translation, this->normal) };
+
+    this->reflection = glm::mat4{
+        1-2*plane.x*plane.x,  -2*plane.x*plane.y,  -2*plane.x*plane.z, -2*plane.x*plane.w,
+         -2*plane.y*plane.x, 1-2*plane.y*plane.y,  -2*plane.y*plane.z, -2*plane.y*plane.w,
+         -2*plane.z*plane.x,  -2*plane.z*plane.y, 1-2*plane.z*plane.z, -2*plane.z*plane.w,
+                          0,                   0,                   0,                  1
+    };
+
+    this->reflection = glm::transpose(this->reflection);
 
 }
 

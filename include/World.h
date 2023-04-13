@@ -48,6 +48,7 @@ public:
     std::vector<BasicMesh*> getMeshes();
     std::vector<BasicMesh*>* getMeshesVectorReference();
     std::vector<Light*> getLights();
+    Plane* getFloor();
 
     BasicMesh* getMesh(size_t index);
     Light* getLight(size_t index);

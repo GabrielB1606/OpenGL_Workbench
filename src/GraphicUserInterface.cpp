@@ -95,6 +95,59 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
                 ImGui::ColorEdit3("clear color", (float*)clearColor); // Edit 3 floats representing a color
 
             ImGui::Separator();
+            
+            ImGui::Text("Floor");
+
+            ImGui::PushButtonRepeat(true);
+            ImGui::Text( "Rotate: " );
+            ImGui::SameLine(0.f, 10.f);
+
+            ImGui::Text( "x:" );
+            ImGui::SameLine(0.f, 0.f);
+            if (ImGui::Button("-##rotate x-")){
+                world->getFloor()->rotate(glm::vec3(-5.f, 0.f, 0.f));
+                world->getFloor()->calculateReflectionMatrix();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("+##rotate x+")){
+                world->getFloor()->rotate(glm::vec3(5.f, 0.f, 0.f));
+                world->getFloor()->calculateReflectionMatrix();
+            }
+            ImGui::SameLine(0.f, 10.f);
+
+            ImGui::Text( "y:" );
+            ImGui::SameLine(0.f, 0.f);
+            if (ImGui::Button("-##rotate y-")){
+                world->getFloor()->rotate(glm::vec3(0.f, -5.f, 0.f));
+                world->getFloor()->calculateReflectionMatrix();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("+##rotate y+")){
+                world->getFloor()->rotate(glm::vec3(0.f, 5.f, 0.f));
+                world->getFloor()->calculateReflectionMatrix();
+            }
+            ImGui::SameLine(0.f, 10.f);
+
+            ImGui::Text( "z:" );
+            ImGui::SameLine(0.f, 0.f);
+            if (ImGui::Button("-##rotate z-")){
+                world->getFloor()->rotate(glm::vec3(0.f, 0.f, -5.f));
+                world->getFloor()->calculateReflectionMatrix();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("+##rotate z+")){
+                world->getFloor()->rotate(glm::vec3(0.f, 0.f, 5.f));
+                world->getFloor()->calculateReflectionMatrix();
+            }
+            ImGui::PopButtonRepeat();
+
+            if (drawDragVec3( world->getFloor()->getTranslationReference().get(), "Transalate"))
+                world->getFloor()->calculateReflectionMatrix();
+
+            if (drawDragVec3( world->getFloor()->getScaleReference().get(), "Scale", 0.045f))
+                world->getFloor()->calculateReflectionMatrix();
+
+            ImGui::Separator();
 
             if( ImGui::Button("Load OBJ") )                         // Load OBJ from GUI
                 world->loadMesh(
