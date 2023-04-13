@@ -145,3 +145,21 @@ void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewC
     glStencilMask(0xFF);
     glStencilFunc(GL_ALWAYS, 0, 0xFF);
 }
+
+void Plane::render(ShaderProgram *shader, glm::mat4 projViewMatrix){
+
+    material.sendUniforms(shader);
+
+    shader->setMat4fv( this->modelMatrix , "ModelMatrix", false);
+    shader->setMat4fv( this->invModelMatrix , "InverseModelMatrix", false);
+    shader->setMat4fv(projViewMatrix * this->modelMatrix, "ProjViewModelMatrix", false);
+
+    shader->use();
+
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (GLsizei)0);
+    glBindVertexArray(0);
+
+    shader->stopUsing();
+
+}

@@ -29,12 +29,15 @@ private:
     glm::vec3 normal;
 
     glm::vec3 position = glm::vec3(0.f);
+    glm::mat4 modelMatrix = glm::mat4(1.f);
+    glm::mat4 invModelMatrix = glm::mat4(1.f);
 
 public:
     Plane(int div, float width, glm::vec3 init_pos = glm::vec3(0.f));
     virtual ~Plane();
 
     void render(ShaderProgram* shader);
+    void render(ShaderProgram* shader, glm::mat4 projViewMatrix);
     void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera cam, glm::mat4 projectionMatrix, Skybox* sky = nullptr);
 };
 
