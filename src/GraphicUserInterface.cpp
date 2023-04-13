@@ -97,6 +97,8 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             ImGui::Separator();
             
             ImGui::Text("Floor");
+            
+            ImGui::Checkbox("Reflective Surface", world->getFloor()->getReflectiveReference());
 
             ImGui::PushButtonRepeat(true);
             ImGui::Text( "Rotate: " );

@@ -29,6 +29,8 @@ private:
     glm::vec4 plane;
     glm::vec3 normal;
 
+    bool reflective = true;
+
 public:
     Plane(int div, float width, glm::vec3 init_pos = glm::vec3(0.f));
     virtual ~Plane();
@@ -36,6 +38,9 @@ public:
     void render(ShaderProgram* shader);
     void render(ShaderProgram* shader, glm::mat4 projViewMatrix);
     void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera *cam, glm::mat4 projectionMatrix, Skybox* sky = nullptr);
+
+    bool isReflective();
+    bool* getReflectiveReference();
 
     void calculateReflectionMatrix();
 

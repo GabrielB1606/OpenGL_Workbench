@@ -64,7 +64,7 @@ public:
     void renderSkybox(glm::mat4 viewMatrix);
     void renderLights(ShaderProgram *shader);
     void renderShadowCubeMaps(ShaderProgram *shader);
-    void renderFloor(ShaderProgram *shader);
+    void renderFloor(ShaderProgram *shader, ViewCamera *cam);
     void renderReflections(ShaderProgram *shader, ViewCamera *cam);
 
     bool* getShowSkyboxReference();

@@ -121,6 +121,14 @@ void Plane::calculateReflectionMatrix(){
 
 }
 
+bool Plane::isReflective(){
+    return reflective;
+}
+
+bool *Plane::getReflectiveReference(){
+    return &reflective;
+}
+
 void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewCamera *cam, glm::mat4 projectionMatrix, Skybox* sky){
 
     // glClearStencil(0);

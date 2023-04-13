@@ -111,7 +111,7 @@ int main() {
 		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
 
 		// render the scene from the reflective surface
-		w.renderReflections(shaderPrograms[LIGHT_PASS], &mainCamera);
+		w.renderFloor(shaderPrograms[LIGHT_PASS], &mainCamera);
 		
 		// render the normal scene
 		// render meshes

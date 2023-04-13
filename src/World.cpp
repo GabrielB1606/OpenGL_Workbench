@@ -190,11 +190,13 @@ void World::renderShadowCubeMaps(ShaderProgram *shader){
 
 }
 
-void World::renderFloor(ShaderProgram *shader){
+void World::renderFloor(ShaderProgram *shader, ViewCamera *cam){
 
     if(this->floor != nullptr)
-        this->floor->render(shader);
-
+        if( !this->floor->isReflective() )
+            this->floor->render(shader);
+        else
+            this->floor->mirror(shader, this->meshes, cam, this->getPerspectiveMatrix(), this->skybox);
 }
 
 void World::renderReflections(ShaderProgram *shader, ViewCamera *cam){
