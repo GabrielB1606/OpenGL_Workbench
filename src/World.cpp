@@ -194,7 +194,7 @@ void World::renderFloor(ShaderProgram *shader, ViewCamera *cam){
 
     if(this->floor != nullptr)
         if( !this->floor->isReflective() )
-            this->floor->render(shader);
+            this->floor->render(shader, this->getPerspectiveMatrix() * cam->getViewMatrix());
         else
             this->floor->mirror(shader, this->meshes, cam, this->getPerspectiveMatrix(), this->skybox);
 }
