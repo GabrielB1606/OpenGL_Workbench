@@ -83,9 +83,14 @@ void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> 
 
     shader->setVec3f(*this->position, "lightPosition");
     shader->setMat4fv( glm::perspective(glm::radians(90.f), 1.f, 0.1f, 1000.f), "ProjectionMatrix", GL_FALSE );
+    
+    glm::mat4 projection = glm::perspective(glm::radians(90.f), 1.f, 0.1f, 1000.f);
+    glm::mat4 lightView;
+
+    glm::mat4 projView;
+
     glClearColor(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
 
-    glm::mat4 lightView;
 
     for (size_t i = 0; i < 6; i++){
         
@@ -93,13 +98,13 @@ void Light::renderShadowCubeMap( ShaderProgram *shader, std::vector<BasicMesh*> 
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
         lightView = glm::lookAt( *this->position, *this->position + cubeMapTargets[i], cubeMapUps[i] );
-        shader->setMat4fv(lightView, "ViewMatrix", GL_FALSE);
-        
+        projView = projection * lightView;
+
         for(BasicMesh* mesh : meshes){
         
             // if( glm::length( glm::normalize(*(mesh->getTranslationReference())) - glm::normalize(this->position + cubeMapTargets[i]) ) <= 1.45f )
             if( mesh->isShadowReceiver() && mesh->getTranslationReference().get() != position.get() ) 
-                mesh->render(shader);
+                mesh->render(shader, projView);
         
         }
 

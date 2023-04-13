@@ -62,6 +62,7 @@ public:
     
     // draw/render functions
     void render(ShaderProgram* shader);
+    void render(ShaderProgram* shader, glm::mat4 projViewMatrix);
     void sendUniforms(ShaderProgram* shader);
 
     // transformations functions
