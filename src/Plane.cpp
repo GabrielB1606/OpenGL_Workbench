@@ -2,13 +2,13 @@
 
 Plane::Plane(int div, float width, glm::vec3 init_pos){
 
-    this->position.x = init_pos.x + (width/2);
-    this->position.y = init_pos.y;
-    this->position.z = init_pos.z + (width/2);
+    this->translation->x = init_pos.x + (width/2);
+    this->translation->y = init_pos.y;
+    this->translation->z = init_pos.z + (width/2);
 
     // Normalize the normal vector
     this->normal = glm::normalize( glm::vec3(0.f, 1.f, 0.f) );
-    this->plane = { this->normal.x, this->normal.y, this->normal.z, -glm::dot(this->position, this->normal) };
+    this->plane = { this->normal.x, this->normal.y, this->normal.z, -glm::dot(*this->translation, this->normal) };
 
     this->reflection = glm::mat4{
         1-2*plane.x*plane.x,  -2*plane.x*plane.y,  -2*plane.x*plane.z, -2*plane.x*plane.w,
@@ -99,8 +99,8 @@ void Plane::render(ShaderProgram *shader){
 
     material.sendUniforms(shader);
 
-    shader->setMat4fv(glm::mat4(1.f), "ModelMatrix", false);
-    shader->setMat4fv(glm::mat4(1.f), "InverseModelMatrix", false);
+    shader->setMat4fv(this->modelMatrix, "ModelMatrix", false);
+    shader->setMat4fv(this->invModelMatrix, "InverseModelMatrix", false);
 
     shader->use();
 

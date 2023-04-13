@@ -168,19 +168,19 @@ void configOpenGL(){
 
 void updateProjectionViewMatrix(){
 
-	glm::mat4 ProjView = w.getPerspectiveMatrix() * mainCamera.getViewMatrix();
+	// glm::mat4 ProjView = w.getPerspectiveMatrix() * mainCamera.getViewMatrix();
 	
-	shaderPrograms[CORE_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
-	shaderPrograms[LIGHT_PASS]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
-	shaderPrograms[PLAIN_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
-	shaderPrograms[RENDER_REFLECT]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
+	// shaderPrograms[CORE_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
+	// shaderPrograms[LIGHT_PASS]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
+	// shaderPrograms[PLAIN_PROGRAM]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
+	// shaderPrograms[RENDER_REFLECT]->setMat4fv(ProjView, "ProjViewMatrix", GL_FALSE);
 
 }
 
 void updateProjectionMatrix(){
 
-	shaderPrograms[SKYBOX_PROGRAM]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
-	shaderPrograms[SHADOW_PASS]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
+	// shaderPrograms[SKYBOX_PROGRAM]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
+	// shaderPrograms[SHADOW_PASS]->setMat4fv(w.getPerspectiveMatrix(), "ProjectionMatrix", GL_FALSE);
 
 }
 
