@@ -5,7 +5,7 @@ in vec3 fragPosition;
 in vec3 normal;
 
 uniform vec3 cameraPosition;
-layout(binding = 0) uniform sampler2D SceneTexture;
+layout(binding = 5) uniform sampler2D SceneTexture;
 
 out vec4 FragColor;
 

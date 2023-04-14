@@ -181,7 +181,7 @@ void World::renderRefractions(ShaderProgram *shader, ViewCamera *cam, SceneFBO *
 
     glm::mat4 projView = this->getPerspectiveMatrix() * cam->getViewMatrix();
 
-    fbo->bindRead(GL_TEXTURE0);
+    fbo->bindRead(GL_TEXTURE5);
 
     for(BasicMesh* m: this->meshes)
         if( m->isRefractive() )

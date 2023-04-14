@@ -169,6 +169,8 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             if( selectedModel < world->getMeshes().size() ){
                 
                 ImGui::Checkbox("Refractive",  world->getMesh(selectedModel)->getRefractiveReference() );
+                ImGui::Checkbox("Shadow Caster",  world->getMesh(selectedModel)->getShadowCasterReference() );
+                ImGui::Checkbox("Shadow Receiver",  world->getMesh(selectedModel)->getShadowReceiverReference() );
 
                 // float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
                 ImGui::PushButtonRepeat(true);
