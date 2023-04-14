@@ -462,6 +462,18 @@ bool BasicMesh::isRefractive(){
     return this->refractive;
 }
 
+bool *BasicMesh::getRefractiveReference(){
+    return &this->refractive;
+}
+
+bool *BasicMesh::getShadowCasterReference(){
+    return &this->shadowCaster;
+}
+
+bool *BasicMesh::getShadowReceiverReference(){
+    return &this->shadowReceiver;
+}
+
 void BasicMesh::setShadowCaster(bool b){
     this->shadowCaster = b;
 }

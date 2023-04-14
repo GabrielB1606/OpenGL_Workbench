@@ -82,6 +82,9 @@ public:
     bool isShadowCaster();
     bool isShadowReceiver();
     bool isRefractive();
+    bool* getRefractiveReference();
+    bool* getShadowCasterReference();
+    bool* getShadowReceiverReference();
 
     // setters
     void setShadowCaster(bool b);

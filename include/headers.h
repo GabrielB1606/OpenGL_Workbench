@@ -56,6 +56,7 @@
 #define LIGHT_PASS      3
 #define PLAIN_PROGRAM   4
 #define RENDER_REFLECT  5
+#define RENDER_REFRACT  6
 
 #define SHADOW_MAP_SIZE 1024
 

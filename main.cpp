@@ -26,13 +26,14 @@ World w(90.f, initial_width, inital_height, 0.1f, 1000.f);
 WindowManager windowManager(initial_width, inital_height, "window manager", glMajVersion, glMinVersion);
 
 // All shader programs used in the application
-std::array<ShaderProgram*, 6> shaderPrograms = {
+std::array<ShaderProgram*, 7> shaderPrograms = {
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/skybox/skybox.vert", "shaders/skybox/skybox.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/shadow_pass.vert", "shaders/shadow/shadow_pass.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/light_pass.vert", "shaders/shadow/light_pass.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/plain/vertex.vert", "shaders/plain/fragment.frag"),
-	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/reflect/reflect.vert", "shaders/reflect/reflect.frag")
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/reflect/reflect.vert", "shaders/reflect/reflect.frag"),
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/refraction/refract.vert", "shaders/refraction/refract.frag")
 };
 
 // camera
@@ -86,6 +87,8 @@ int main() {
 	// start counting time between frames
 	windowManager.getDeltaTime();
 
+	std::shared_ptr<SceneFBO> sceneFBO;
+
 	while ( windowManager.isOpen() ) {
 		
 		// rotate just bc
@@ -116,10 +119,12 @@ int main() {
 		// render the normal scene
 		// render meshes
 		w.renderMeshes(shaderPrograms[LIGHT_PASS], &mainCamera);
-		
-		// render the floor using the texture of the reflected scene
-		// w.renderFloor(shaderPrograms[RENDER_REFLECT]);
-		// w.renderLights(shaderPrograms[PLAIN_PROGRAM]);
+
+		sceneFBO = w.renderSceneFBO(shaderPrograms[LIGHT_PASS], &mainCamera);
+
+		w.renderRefractions(shaderPrograms[RENDER_REFRACT], &mainCamera, sceneFBO.get());
+
+		sceneFBO.reset();
 		
 		// render skybox
 		w.renderSkybox( mainCamera.getViewMatrix() );

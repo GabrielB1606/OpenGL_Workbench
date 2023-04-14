@@ -167,6 +167,8 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             drawMeshesTree( world->getMeshesVectorReference() );
 
             if( selectedModel < world->getMeshes().size() ){
+                
+                ImGui::Checkbox("Refractive",  world->getMesh(selectedModel)->getRefractiveReference() );
 
                 // float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
                 ImGui::PushButtonRepeat(true);
