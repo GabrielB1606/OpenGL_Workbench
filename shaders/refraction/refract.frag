@@ -11,6 +11,14 @@ out vec4 FragColor;
 
 void main() {
 
-	FragColor = texture2D(SceneTexture, texCoord);
+	float eta = 0.5;
+
+	vec3 viewDir = normalize(vec3(0.0, 0.0, 1.0));
+	// vec3 objectNormal = normalize(vec3(TexCoord - 0.5, 0.0));
+    vec3 refractDir = refract(viewDir, normal, eta);
+	vec2 newTexCoord = texCoord + refractDir.xy;
+
+
+	FragColor = texture2D(SceneTexture, newTexCoord);
 
 }
