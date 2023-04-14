@@ -8,6 +8,7 @@
 #include "BasicMesh.h"
 #include "Plane.h"
 #include "Skybox.h"
+#include "SceneFBO.h"
 
 class World{
 private:
@@ -60,6 +61,7 @@ public:
     void removeLight(size_t index);
 
     void sendUniforms(ShaderProgram *shader);
+    std::shared_ptr<SceneFBO> renderSceneFBO(ShaderProgram *shader, ViewCamera *cam);
     void renderMeshes(ShaderProgram *shader, ViewCamera *cam);
     void renderSkybox(glm::mat4 viewMatrix);
     void renderLights(ShaderProgram *shader);

@@ -6,6 +6,7 @@
 
 BasicMesh::~BasicMesh(){
     clear();
+
 }
 
 BasicMesh::BasicMesh(){
@@ -344,6 +345,46 @@ void BasicMesh::render(ShaderProgram *shader, glm::mat4 projViewMatrix){
     shader->stopUsing();
 }
 
+void BasicMesh::renderRefractive(ShaderProgram *shader, glm::mat4 projViewMatrix, SceneFBO *sceneTexture){
+    
+    sendUniforms(shader);
+    shader->setMat4fv( projViewMatrix * this->modelMatrix , "ProjViewModelMatrix", false);
+
+    shader->use();
+
+    sceneTexture->bindRead(GL_TEXTURE0);
+
+    glBindVertexArray(this->VAO);
+
+    for (size_t i = 0; i < meshes.size(); i++){
+
+        materials[ meshes[i].materialIndex ].sendUniforms(shader);
+
+        shader->use();
+
+        glDrawElementsBaseVertex(
+            GL_TRIANGLES,
+            meshes[i].numIndices,
+            GL_UNSIGNED_INT,
+            (void*)(sizeof(unsigned int)*meshes[i].baseIndex),
+            meshes[i].baseVertex
+        );
+
+        materials[ meshes[i].materialIndex ].unbind();
+        
+        //  for OpenGL errors
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            std::cerr << shader->getID() << ") OpenGL error: " << error << std::endl;
+        }
+
+    }
+
+    glBindVertexArray(0);
+
+    shader->stopUsing();
+}
+
 void BasicMesh::sendUniforms(ShaderProgram *shader){
 
     shader->setMat4fv(this->modelMatrix, "ModelMatrix", false);
@@ -415,6 +456,10 @@ bool BasicMesh::isShadowCaster(){
 
 bool BasicMesh::isShadowReceiver(){
     return this->shadowReceiver;
+}
+
+bool BasicMesh::isRefractive(){
+    return this->refractive;
 }
 
 void BasicMesh::setShadowCaster(bool b){

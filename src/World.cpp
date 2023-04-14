@@ -161,6 +161,22 @@ void World::sendUniforms(ShaderProgram *shader){
 
 }
 
+std::shared_ptr<SceneFBO> World::renderSceneFBO(ShaderProgram *shader, ViewCamera *cam){
+
+    std::shared_ptr<SceneFBO> sceneFrame = std::shared_ptr<SceneFBO>(new SceneFBO());
+
+    sceneFrame->init(this->width, this->height);
+    sceneFrame->bindWrite();
+
+    this->renderSkybox(cam->getViewMatrix());
+    this->renderFloor(shader, cam);
+    this->renderMeshes(shader, cam);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    return sceneFrame;
+}
+
 void World::renderMeshes(ShaderProgram *shader, ViewCamera* cam){
 
     glm::mat4 projView = this->getPerspectiveMatrix() * cam->getViewMatrix();

@@ -6,7 +6,7 @@
 #include "Texture.h"
 #include "Material.h"
 #include "BasicMeshEntry.h"
-#include "BasicMesh.h"
+#include "SceneFBO.h"
 
 class BasicMesh{
 private:
@@ -45,6 +45,7 @@ private:
 
     bool shadowCaster = false;
     bool shadowReceiver = true;
+    bool refractive = false;
 
 public:
     BasicMesh();
@@ -63,6 +64,7 @@ public:
     // draw/render functions
     void render(ShaderProgram* shader);
     void render(ShaderProgram* shader, glm::mat4 projViewMatrix);
+    void renderRefractive(ShaderProgram* shader, glm::mat4 projViewMatrix, SceneFBO* sceneTexture);
     void sendUniforms(ShaderProgram* shader);
 
     // transformations functions
@@ -79,6 +81,7 @@ public:
     size_t getSubMeshesSize();
     bool isShadowCaster();
     bool isShadowReceiver();
+    bool isRefractive();
 
     // setters
     void setShadowCaster(bool b);
