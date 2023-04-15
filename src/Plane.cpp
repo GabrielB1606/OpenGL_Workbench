@@ -153,8 +153,9 @@ void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewC
         sky->render(cam->getViewMatrix() * this->reflection);
 
     for(BasicMesh* mesh : meshes)
-        mesh->render(shader, projViewMatrix);  
-    
+        if(!mesh->isRefractive())
+            mesh->render(shader, projViewMatrix);  
+
     glCullFace(GL_BACK); // Revert front face culling to its original state
 
     glEnable(GL_DEPTH_TEST);
