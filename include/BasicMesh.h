@@ -42,6 +42,7 @@ private:
     std::shared_ptr<glm::vec3> translation;
     std::shared_ptr<glm::mat4> rotation;
     std::shared_ptr<glm::vec3> scale;
+    float eta = 0.5f;
 
     bool shadowCaster = false;
     bool shadowReceiver = true;

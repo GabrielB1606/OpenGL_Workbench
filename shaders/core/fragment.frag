@@ -28,8 +28,8 @@ uniform int nLights;
 
 uniform Colors mat;
 uniform vec3 cameraPosition;
-layout(binding = 0) uniform sampler2D DiffTexture;
-layout(binding = 1) uniform sampler2D SpecularTexture;
+layout(binding = 0) uniform sampler2D   DiffTexture;
+layout(binding = 1) uniform sampler2D   SpecularTexture;
 
 uniform int useDiffTexture;
 uniform int useSpecTexture;
@@ -78,7 +78,7 @@ void main() {
 	vec3 ambientComponent = vec3(0.0);
 	vec3 diffuseComponent = vec3(0.0);
 	vec3 specularComponent = vec3(0.0);
-	float attenuation = 1.f;
+	float attenuation = 1.0;
 
 	for(int i = 0; i<nLights; i++){
 

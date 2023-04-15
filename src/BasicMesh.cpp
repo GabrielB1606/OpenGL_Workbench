@@ -349,6 +349,7 @@ void BasicMesh::renderRefractive(ShaderProgram *shader, glm::mat4 projViewMatrix
     
     sendUniforms(shader);
     shader->setMat4fv( projViewMatrix * this->modelMatrix , "ProjViewModelMatrix", false);
+    shader->set1f( this->eta, "eta" );
 
     shader->use();
 
