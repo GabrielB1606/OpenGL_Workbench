@@ -169,6 +169,11 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             if( selectedModel < world->getMeshes().size() ){
                 
                 ImGui::Checkbox("Refractive",  world->getMesh(selectedModel)->getRefractiveReference() );
+
+                if( world->getMesh(selectedModel)->isRefractive() )
+                    ImGui::DragFloat("eta", world->getMesh(selectedModel)->getEtaReference(), 0.025f, 0.f, FLT_MAX);
+    
+
                 ImGui::Checkbox("Shadow Caster",  world->getMesh(selectedModel)->getShadowCasterReference() );
                 ImGui::Checkbox("Shadow Receiver",  world->getMesh(selectedModel)->getShadowReceiverReference() );
 

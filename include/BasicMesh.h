@@ -86,6 +86,7 @@ public:
     bool* getRefractiveReference();
     bool* getShadowCasterReference();
     bool* getShadowReceiverReference();
+    float* getEtaReference();
 
     // setters
     void setShadowCaster(bool b);

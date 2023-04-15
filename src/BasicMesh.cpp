@@ -475,6 +475,10 @@ bool *BasicMesh::getShadowReceiverReference(){
     return &this->shadowReceiver;
 }
 
+float *BasicMesh::getEtaReference(){
+    return &this->eta;
+}
+
 void BasicMesh::setShadowCaster(bool b){
     this->shadowCaster = b;
 }
