@@ -7,6 +7,8 @@
 #include "Material.h"
 #include "BasicMeshEntry.h"
 #include "SceneFBO.h"
+#include "CubeMapFBO.h"
+#include "Skybox.h"
 
 class BasicMesh{
 private:
@@ -26,6 +28,7 @@ private:
 
     std::vector<BasicMeshEntry> meshes;
     std::vector<Material> materials;
+    CubeMapFBO* surrounding = nullptr;
 
     std::vector<glm::vec3> positions;
     std::vector<glm::vec3> normals;
@@ -67,6 +70,7 @@ public:
     void render(ShaderProgram* shader, glm::mat4 projViewMatrix);
     void renderRefractive(ShaderProgram* shader, glm::mat4 projViewMatrix, SceneFBO* sceneTexture);
     void sendUniforms(ShaderProgram* shader);
+    void renderSurroundings(std::vector<BasicMesh*> meshes, Skybox* sky, ShaderProgram* shader);
 
     // transformations functions
     void calculateModelMatrix();

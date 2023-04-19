@@ -59,5 +59,6 @@
 #define RENDER_REFRACT  6
 
 #define SHADOW_MAP_SIZE 1024
+#define SURROUNDING_MAP_SIZE 2048
 
 #endif

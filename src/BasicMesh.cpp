@@ -7,6 +7,9 @@
 BasicMesh::~BasicMesh(){
     clear();
 
+    if( surrounding != nullptr )
+        delete surrounding;
+
 }
 
 BasicMesh::BasicMesh(){
@@ -391,6 +394,26 @@ void BasicMesh::sendUniforms(ShaderProgram *shader){
 
     shader->setMat4fv(this->modelMatrix, "ModelMatrix", false);
     shader->setMat4fv(this->invModelMatrix, "InverseModelMatrix", false);
+
+}
+
+void BasicMesh::renderSurroundings(std::vector<BasicMesh *> meshes, Skybox *sky, ShaderProgram* shader){
+
+    if( this->surrounding == nullptr ){
+        this->surrounding = new CubeMapFBO();
+        this->surrounding->init(SURROUNDING_MAP_SIZE);
+    }
+
+    glm::mat4 projection = glm::perspective(glm::radians(90.f), 1.f, 0.1f, 1000.f);
+    glm::mat4 viewMatrix;
+
+    for (size_t i = 0; i < 6; i++){
+        this->surrounding->bindRead( GL_TEXTURE_CUBE_MAP_POSITIVE_X + (GLenum)i );
+
+        for(BasicMesh* mesh : meshes)
+            mesh->render(shader);
+    }
+    
 
 }
 

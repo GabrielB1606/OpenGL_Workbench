@@ -59,7 +59,7 @@ void CubeMapFBO::bindWrite(GLenum cubeFace){
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
     glViewport(0, 0, size, (GLsizei)size);  // set the width/height of the shadow map
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, cubeFace, tex, 0);
-    glDrawBuffer(GL_COLOR_ATTACHMENT0);
+    // glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
 }
 
