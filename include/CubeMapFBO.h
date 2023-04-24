@@ -9,6 +9,7 @@ private:
     size_t size;
     GLuint fbo;
     GLuint tex;
+    GLuint depthRenderbuffer;
 
 public:
     CubeMapFBO();
