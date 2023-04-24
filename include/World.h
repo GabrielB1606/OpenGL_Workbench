@@ -62,13 +62,14 @@ public:
 
     void sendUniforms(ShaderProgram *shader);
     std::shared_ptr<SceneFBO> renderSceneFBO(ShaderProgram *shader, ViewCamera *cam);
-    void renderRefractions(ShaderProgram *shader, ViewCamera *cam, SceneFBO* fbo);
+    void renderRefractions(ShaderProgram *shader, ViewCamera *cam);
     void renderMeshes(ShaderProgram *shader, ViewCamera *cam);
     void renderSkybox(glm::mat4 viewMatrix);
     void renderLights(ShaderProgram *shader);
     void renderShadowCubeMaps(ShaderProgram *shader);
     void renderFloor(ShaderProgram *shader, ViewCamera *cam);
     void renderReflections(ShaderProgram *shader, ViewCamera *cam);
+    void refreshRefractiveSurroundings(ShaderProgram *shader);
 
     bool* getShowSkyboxReference();
 };

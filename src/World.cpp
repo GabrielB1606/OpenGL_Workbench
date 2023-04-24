@@ -177,15 +177,13 @@ std::shared_ptr<SceneFBO> World::renderSceneFBO(ShaderProgram *shader, ViewCamer
     return sceneFrame;
 }
 
-void World::renderRefractions(ShaderProgram *shader, ViewCamera *cam, SceneFBO *fbo){
+void World::renderRefractions(ShaderProgram *shader, ViewCamera *cam){
 
     glm::mat4 projView = this->getPerspectiveMatrix() * cam->getViewMatrix();
 
-    fbo->bindRead(GL_TEXTURE5);
-
     for(BasicMesh* m: this->meshes)
         if( m->isRefractive() )
-            m->render(shader, projView);
+            m->renderRefractive(shader, projView);
 
 }
 
@@ -231,6 +229,14 @@ void World::renderFloor(ShaderProgram *shader, ViewCamera *cam){
 void World::renderReflections(ShaderProgram *shader, ViewCamera *cam){
     if(this->floor != nullptr)
         this->floor->mirror(shader, this->meshes, cam, this->getPerspectiveMatrix(), this->skybox);
+}
+
+void World::refreshRefractiveSurroundings(ShaderProgram *shader){
+
+    for(BasicMesh* m: this->meshes)
+        if( m->isRefractive() )
+            m->renderSurroundings(this->meshes, this->skybox, shader);
+
 }
 
 bool *World::getShowSkyboxReference(){

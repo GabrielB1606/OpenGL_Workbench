@@ -390,6 +390,50 @@ void BasicMesh::renderRefractive(ShaderProgram *shader, glm::mat4 projViewMatrix
     shader->stopUsing();
 }
 
+void BasicMesh::renderRefractive(ShaderProgram *shader, glm::mat4 projViewMatrix){
+    
+    sendUniforms(shader);
+    shader->setMat4fv( projViewMatrix * this->modelMatrix , "ProjViewModelMatrix", false);
+    shader->set1f( this->eta, "eta" );
+
+    shader->use();
+
+    if(this->surrounding == nullptr)
+        return;
+
+    this->surrounding->bindRead(GL_TEXTURE5);
+
+    glBindVertexArray(this->VAO);
+
+    for (size_t i = 0; i < meshes.size(); i++){
+
+        materials[ meshes[i].materialIndex ].sendUniforms(shader);
+
+        shader->use();
+
+        glDrawElementsBaseVertex(
+            GL_TRIANGLES,
+            meshes[i].numIndices,
+            GL_UNSIGNED_INT,
+            (void*)(sizeof(unsigned int)*meshes[i].baseIndex),
+            meshes[i].baseVertex
+        );
+
+        materials[ meshes[i].materialIndex ].unbind();
+        
+        //  for OpenGL errors
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            std::cerr << shader->getID() << ") OpenGL error: " << error << std::endl;
+        }
+
+    }
+
+    glBindVertexArray(0);
+
+    shader->stopUsing();
+}
+
 void BasicMesh::sendUniforms(ShaderProgram *shader){
 
     shader->setMat4fv(this->modelMatrix, "ModelMatrix", false);
@@ -399,6 +443,24 @@ void BasicMesh::sendUniforms(ShaderProgram *shader){
 
 void BasicMesh::renderSurroundings(std::vector<BasicMesh *> meshes, Skybox *sky, ShaderProgram* shader){
 
+    glm::vec3 cubeMapTargets[6] = {
+        glm::vec3(1.0f, 0.0f, 0.0f),
+        glm::vec3(-1.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, -1.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 1.0f),
+        glm::vec3(0.0f, 0.0f, -1.0f)
+    };
+
+    glm::vec3 cubeMapUps[6] = {
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, -1.0f),
+        glm::vec3(0.0f, 0.0f, 1.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f)
+    };
+
     if( this->surrounding == nullptr ){
         this->surrounding = new CubeMapFBO();
         this->surrounding->init(SURROUNDING_MAP_SIZE);
@@ -406,14 +468,21 @@ void BasicMesh::renderSurroundings(std::vector<BasicMesh *> meshes, Skybox *sky,
 
     glm::mat4 projection = glm::perspective(glm::radians(90.f), 1.f, 0.1f, 1000.f);
     glm::mat4 viewMatrix;
+    glm::mat4 projView;
 
     for (size_t i = 0; i < 6; i++){
         this->surrounding->bindRead( GL_TEXTURE_CUBE_MAP_POSITIVE_X + (GLenum)i );
 
+        viewMatrix = glm::lookAt( *this->translation, *this->translation + cubeMapTargets[i], cubeMapUps[i] );
+        projView = projection * viewMatrix;
+
         for(BasicMesh* mesh : meshes)
-            mesh->render(shader);
+            mesh->render(shader, projView);
+        
+        sky->render(viewMatrix);
     }
-    
+
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
 }
 

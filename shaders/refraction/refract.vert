@@ -8,7 +8,7 @@ uniform mat4 ProjViewModelMatrix;
 uniform mat4 ModelMatrix;
 uniform mat4 InverseModelMatrix;
 
-out vec2 texCoord;
+// out vec2 texCoord;
 out vec3 fragPosition;
 out vec3 normal;
 
@@ -16,8 +16,8 @@ void main() {
 	
 	gl_Position = ProjViewModelMatrix * vec4(aPos.x , aPos.y, aPos.z, 1.0);
 	
-	fragPosition = ((gl_Position.xyz/gl_Position.w)).xyz;
+	fragPosition = (ModelMatrix * vec4(aPos, 1.0)).xyz;
 	normal = normalize( vec4(transpose( InverseModelMatrix) * vec4(aNormal, 1.0)).xyz );
-	texCoord = ( fragPosition.xy + 1) /2;
+	// texCoord = ( fragPosition.xy + 1) /2;
 
 }

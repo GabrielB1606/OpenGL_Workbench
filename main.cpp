@@ -87,7 +87,7 @@ int main() {
 	// start counting time between frames
 	windowManager.getDeltaTime();
 
-	std::shared_ptr<SceneFBO> sceneFBO;
+	// std::shared_ptr<SceneFBO> sceneFBO;
 
 	while ( windowManager.isOpen() ) {
 		
@@ -99,6 +99,7 @@ int main() {
 		if(input.process(&mainCamera, delta)){
 			mainCamera.sendUniforms( shaderPrograms[CORE_PROGRAM] );
 			mainCamera.sendUniforms( shaderPrograms[LIGHT_PASS] );
+			mainCamera.sendUniforms( shaderPrograms[RENDER_REFRACT] );
 		}
 
 		// these are pretty much light uniforms
@@ -107,6 +108,8 @@ int main() {
 
 		// render shadow cubemap
 		w.renderShadowCubeMaps(shaderPrograms[SHADOW_PASS]);
+
+		w.refreshRefractiveSurroundings(shaderPrograms[LIGHT_PASS]);
 
 		// clear main framebuffer
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
@@ -120,11 +123,11 @@ int main() {
 		// render meshes
 		w.renderMeshes(shaderPrograms[LIGHT_PASS], &mainCamera);
 
-		sceneFBO = w.renderSceneFBO(shaderPrograms[LIGHT_PASS], &mainCamera);
+		// sceneFBO = w.renderSceneFBO(shaderPrograms[LIGHT_PASS], &mainCamera);
 
-		w.renderRefractions(shaderPrograms[RENDER_REFRACT], &mainCamera, sceneFBO.get());
+		w.renderRefractions(shaderPrograms[RENDER_REFRACT], &mainCamera);
 
-		sceneFBO.reset();
+		// sceneFBO.reset();
 		
 		// render skybox
 		w.renderSkybox( mainCamera.getViewMatrix() );

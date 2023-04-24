@@ -69,6 +69,7 @@ public:
     void render(ShaderProgram* shader);
     void render(ShaderProgram* shader, glm::mat4 projViewMatrix);
     void renderRefractive(ShaderProgram* shader, glm::mat4 projViewMatrix, SceneFBO* sceneTexture);
+    void renderRefractive(ShaderProgram* shader, glm::mat4 projViewMatrix);
     void sendUniforms(ShaderProgram* shader);
     void renderSurroundings(std::vector<BasicMesh*> meshes, Skybox* sky, ShaderProgram* shader);
 
