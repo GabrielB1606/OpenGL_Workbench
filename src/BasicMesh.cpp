@@ -471,10 +471,14 @@ void BasicMesh::renderSurroundings(std::vector<BasicMesh *> meshes, Skybox *sky,
     glm::mat4 projView;
 
     for (size_t i = 0; i < 6; i++){
-        this->surrounding->bindRead( GL_TEXTURE_CUBE_MAP_POSITIVE_X + (GLenum)i );
+        this->surrounding->bindWrite( GL_TEXTURE_CUBE_MAP_POSITIVE_X + (GLenum)i );
 
         viewMatrix = glm::lookAt( *this->translation, *this->translation + cubeMapTargets[i], cubeMapUps[i] );
         projView = projection * viewMatrix;
+
+        // Clear the color and depth buffers
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         for(BasicMesh* mesh : meshes)
             mesh->render(shader, projView);

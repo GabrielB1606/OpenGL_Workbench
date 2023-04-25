@@ -21,8 +21,6 @@ bool CubeMapFBO::init(size_t size){
     
     this->size = size;
 
-    float borderColor[] = {1.f, 1.f, 1.f, 1.f};
-
     // Create the cube map
     glGenTextures(1, &tex);
     glBindTexture(GL_TEXTURE_CUBE_MAP, tex);
@@ -62,7 +60,7 @@ bool CubeMapFBO::init(size_t size){
 
 void CubeMapFBO::bindWrite(GLenum cubeFace){
 
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     glViewport(0, 0, size, (GLsizei)size);  // set the width/height of the shadow map
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, cubeFace, tex, 0);
     // glDrawBuffer(GL_COLOR_ATTACHMENT0);
