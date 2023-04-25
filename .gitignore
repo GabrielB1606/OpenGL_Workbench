@@ -45,4 +45,6 @@ example/*
 *.mtl
 *.png
 
+*.diff
+
 apitrace/*
