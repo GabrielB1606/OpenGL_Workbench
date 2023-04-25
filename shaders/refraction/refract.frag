@@ -16,6 +16,7 @@ void main() {
 	vec3 norm = normalize(normal);
 	// vec3 objectNormal = normalize(vec3(TexCoord - 0.5, 0.0));
     vec3 refractDir = refract(viewDir, normal, eta);
+    // vec3 refractDir = viewDir;
 
 	FragColor = texture(SceneTexture, refractDir);
 
