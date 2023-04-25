@@ -1,3 +1,6 @@
 [submodule "vendor/assimp"]
 	path = vendor/assimp
 	url = https://github.com/assimp/assimp.git
+[submodule "stb_particle_system"]
+	path = vendor/stb_particle_system
+	url = https://github.com/GabrielB1606/stb_particle_system.git
