@@ -34,6 +34,8 @@
 // Load Images
 #include <stb_image.h>
 
+#include <stb_particle_system/stb_particle_system.h>
+
 // Open File Dialog
 // #include <noc_file_dialog.h>
 
