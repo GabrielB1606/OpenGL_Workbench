@@ -30,6 +30,7 @@
 #include <glm-0.9.9.9/mat4x4.hpp> // glm::mat4
 #include <glm-0.9.9.9/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm-0.9.9.9/gtc/type_ptr.hpp>
+#include <glm-0.9.9.9/gtx/compatibility.hpp>
 
 // Load Images
 #include <stb_image.h>

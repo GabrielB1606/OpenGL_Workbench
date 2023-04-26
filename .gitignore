@@ -48,3 +48,4 @@ example/*
 *.diff
 
 apitrace/*
+vendor/stb_particle_system
