@@ -164,6 +164,41 @@ void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewC
     glStencilFunc(GL_ALWAYS, 0, 0xFF);
 }
 
+// void Plane::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, glm::mat4 projViewMatrix, glm::mat4 viewMatrix, Skybox* sky){
+
+//     // glClearStencil(0);
+//     glStencilFunc(GL_ALWAYS, 1, 0xFF);
+//     glStencilMask(0xFF);
+//     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+//     this->render(shader, projViewMatrix);
+
+//     glStencilFunc(GL_EQUAL, 1, 0xFF);
+//     glStencilMask(0x00);
+//     glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+
+//     glDisable(GL_DEPTH_TEST);
+
+//     projViewMatrix = projViewMatrix * this->reflection;
+
+
+//     glCullFace(GL_FRONT); // Invert front face culling
+
+//     if(sky != nullptr)
+//         sky->render(viewMatrix * this->reflection);
+
+//     for(BasicMesh* mesh : meshes)
+//         if(!mesh->isRefractive())
+//             mesh->render(shader, projViewMatrix);  
+
+//     glCullFace(GL_BACK); // Revert front face culling to its original state
+
+//     glEnable(GL_DEPTH_TEST);
+
+//     glStencilMask(0xFF);
+//     glStencilFunc(GL_ALWAYS, 0, 0xFF);
+// }
+
 void Plane::render(ShaderProgram *shader, glm::mat4 projViewMatrix){
 
     material.sendUniforms(shader);

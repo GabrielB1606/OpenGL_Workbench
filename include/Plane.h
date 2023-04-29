@@ -38,6 +38,7 @@ public:
     void render(ShaderProgram* shader);
     void render(ShaderProgram* shader, glm::mat4 projViewMatrix);
     void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera *cam, glm::mat4 projectionMatrix, Skybox* sky = nullptr);
+    // void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, glm::mat4 projViewMatrix, glm::mat4 viewMatrix, Skybox* sky = nullptr);
 
     bool isReflective();
     bool* getReflectiveReference();

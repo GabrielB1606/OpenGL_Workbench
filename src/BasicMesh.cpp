@@ -483,6 +483,11 @@ void BasicMesh::renderSurroundings(std::vector<BasicMesh *> meshes, Skybox *sky,
         for(BasicMesh* mesh : meshes)
             mesh->render(shader, projView);
         
+        // if( !floor->isReflective() )
+        //     floor->render(shader, projView);
+        // else
+        //     floor->mirror(shader, meshes, projView, viewMatrix, sky);
+
         sky->render(viewMatrix);
     }
 

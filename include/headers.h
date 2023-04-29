@@ -35,8 +35,6 @@
 // Load Images
 #include <stb_image.h>
 
-#include <stb_particle_system/stb_particle_system.h>
-
 // Open File Dialog
 // #include <noc_file_dialog.h>
 
@@ -60,6 +58,7 @@
 #define PLAIN_PROGRAM   4
 #define RENDER_REFLECT  5
 #define RENDER_REFRACT  6
+#define PARTICLE        7
 
 #define SHADOW_MAP_SIZE 1024
 #define SURROUNDING_MAP_SIZE 2048

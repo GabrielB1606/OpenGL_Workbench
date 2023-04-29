@@ -13,6 +13,8 @@
 #include "Plane.h"
 #include "SceneFBO.h"
 
+#include <stb_particle_system/stb_particle_system.h>
+
 // GLSL Version
 const short glMajVersion = 4, glMinVersion = 6;
 std::string glVersion_str = std::to_string(glMajVersion) + std::to_string(glMinVersion) + "0";
@@ -26,14 +28,15 @@ World w(90.f, initial_width, inital_height, 0.1f, 1000.f);
 WindowManager windowManager(initial_width, inital_height, "window manager", glMajVersion, glMinVersion);
 
 // All shader programs used in the application
-std::array<ShaderProgram*, 7> shaderPrograms = {
+std::array<ShaderProgram*, 8> shaderPrograms = {
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/skybox/skybox.vert", "shaders/skybox/skybox.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/shadow_pass.vert", "shaders/shadow/shadow_pass.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/light_pass.vert", "shaders/shadow/light_pass.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/plain/vertex.vert", "shaders/plain/fragment.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/reflect/reflect.vert", "shaders/reflect/reflect.frag"),
-	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/refraction/refract.vert", "shaders/refraction/refract.frag")
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/refraction/refract.vert", "shaders/refraction/refract.frag"),
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/particle/sample.vert", "shaders/particle/sample.frag")
 };
 
 // camera
@@ -89,11 +92,26 @@ int main() {
 
 	// std::shared_ptr<SceneFBO> sceneFBO;
 
+	ParticleProps p;
+	p.color_begin = glm::vec4(1.f,0.f,0.f,1.f);
+	p.color_end = glm::vec4(1.f,0.f,0.f,1.f);
+	p.life_time = 30000.f;
+	p.position = glm::vec2(0.f);
+	p.velocity = glm::vec2(0.f);
+	p.velocity_variation = glm::vec2(0.f);
+	p.size_begin = 3.f;
+	p.size_end = 3.f;
+	p.size_variation = 1.f;
+
+	ParticleSystem ps;
+
+	ps.Emit(p);
+
 	while ( windowManager.isOpen() ) {
 		
 		// rotate just bc
-		w.getMeshes()[0]->rotate( delta*glm::vec3(30.f, 30.f, 30.f) );
-		w.getMeshes()[1]->rotate(delta*glm::vec3(0.f, 90.f, 0.f));
+		// w.getMeshes()[0]->rotate( delta*glm::vec3(30.f, 30.f, 30.f) );
+		// w.getMeshes()[1]->rotate(delta*glm::vec3(0.f, 90.f, 0.f));
 
 		// Only if there's camera movement, send the view matrix again
 		if(input.process(&mainCamera, delta)){
@@ -131,6 +149,12 @@ int main() {
 		
 		// render skybox
 		w.renderSkybox( mainCamera.getViewMatrix() );
+
+		ps.onUpdate( delta );
+		shaderPrograms[PARTICLE]->stopUsing();
+		shaderPrograms[PARTICLE]->use();
+		ps.onRender(shaderPrograms[PARTICLE]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
+		shaderPrograms[PARTICLE]->stopUsing();
 
 		// render GUI
 		gui.draw(&w, &mainCamera, &input, &clear_color);
