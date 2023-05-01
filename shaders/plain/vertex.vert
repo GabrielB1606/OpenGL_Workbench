@@ -2,9 +2,9 @@
 
 layout (location = 0) in vec3 aPos;
 
-uniform mat4 ProjViewMatrix;
-uniform mat4 ModelMatrix;
+uniform mat4 u_ProjView;
+uniform mat4 u_Transform;
 
 void main() {
-    gl_Position = ProjViewMatrix * ModelMatrix * vec4(aPos.x , aPos.y, aPos.z, 1.0);
+    gl_Position = u_ProjView * u_Transform * vec4(aPos.x , aPos.y, aPos.z, 1.0);
 }

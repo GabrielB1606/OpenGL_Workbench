@@ -63,15 +63,15 @@ int main() {
 	// w.getLight(0)->loadMesh("models\\estrellica.obj");
 	
 	// load a model
-	w.loadMesh("models\\Crate1.obj");
-	w.loadMesh("models\\estrellica.obj");
+	// w.loadMesh("models\\Crate1.obj");
+	// w.loadMesh("models\\estrellica.obj");
 	
-	// translate models
-	w.getMeshes()[0]->translate(glm::vec3(0.f, 0.f, 7.f) );
-	w.getMeshes()[1]->translate(glm::vec3(1.f, 1.f, 2.5f));
-	w.getMeshes()[1]->scaleUp(-glm::vec3(0.975f, 0.975f, 0.975f));
-	w.getMeshes()[1]->rotate(glm::vec3(90.f, 0.f, 0.f));
-	w.getMeshes()[1]->attatchPosition( w.getLight(0)->getPositionReference() );
+	// // translate models
+	// w.getMeshes()[0]->translate(glm::vec3(0.f, 0.f, 7.f) );
+	// w.getMeshes()[1]->translate(glm::vec3(1.f, 1.f, 2.5f));
+	// w.getMeshes()[1]->scaleUp(-glm::vec3(0.975f, 0.975f, 0.975f));
+	// w.getMeshes()[1]->rotate(glm::vec3(90.f, 0.f, 0.f));
+	// w.getMeshes()[1]->attatchPosition( w.getLight(0)->getPositionReference() );
 	
 
 	// time between frames
@@ -96,16 +96,59 @@ int main() {
 	p.color_begin = glm::vec4(1.f,0.f,0.f,1.f);
 	p.color_end = glm::vec4(1.f,0.f,0.f,1.f);
 	p.life_time = 30000.f;
-	p.position = glm::vec2(0.f);
-	p.velocity = glm::vec2(0.f);
-	p.velocity_variation = glm::vec2(0.f);
-	p.size_begin = 3.f;
-	p.size_end = 3.f;
+	p.position = glm::vec3(0.f, 0.f, 2.f);
+	p.velocity = glm::vec3(0.f);
+	p.velocity_variation = glm::vec3(0.f);
+	p.size_begin = 30.f;
+	p.size_end = 30.f;
 	p.size_variation = 1.f;
 
 	ParticleSystem ps;
 
-	ps.Emit(p);
+
+	// PARTICLE SANDBOX
+
+	unsigned int quad_VA = 0, quad_VB = 0, quad_EB = 0;
+    
+	float vertices[] = {
+		 0.5f,  0.5f, 0.0f,  // top right
+		 0.5f, -0.5f, 0.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f,  // bottom left
+		-0.5f,  0.5f, 0.0f   // top left 
+	};
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
+	};  
+
+	glGenVertexArrays(1, &quad_VA);
+    glGenBuffers(1, &quad_VB);
+    glGenBuffers(1, &quad_EB);
+
+    glBindVertexArray(quad_VA);
+
+	// bind VBO
+	glBindBuffer(GL_ARRAY_BUFFER, quad_VB);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*12, vertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	// bind EBO
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quad_EB);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 6, indices, GL_STATIC_DRAW);
+
+	// unbind all
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	unsigned int transform_uniform_loc, color_uniform_loc, projview_uniform_loc;
+
+
+	// for (size_t i = 0; i < 200; i++)
+	// 	ps.Emit(p);
+	
+	
 
 	while ( windowManager.isOpen() ) {
 		
@@ -135,7 +178,7 @@ int main() {
 		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
 
 		// render the scene from the reflective surface
-		w.renderFloor(shaderPrograms[LIGHT_PASS], &mainCamera);
+		// w.renderFloor(shaderPrograms[LIGHT_PASS], &mainCamera);
 		
 		// render the normal scene
 		// render meshes
@@ -148,13 +191,35 @@ int main() {
 		// sceneFBO.reset();
 		
 		// render skybox
-		w.renderSkybox( mainCamera.getViewMatrix() );
+		// w.renderSkybox( mainCamera.getViewMatrix() );
 
-		ps.onUpdate( delta );
-		shaderPrograms[PARTICLE]->stopUsing();
-		shaderPrograms[PARTICLE]->use();
-		ps.onRender(shaderPrograms[PARTICLE]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
-		shaderPrograms[PARTICLE]->stopUsing();
+		// PARTICLE SANDBOX UPDATE/RENDER
+		glDisable(GL_CULL_FACE);
+		shaderPrograms[PLAIN_PROGRAM]->use();
+		unsigned int shader_id = shaderPrograms[PLAIN_PROGRAM]->getID();
+
+		projview_uniform_loc = glGetUniformLocation(shader_id, "u_ProjView");
+		transform_uniform_loc = glGetUniformLocation(shader_id, "u_Transform");
+		color_uniform_loc = glGetUniformLocation(shader_id, "u_Color");
+
+		glm::mat4 projection_view_matrix = w.getPerspectiveMatrix()*mainCamera.getViewMatrix();
+		// glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.f, 0.f, 3.f));
+		glm::mat4 transform = glm::mat4(1.f);
+
+		shaderPrograms[PLAIN_PROGRAM]->setMat4fv(projection_view_matrix, "u_ProjView", GL_FALSE);
+		shaderPrograms[PLAIN_PROGRAM]->setMat4fv(transform, "u_Transform", GL_FALSE);
+		// glUniformMatrix4fv(projview_uniform_loc, 1, GL_FALSE, glm::value_ptr(projection_view_matrix));
+		// glUniformMatrix4fv(transform_uniform_loc, 1, GL_FALSE, glm::value_ptr(transform));
+
+		glBindVertexArray(quad_VA);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		glBindVertexArray(0);
+		shaderPrograms[PLAIN_PROGRAM]->stopUsing();
+		// ps.onUpdate( delta );
+		// shaderPrograms[PLAIN_PROGRAM]->stopUsing();
+		// shaderPrograms[PLAIN_PROGRAM]->use();
+		// ps.onRender(shaderPrograms[PLAIN_PROGRAM]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
+		// shaderPrograms[PLAIN_PROGRAM]->stopUsing();
 
 		// render GUI
 		gui.draw(&w, &mainCamera, &input, &clear_color);
