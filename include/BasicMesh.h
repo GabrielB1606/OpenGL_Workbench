@@ -93,6 +93,9 @@ public:
     bool* getShadowCasterReference();
     bool* getShadowReceiverReference();
     float* getEtaReference();
+    BasicMeshEntry getMeshEntry(size_t index);
+    GLuint getVAO();
+    void* getIndices_ptr(unsigned int offset = 0);
 
     // setters
     void setShadowCaster(bool b);

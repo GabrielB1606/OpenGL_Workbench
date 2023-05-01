@@ -581,6 +581,18 @@ float *BasicMesh::getEtaReference(){
     return &this->eta;
 }
 
+BasicMeshEntry BasicMesh::getMeshEntry(size_t index){
+    return this->meshes[index];
+}
+
+GLuint BasicMesh::getVAO(){
+    return this->VAO;
+}
+
+void *BasicMesh::getIndices_ptr(unsigned int offset){
+    return (void*)(sizeof(unsigned int)*offset);
+}
+
 void BasicMesh::setShadowCaster(bool b){
     this->shadowCaster = b;
 }
