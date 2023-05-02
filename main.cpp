@@ -94,13 +94,13 @@ int main() {
 
 	ParticleProps p;
 	p.color_begin = glm::vec4(1.f,0.f,0.f,1.f);
-	p.color_end = glm::vec4(1.f,0.f,0.f,1.f);
-	p.life_time = 30000.f;
-	p.position = glm::vec3(0.f, 0.f, 2.f);
+	p.color_end = glm::vec4(0.f,1.f,0.f,1.f);
+	p.life_time = 10.f;
+	p.position = glm::vec3(0.f, 0.f, 5.f);
 	p.velocity = glm::vec3(0.f);
 	p.velocity_variation = glm::vec3(0.f);
-	p.size_begin = 30.f;
-	p.size_end = 30.f;
+	p.size_begin = 1.f;
+	p.size_end = 2.f;
 	p.size_variation = 1.f;
 
 
@@ -143,7 +143,7 @@ int main() {
 		glViewport(0, 0, (int)w.getWidth(), (int)w.getHeight());
 
 		// render the scene from the reflective surface
-		// w.renderFloor(shaderPrograms[LIGHT_PASS], &mainCamera);
+		w.renderFloor(shaderPrograms[LIGHT_PASS], &mainCamera);
 		
 		// render the normal scene
 		// render meshes
@@ -156,11 +156,11 @@ int main() {
 		// sceneFBO.reset();
 		
 		// render skybox
-		// w.renderSkybox( mainCamera.getViewMatrix() );
+		w.renderSkybox( mainCamera.getViewMatrix() );
 
 		// PARTICLE SANDBOX UPDATE/RENDER
 		ps.onUpdate( delta );
-		ps.onRender(shaderPrograms[PLAIN_PROGRAM]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
+		ps.onRender(shaderPrograms[PARTICLE]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
 
 		// render GUI
 		gui.draw(&w, &mainCamera, &input, &clear_color);
