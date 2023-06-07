@@ -117,12 +117,13 @@ int main() {
 	ps.attatchProps(p);
 	ps.setRenderMode(GL_POINTS);
 	// ps.setPointSize(3.f);
-	ps.setSpawnRateVariation(1.f);
+	// ps.setSpawnRateVariation(1.f);
 	ps.toggleAcceleration(false);
-
-	// for (size_t i = 0; i < 5; i++)
-	// 	ps.emit(p);
 	
+	// BILLBOARD TEXTURE
+	Texture billboard = Texture("models\\bubble.png", GL_TEXTURE_2D);
+	ps.attatchTexture( billboard.getID() );
+	ps.toggleTexture(true);
 
 	while ( windowManager.isOpen() ) {
 		
@@ -169,6 +170,8 @@ int main() {
 
 		// PARTICLE SANDBOX UPDATE/RENDER
 		ps.onUpdate( delta, mainCamera.getPosition() );
+		// billboard.bind(GL_TEXTURE0);
+
 		ps.onRender(shaderPrograms[PARTICLE_BILLBOARD]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
 
 		// render GUI
