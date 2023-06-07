@@ -124,6 +124,7 @@ int main() {
 	Texture billboard = Texture("models\\bubble.png", GL_TEXTURE_2D);
 	ps.attatchTexture( billboard.getID() );
 	ps.toggleTexture(true);
+	ps.pointMode();
 
 	while ( windowManager.isOpen() ) {
 		
