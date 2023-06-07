@@ -281,6 +281,57 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
 
 }
 
+void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
+    ImGui::Begin("Particle System");
+    
+    ImGui::Text("Spawn Boundaries");
+    ImGui::Separator();
+    
+    ImGui::Text("Position");
+    ImGui::Separator();
+
+    ImGui::Text("Spawn Rate");
+    ImGui::Separator();
+
+    ImGui::Text("Lifetime");
+    ImGui::Separator();
+
+    ImGui::Text("Color");
+    ImGui::Separator();
+
+    ImGui::Text("Velocity");
+    ImGui::Separator();
+    
+    ImGui::Text("Acceleration (Gravity)");
+    ImGui::Separator();
+
+    ImGui::Text("Rotation");
+    ImGui::Separator();
+    
+    ImGui::Text("Size");
+    ImGui::Separator();    
+
+    ImGui::Text("Speed");
+    ImGui::Separator();
+
+    ImGui::Text("Texture");
+    ImGui::Separator();
+
+    ImGui::Text("Blending");
+    ImGui::Separator();
+
+    ImGui::Text("Render Mode");
+    ImGui::Separator();
+
+    ImGui::Text("Import");
+    ImGui::Separator();
+    
+    ImGui::Text("Export");
+    ImGui::Separator();
+    
+    ImGui::End();
+}
+
 void GraphicUserInterface::drawMeshesTree(std::vector<BasicMesh*> *tree){
 
     for (size_t node_index = 0; node_index < tree->size(); node_index++) {

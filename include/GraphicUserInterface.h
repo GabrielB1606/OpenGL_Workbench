@@ -7,6 +7,7 @@
 #include "WindowManager.h"
 #include "World.h"
 #include "InputProcessor.h"
+#include <stb_particle_system/stb_particle_system.h>
 
 class GraphicUserInterface{
 private:
@@ -34,6 +35,7 @@ public:
     ~GraphicUserInterface();
 
     void draw(World* world, ViewCamera* mainCamera, InputProcessor* input, ImVec4* clearColor);
+    void drawParticleSystem(ParticleSystem* ps);
     void drawMeshesTree(std::vector<BasicMesh*> *tree);
     bool drawDragVec3(glm::vec3 *v, std::string name, float v_min = -FLT_MAX, float v_max = +FLT_MAX, float v_speed = 0.05f, std::array<std::string, 3> labels = {"x", "y", "z"});
     bool drawDragVec2(glm::vec2 *v, std::string name, float v_min = -FLT_MAX, float v_max = +FLT_MAX, float v_speed = 0.05f, std::array<std::string, 2> labels = {"x", "y"});

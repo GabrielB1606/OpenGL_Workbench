@@ -177,6 +177,7 @@ int main() {
 
 		// render GUI
 		gui.draw(&w, &mainCamera, &input, &clear_color);
+		gui.drawParticleSystem(&ps);
 		gui.render();
 
 		// end frame
