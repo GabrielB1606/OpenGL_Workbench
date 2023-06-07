@@ -28,7 +28,7 @@ World w(90.f, initial_width, inital_height, 0.1f, 1000.f);
 WindowManager windowManager(initial_width, inital_height, "window manager", glMajVersion, glMinVersion);
 
 // All shader programs used in the application
-std::array<ShaderProgram*, 8> shaderPrograms = {
+std::array<ShaderProgram*, 9> shaderPrograms = {
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/core/vertex.vert", "shaders/core/fragment.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/skybox/skybox.vert", "shaders/skybox/skybox.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/shadow/shadow_pass.vert", "shaders/shadow/shadow_pass.frag"),
@@ -36,7 +36,8 @@ std::array<ShaderProgram*, 8> shaderPrograms = {
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/plain/vertex.vert", "shaders/plain/fragment.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/reflect/reflect.vert", "shaders/reflect/reflect.frag"),
 	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/refraction/refract.vert", "shaders/refraction/refract.frag"),
-	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/particle/sample.vert", "shaders/particle/sample.frag")
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/particle/sample.vert", "shaders/particle/sample.frag"),
+	new ShaderProgram(glVersion_str.c_str(), glMajVersion, glMinVersion, "shaders/particle_billboard/sample.vert", "shaders/particle_billboard/sample.frag", "shaders/particle_billboard/sample.geom")
 };
 
 // camera
@@ -94,14 +95,17 @@ int main() {
 
 	ParticleProps p;
 	p.color_begin = glm::vec4(1.f,0.f,0.f,1.f);
-	p.color_end = glm::vec4(0.f,1.f,0.f,1.f);
+	p.color_end = glm::vec4(0.f,1.f,0.f,0.f);
 	p.life_time = 10.f;
 	p.position = glm::vec3(0.f, 0.f, 5.f);
-	p.velocity = glm::vec3(0.f);
-	p.velocity_variation = glm::vec3(0.f);
+	p.velocity = glm::vec3(0.25f, 1.f,0.25f);
+	p.velocity_variation = glm::vec3(2.f,0.f,0.f);
+	p.acceleration = glm::vec3(0.f, -0.5f, 0.f);
 	p.size_begin = 1.f;
 	p.size_end = 2.f;
 	p.size_variation = 1.f;
+	p.boundaries[0] = glm::vec3(0.f);
+	p.boundaries[1] = glm::vec3(0.f);
 
 
 
@@ -110,9 +114,14 @@ int main() {
 	BasicMesh box;
 	box.loadMesh("models\\Crate1.obj");
 	ps.attatchVAO(box.getVAO(), box.getMeshEntry(0).numIndices, GL_UNSIGNED_INT, box.getIndices_ptr(), (GLint)box.getMeshEntry(0).baseVertex );
+	ps.attatchProps(p);
+	ps.setRenderMode(GL_POINTS);
+	// ps.setPointSize(3.f);
+	ps.setSpawnRateVariation(1.f);
+	ps.toggleAcceleration(false);
 
-	for (size_t i = 0; i < 1; i++)
-		ps.Emit(p);
+	// for (size_t i = 0; i < 5; i++)
+	// 	ps.emit(p);
 	
 
 	while ( windowManager.isOpen() ) {
@@ -159,8 +168,8 @@ int main() {
 		w.renderSkybox( mainCamera.getViewMatrix() );
 
 		// PARTICLE SANDBOX UPDATE/RENDER
-		ps.onUpdate( delta );
-		ps.onRender(shaderPrograms[PARTICLE]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
+		ps.onUpdate( delta, mainCamera.getPosition() );
+		ps.onRender(shaderPrograms[PARTICLE_BILLBOARD]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
 
 		// render GUI
 		gui.draw(&w, &mainCamera, &input, &clear_color);
@@ -197,6 +206,12 @@ void configOpenGL(){
 	// mirrors
 	glEnable(GL_STENCIL_TEST);
 	// glEnable(GL_CLIP_DISTANCE0);
+
+	// Enable blending
+	glEnable(GL_BLEND);
+
+	// Set the blend function
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 }
 

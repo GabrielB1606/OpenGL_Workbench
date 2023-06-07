@@ -51,14 +51,15 @@
 
 #include "ShaderTypeEnum.h"
 
-#define CORE_PROGRAM    0
-#define SKYBOX_PROGRAM  1
-#define SHADOW_PASS     2
-#define LIGHT_PASS      3
-#define PLAIN_PROGRAM   4
-#define RENDER_REFLECT  5
-#define RENDER_REFRACT  6
-#define PARTICLE        7
+#define CORE_PROGRAM        0
+#define SKYBOX_PROGRAM      1
+#define SHADOW_PASS         2
+#define LIGHT_PASS          3
+#define PLAIN_PROGRAM       4
+#define RENDER_REFLECT      5
+#define RENDER_REFRACT      6
+#define PARTICLE            7
+#define PARTICLE_BILLBOARD  8
 
 #define SHADOW_MAP_SIZE 1024
 #define SURROUNDING_MAP_SIZE 2048

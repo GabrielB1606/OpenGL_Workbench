@@ -29,7 +29,7 @@ private:
     glm::vec4 plane;
     glm::vec3 normal;
 
-    bool reflective = true;
+    bool reflective = false;
 
 public:
     Plane(int div, float width, glm::vec3 init_pos = glm::vec3(0.f));
