@@ -345,9 +345,9 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps, int *shader_in
     if(ImGui::Checkbox("Acceleration Toggle", &acceleration_active))
         ps->toggleAcceleration(acceleration_active);
 
-    ImGui::Separator();
+    // ImGui::Separator();
 
-    ImGui::Text("Rotation");
+    // ImGui::Text("Rotation");
 
     ImGui::Separator();
     
