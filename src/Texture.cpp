@@ -12,6 +12,10 @@ void Texture::unbind(const unsigned int texUnit){
     glBindTexture(this->target, 0);
 }
 
+void Texture::setDelTexture(bool val){
+    this->delTexture = val;
+}
+
 Texture::Texture(std::string filename, unsigned int target){
 
     this->target = target;
@@ -51,6 +55,7 @@ Texture::Texture(std::string filename, unsigned int target){
 
 Texture::~Texture(){
 
-    glDeleteTextures(1, &this->texture);
+    if(delTexture)
+        glDeleteTextures(1, &this->texture);
 
 }

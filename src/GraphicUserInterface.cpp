@@ -283,6 +283,7 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
 
 void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
     bool acceleration_active = ps->isAccelerationActive();
+    bool use_texture = ps->getUseTexture();
     
     ImGui::Begin("Particle System");
     
@@ -296,7 +297,6 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
     
     ImGui::Separator();
 
-
     ImGui::PushItemWidth(75);
     ImGui::Text( "Spawn Rate: ");
     ImGui::SameLine();
@@ -308,7 +308,6 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
 
     ImGui::Separator();
 
-    ImGui::Text("Lifetime");
     ImGui::PushItemWidth(75);
     ImGui::Text( "Lifetime: ");
     ImGui::SameLine();
@@ -372,6 +371,22 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
     ImGui::Separator();
 
     ImGui::Text("Texture");
+    if( ImGui::Button("Load Texture") ){                         // Load OBJ from GUI
+        std::string texture_src =
+            noc_file_dialog_open(
+                NOC_FILE_DIALOG_OPEN,
+                "png\0*.png\0*.jpg\0*jpg\0",
+                std::filesystem::current_path().string().c_str(),
+                NULL
+            );
+        Texture newTex = Texture(texture_src, GL_TEXTURE_2D);
+        newTex.setDelTexture(false);
+        ps->attatchTexture(newTex.getID());
+    }
+
+    if(ImGui::Checkbox("Send Texture", &use_texture))
+        ps->useTexture(use_texture);
+
     ImGui::Separator();
 
     ImGui::Text("Blending");

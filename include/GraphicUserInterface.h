@@ -8,6 +8,7 @@
 #include "World.h"
 #include "InputProcessor.h"
 #include <stb_particle_system/stb_particle_system.h>
+#include "Texture.h"
 
 class GraphicUserInterface{
 private:

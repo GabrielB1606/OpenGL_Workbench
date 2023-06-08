@@ -9,6 +9,7 @@ private:
     unsigned int texture;
     unsigned int target;
     int width, height, nChannels;
+    bool delTexture = true;
 public:
 
     enum TYPE{ DIFFUSE = 0, SPECULAR, N_TYPES };
@@ -20,6 +21,7 @@ public:
     void unbind(const unsigned int texUnit);
 
     unsigned int getID() { return texture; }
+    void setDelTexture(bool val);
 };
 
 #endif
