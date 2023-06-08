@@ -358,7 +358,11 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps, int *shader_in
     ImGui::Text( "Size end: ");
     ImGui::SameLine();
     ImGui::DragFloat("##sizeend", &ps->getPropsReference()->size_end, 0.05f, -FLT_MAX, FLT_MAX, "%.2f", ImGuiSliderFlags_None);
+    ImGui::Text( "Point Size: ");
+    ImGui::SameLine();
+    ImGui::DragFloat("##pointsize", ps->getPointSizeReference(), 0.25f, 0.f, FLT_MAX, "%.2f", ImGuiSliderFlags_None);
     ImGui::PushItemWidth(0);
+    
 
     ImGui::Separator();    
 
