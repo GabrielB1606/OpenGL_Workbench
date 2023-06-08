@@ -285,18 +285,42 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
     ImGui::Begin("Particle System");
     
     ImGui::Text("Spawn Boundaries");
+    drawDragVec3( &ps->getPropsReference()->boundaries[0], "from");
+    drawDragVec3( &ps->getPropsReference()->boundaries[1], "to");
+    
     ImGui::Separator();
     
-    ImGui::Text("Position");
+    drawDragVec3( &ps->getPropsReference()->position, "Position");
+    
     ImGui::Separator();
 
-    ImGui::Text("Spawn Rate");
+
+    ImGui::PushItemWidth(75);
+    ImGui::Text( "Spawn Rate: ");
+    ImGui::SameLine();
+    ImGui::DragFloat("##spawnrate", ps->getSpawnRateReference(), 0.025f, 0.f, FLT_MAX, "%.4f sec", ImGuiSliderFlags_None);
+    ImGui::Text( "Spawn Rate Variation: ");
+    ImGui::SameLine();
+    ImGui::DragFloat("##spawnratevar", ps->getSpawnRateVarReference(), 0.025f, -FLT_MAX, FLT_MAX, "%.4f sec", ImGuiSliderFlags_None);
+    ImGui::PushItemWidth(0);
+
     ImGui::Separator();
 
     ImGui::Text("Lifetime");
+    ImGui::PushItemWidth(75);
+    ImGui::Text( "Lifetime: ");
+    ImGui::SameLine();
+    ImGui::DragFloat("##lifetime", &ps->getPropsReference()->life_time, 0.025f, 0.f, FLT_MAX, "%.4f sec", ImGuiSliderFlags_None);
+    ImGui::Text( "Lifetime Variation: ");
+    ImGui::SameLine();
+    ImGui::DragFloat("##lifetimevar", &ps->getPropsReference()->life_time_variation, 0.025f, -FLT_MAX, FLT_MAX, "%.4f sec", ImGuiSliderFlags_None);
+    ImGui::PushItemWidth(0);
+
     ImGui::Separator();
 
     ImGui::Text("Color");
+    ImGui::ColorEdit4("Begin", (float*)&ps->getPropsReference()->color_begin);
+    ImGui::ColorEdit4("End", (float*)&ps->getPropsReference()->color_end);
     ImGui::Separator();
 
     ImGui::Text("Velocity");
