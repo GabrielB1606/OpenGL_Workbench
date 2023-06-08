@@ -281,12 +281,13 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
 
 }
 
-void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
+void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps, int *shader_index){
     bool acceleration_active = ps->isAccelerationActive();
     bool use_texture = ps->getUseTexture();
     bool use_blending = ps->useBlending();
     int src_blend_opt =  ps->getSFactor();
     int dest_blend_opt = ps->getDFactor();
+    int render_mode_opt = ps->getRenderModeInd();
     
     ImGui::Begin("Particle System");
     
@@ -415,6 +416,21 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
     ImGui::Separator();
 
     ImGui::Text("Render Mode");
+
+    const char* renderModes = "GL_POINTS\0GL_LINES\0GL_TRIANGLES\0\0";
+    const char* shaders = "Sample\0Billboards\0\0";
+
+    ImGui::PushItemWidth(125);
+
+    if(ImGui::Combo("Render Mode", &render_mode_opt, renderModes))
+        ps->setRenderModeInd(render_mode_opt);
+
+    ImGui::Combo("Shaders", shader_index, shaders);
+    // if(ImGui::Combo("Destiny Blending Factor", &dest_blend_opt, blendFactors))
+    //     ps->setDFactor(dest_blend_opt);
+
+    ImGui::PushItemWidth(0);
+
     ImGui::Separator();
 
     ImGui::Text("Import");

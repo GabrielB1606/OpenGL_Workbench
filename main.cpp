@@ -126,6 +126,8 @@ int main() {
 	ps.toggleTexture(true);
 	ps.pointMode();
 
+	int ps_shader_index = 0;
+
 	while ( windowManager.isOpen() ) {
 		
 		// rotate just bc
@@ -173,11 +175,11 @@ int main() {
 		ps.onUpdate( delta, mainCamera.getPosition() );
 		// billboard.bind(GL_TEXTURE0);
 
-		ps.onRender(shaderPrograms[PARTICLE_BILLBOARD]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
+		ps.onRender(shaderPrograms[PARTICLE + ps_shader_index]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
 
 		// render GUI
 		gui.draw(&w, &mainCamera, &input, &clear_color);
-		gui.drawParticleSystem(&ps);
+		gui.drawParticleSystem(&ps, &ps_shader_index);
 		gui.render();
 
 		// end frame
