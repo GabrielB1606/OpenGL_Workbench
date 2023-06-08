@@ -282,6 +282,8 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
 }
 
 void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
+    bool acceleration_active = ps->isAccelerationActive();
+    
     ImGui::Begin("Particle System");
     
     ImGui::Text("Spawn Boundaries");
@@ -321,21 +323,52 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
     ImGui::Text("Color");
     ImGui::ColorEdit4("Begin", (float*)&ps->getPropsReference()->color_begin);
     ImGui::ColorEdit4("End", (float*)&ps->getPropsReference()->color_end);
-    ImGui::Separator();
 
-    ImGui::Text("Velocity");
+    ImGui::Separator();
+    
+    drawDragVec3( &ps->getPropsReference()->velocity, "Velocity");
+    drawDragVec3( &ps->getPropsReference()->velocity_variation, "Velocity Variation");
+
     ImGui::Separator();
     
     ImGui::Text("Acceleration (Gravity)");
+
+    drawDragVec3( &ps->getPropsReference()->acceleration, "Acceleration");
+    ImGui::PushItemWidth(75);
+    ImGui::Text( "Acceleration Sensitivity: ");
+    ImGui::SameLine();
+    ImGui::DragFloat("##accsense", &ps->getPropsReference()->acceleration_sensitivity , 0.05f, -FLT_MAX, FLT_MAX, "%.2f", ImGuiSliderFlags_None);
+    ImGui::PushItemWidth(0);
+    if(ImGui::Checkbox("Acceleration Toggle", &acceleration_active))
+        ps->toggleAcceleration(acceleration_active);
+
     ImGui::Separator();
 
     ImGui::Text("Rotation");
+
     ImGui::Separator();
     
-    ImGui::Text("Size");
+    ImGui::PushItemWidth(75);
+    ImGui::Text( "Size begin: ");
+    ImGui::SameLine();
+    ImGui::DragFloat("##sizebegin", &ps->getPropsReference()->size_begin, 0.05f, 0.f, FLT_MAX, "%.2f", ImGuiSliderFlags_None);
+    ImGui::Text( "Size end: ");
+    ImGui::SameLine();
+    ImGui::DragFloat("##sizeend", &ps->getPropsReference()->size_end, 0.05f, -FLT_MAX, FLT_MAX, "%.2f", ImGuiSliderFlags_None);
+    ImGui::PushItemWidth(0);
+
     ImGui::Separator();    
 
     ImGui::Text("Speed");
+    if(ImGui::Button( ps->isPlaying()? "||" : " > " ))
+        ps->togglePlay();
+
+    ImGui::PushItemWidth(75);
+    ImGui::Text( "Reproduction Speed: ");
+    ImGui::SameLine();
+    ImGui::DragFloat("##repspeed", ps->getReproductionSpeedReference(), 0.05f, 0.f, FLT_MAX, "%.2f", ImGuiSliderFlags_None);
+    ImGui::PushItemWidth(0);
+
     ImGui::Separator();
 
     ImGui::Text("Texture");
