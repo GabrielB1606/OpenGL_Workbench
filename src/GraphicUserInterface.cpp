@@ -284,6 +284,9 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
 void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
     bool acceleration_active = ps->isAccelerationActive();
     bool use_texture = ps->getUseTexture();
+    bool use_blending = ps->useBlending();
+    int src_blend_opt =  ps->getSFactor();
+    int dest_blend_opt = ps->getDFactor();
     
     ImGui::Begin("Particle System");
     
@@ -390,6 +393,25 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps){
     ImGui::Separator();
 
     ImGui::Text("Blending");
+    if(ImGui::Checkbox("Enable Blending", &use_blending)){
+        if(use_blending)
+            ps->enableBlending();
+        else
+            ps->disableBlending();
+    }
+
+    const char* blendFactors = "GL_ZERO\0GL_ONE\0GL_SRC_COLOR\0GL_ONE_MINUS_SRC_COLOR\0GL_DST_COLOR\0GL_ONE_MINUS_DST_COLOR\0GL_SRC_ALPHA\0GL_ONE_MINUS_SRC_ALPHA\0GL_DST_ALPHA\0GL_ONE_MINUS_DST_ALPHA\0\0";
+
+    ImGui::PushItemWidth(125);
+
+    if(ImGui::Combo("Source Blending Factor", &src_blend_opt, blendFactors))
+        ps->setSFactor(src_blend_opt);
+
+    if(ImGui::Combo("Destiny Blending Factor", &dest_blend_opt, blendFactors))
+        ps->setDFactor(dest_blend_opt);
+
+    ImGui::PushItemWidth(0);
+
     ImGui::Separator();
 
     ImGui::Text("Render Mode");
