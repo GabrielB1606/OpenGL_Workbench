@@ -441,9 +441,55 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps, int *shader_in
     ImGui::Separator();
 
     ImGui::Text("Import");
+    if( ImGui::Button("Import Props") ){                         // Load OBJ from GUI
+        std::string props_src =
+            noc_file_dialog_open(
+                NOC_FILE_DIALOG_OPEN,
+                "yaml\0*.yaml\0*.yml\0*yml\0",
+                std::filesystem::current_path().string().c_str(),
+                NULL
+            );
+        
+        std::ifstream file(props_src);
+        if (!file) {
+            std::cerr << "Failed to open file: " << props_src << std::endl;
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        file.close();
+        
+        ps->attatchProps( ParticleProps::parseYAML(buffer.str()) );
+    }
+
     ImGui::Separator();
     
     ImGui::Text("Export");
+
+    if( ImGui::Button("Export Props") ){                         // Load OBJ from GUI
+        // std::string props_src =
+        //     noc_file_dialog_open(
+        //         NOC_FILE_DIALOG_OPEN,
+        //         "yaml\0*.yaml\0*.yml\0*yml\0",
+        //         std::filesystem::current_path().string().c_str(),
+        //         "props.yaml"
+        //     );
+        
+        std::string props_src = std::filesystem::current_path().string().c_str();
+        props_src += + "\\props.yaml";
+        std::cout << props_src << "\n";
+
+        std::ofstream outputFile(props_src);
+        if (outputFile.is_open()) {
+            outputFile << ps->getPropsYAML();
+            outputFile.close();
+            std::cout << "File written successfully!" << std::endl;
+        } else {
+            std::cerr << "Error: Failed to open file for writing." << std::endl;
+        }
+
+    }
+
     ImGui::Separator();
     
     ImGui::End();
