@@ -114,7 +114,11 @@ int main() {
 	BasicMesh box;
 	box.loadMesh("models\\Crate1.obj");
 	ps.attatchVAO(box.getVAO(), box.getMeshEntry(0).numIndices, GL_UNSIGNED_INT, box.getIndices_ptr(), (GLint)box.getMeshEntry(0).baseVertex );
+
 	ps.attatchProps(p);
+
+
+
 	ps.setRenderMode(GL_POINTS);
 	// ps.setPointSize(3.f);
 	// ps.setSpawnRateVariation(1.f);

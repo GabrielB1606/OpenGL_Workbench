@@ -326,6 +326,7 @@ void GraphicUserInterface::drawParticleSystem(ParticleSystem *ps, int *shader_in
     ImGui::Text("Color");
     ImGui::ColorEdit4("Begin", (float*)&ps->getPropsReference()->color_begin);
     ImGui::ColorEdit4("End", (float*)&ps->getPropsReference()->color_end);
+    ImGui::ColorEdit4("var", (float*)&ps->getPropsReference()->color_variation);
 
     ImGui::Separator();
     
