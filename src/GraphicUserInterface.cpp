@@ -209,8 +209,10 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
                     world->getMesh(selectedModel)->rotate(glm::vec3(0.f, 0.f, 5.f));
                 ImGui::PopButtonRepeat();
 
-                if (drawDragVec3( world->getMesh(selectedModel)->getTranslationReference().get(), "Transalate"))
+                if (drawDragVec3( world->getMesh(selectedModel)->getTranslationReference().get(), "Transalate")){
                     world->getMesh(selectedModel)->calculateModelMatrix();
+                    std::cout << selectedModel << "\n";
+                }
 
                 if (drawDragVec3( world->getMesh(selectedModel)->getScaleReference().get(), "Scale", 0.045f))
                     world->getMesh(selectedModel)->calculateModelMatrix();
@@ -509,8 +511,10 @@ void GraphicUserInterface::drawMeshesTree(std::vector<BasicMesh*> *tree){
 
         if (ImGui::TreeNodeEx((void*)(intptr_t)node_index, nodeFlags, node[0].getName().c_str() )) {
             
-            if (ImGui::IsItemClicked())
+            if (ImGui::IsItemClicked()){
                 selectedModel = node_index;
+                // std::cout << selectedModel << "\n";
+            }
 
             for (size_t i = 0; i < node->getSubMeshesSize() ; i++) {
 

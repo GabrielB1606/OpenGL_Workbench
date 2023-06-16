@@ -64,14 +64,14 @@ int main() {
 	// w.getLight(0)->loadMesh("models\\estrellica.obj");
 	
 	// load a model
-	// w.loadMesh("models\\Crate1.obj");
-	// w.loadMesh("models\\estrellica.obj");
+	w.loadMesh("models\\Crate1.obj");
+	w.loadMesh("models\\estrellica.obj");
 	
 	// // translate models
-	// w.getMeshes()[0]->translate(glm::vec3(0.f, 0.f, 7.f) );
-	// w.getMeshes()[1]->translate(glm::vec3(1.f, 1.f, 2.5f));
-	// w.getMeshes()[1]->scaleUp(-glm::vec3(0.975f, 0.975f, 0.975f));
-	// w.getMeshes()[1]->rotate(glm::vec3(90.f, 0.f, 0.f));
+	w.getMeshes()[0]->translate(glm::vec3(0.f, 0.f, 7.f) );
+	w.getMeshes()[1]->translate(glm::vec3(1.f, 1.f, 2.5f));
+	w.getMeshes()[1]->scaleUp(-glm::vec3(0.975f, 0.975f, 0.975f));
+	w.getMeshes()[1]->rotate(glm::vec3(90.f, 0.f, 0.f));
 	// w.getMeshes()[1]->attatchPosition( w.getLight(0)->getPositionReference() );
 	
 
@@ -93,44 +93,44 @@ int main() {
 
 	// std::shared_ptr<SceneFBO> sceneFBO;
 
-	ParticleProps p;
-	p.color_begin = glm::vec4(1.f,0.f,0.f,1.f);
-	p.color_end = glm::vec4(0.f,1.f,0.f,0.f);
-	p.life_time = 10.f;
-	p.position = glm::vec3(0.f, 0.f, 5.f);
-	p.velocity = glm::vec3(0.25f, 1.f,0.25f);
-	p.velocity_variation = glm::vec3(2.f,0.f,0.f);
-	p.acceleration = glm::vec3(0.f, -0.5f, 0.f);
-	p.size_begin = 1.f;
-	p.size_end = 2.f;
-	p.size_variation = 1.f;
-	p.boundaries[0] = glm::vec3(0.f);
-	p.boundaries[1] = glm::vec3(0.f);
+	// ParticleProps p;
+	// p.color_begin = glm::vec4(1.f,0.f,0.f,1.f);
+	// p.color_end = glm::vec4(0.f,1.f,0.f,0.f);
+	// p.life_time = 10.f;
+	// p.position = glm::vec3(0.f, 0.f, 5.f);
+	// p.velocity = glm::vec3(0.25f, 1.f,0.25f);
+	// p.velocity_variation = glm::vec3(2.f,0.f,0.f);
+	// p.acceleration = glm::vec3(0.f, -0.5f, 0.f);
+	// p.size_begin = 1.f;
+	// p.size_end = 2.f;
+	// p.size_variation = 1.f;
+	// p.boundaries[0] = glm::vec3(0.f);
+	// p.boundaries[1] = glm::vec3(0.f);
 
 
 
 	// PARTICLE SANDBOX
-	ParticleSystem ps;
-	BasicMesh box;
-	box.loadMesh("models\\Crate1.obj");
-	ps.attatchVAO(box.getVAO(), box.getMeshEntry(0).numIndices, GL_UNSIGNED_INT, box.getIndices_ptr(), (GLint)box.getMeshEntry(0).baseVertex );
+	// ParticleSystem ps;
+	// BasicMesh box;
+	// box.loadMesh("models\\Crate1.obj");
+	// ps.attatchVAO(box.getVAO(), box.getMeshEntry(0).numIndices, GL_UNSIGNED_INT, box.getIndices_ptr(), (GLint)box.getMeshEntry(0).baseVertex );
 
-	ps.attatchProps(p);
+	// ps.attatchProps(p);
 
 
 
-	ps.setRenderMode(GL_POINTS);
+	// ps.setRenderMode(GL_POINTS);
 	// ps.setPointSize(3.f);
 	// ps.setSpawnRateVariation(1.f);
-	ps.toggleAcceleration(false);
+	// ps.toggleAcceleration(false);
 	
 	// BILLBOARD TEXTURE
-	Texture billboard = Texture("models\\bubble.png", GL_TEXTURE_2D);
-	ps.attatchTexture( billboard.getID() );
-	ps.toggleTexture(true);
-	ps.pointMode();
+	// Texture billboard = Texture("models\\bubble.png", GL_TEXTURE_2D);
+	// ps.attatchTexture( billboard.getID() );
+	// ps.toggleTexture(true);
+	// ps.pointMode();
 
-	int ps_shader_index = 0;
+	// int ps_shader_index = 0;
 
 	while ( windowManager.isOpen() ) {
 		
@@ -176,14 +176,14 @@ int main() {
 		w.renderSkybox( mainCamera.getViewMatrix() );
 
 		// PARTICLE SANDBOX UPDATE/RENDER
-		ps.onUpdate( delta, mainCamera.getPosition() );
-		// billboard.bind(GL_TEXTURE0);
+		// ps.onUpdate( delta, mainCamera.getPosition() );
+		// // billboard.bind(GL_TEXTURE0);
 
-		ps.onRender(shaderPrograms[PARTICLE + ps_shader_index]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
+		// ps.onRender(shaderPrograms[PARTICLE + ps_shader_index]->getID(), w.getPerspectiveMatrix()*mainCamera.getViewMatrix() );
 
 		// render GUI
 		gui.draw(&w, &mainCamera, &input, &clear_color);
-		gui.drawParticleSystem(&ps, &ps_shader_index);
+		// gui.drawParticleSystem(&ps, &ps_shader_index);
 		gui.render();
 
 		// end frame
