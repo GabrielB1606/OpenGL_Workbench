@@ -17,9 +17,10 @@ private:
 
     std::vector<BasicMesh*> meshes;
     std::vector<Light*> lights;
+    std::vector<Plane*> planes;
 
     Skybox* skybox = nullptr;
-    Plane* floor = nullptr;
+    Plane* floor = nullptr;    
 
     // Define the projection matrix
     float fov = 90.0f;  // Field of view in degrees

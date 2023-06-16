@@ -31,6 +31,7 @@ private:
 
     bool reflective = false;
     bool shadowReceiver = true;
+    bool shadowCaster = false;
 
 public:
     Plane(int div, float width, glm::vec3 init_pos = glm::vec3(0.f));
