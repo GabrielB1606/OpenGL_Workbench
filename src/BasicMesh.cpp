@@ -529,6 +529,14 @@ void BasicMesh::scaleUp(glm::vec3 vec){
 
 }
 
+glm::vec3 BasicMesh::getPosition(){
+    return *this->translation;
+}
+
+glm::vec3 BasicMesh::getScale(){
+    return *this->scale;
+}
+
 std::shared_ptr<glm::vec3> BasicMesh::getTranslationReference(){
     return this->translation;
 }

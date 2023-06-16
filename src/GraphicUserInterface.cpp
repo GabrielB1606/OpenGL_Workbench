@@ -143,11 +143,11 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             }
             ImGui::PopButtonRepeat();
 
-            if (drawDragVec3( world->getFloor()->getTranslationReference().get(), "Transalate"))
+            if (drawDragVec3( world->getFloor()->getTranslationReference().get(), "Transalate Floor"))
                 world->getFloor()->calculateReflectionMatrix();
 
             glm::vec2 floorScale = glm::vec2( world->getFloor()->getScale().x, world->getFloor()->getScale().z );
-            if (drawDragVec2( &floorScale, "Scale", 0.02f, FLT_MAX, 0.025f, {"x", "z"})){
+            if (drawDragVec2( &floorScale, "Scale Floor", 0.02f, FLT_MAX, 0.025f, {"x", "z"})){
                 world->getFloor()->setScale( glm::vec3(floorScale.x, 1.f, floorScale.y) );
                 world->getFloor()->calculateReflectionMatrix();
             }
@@ -209,12 +209,12 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
                     world->getMesh(selectedModel)->rotate(glm::vec3(0.f, 0.f, 5.f));
                 ImGui::PopButtonRepeat();
 
-                if (drawDragVec3( world->getMesh(selectedModel)->getTranslationReference().get(), "Transalate")){
-                    world->getMesh(selectedModel)->calculateModelMatrix();
-                    std::cout << selectedModel << "\n";
+                glm::vec3 modelTranslation =  world->getMesh(selectedModel)->getPosition();
+                if (drawDragVec3( &modelTranslation, "Transalate Model")){
+                    world->getMesh(selectedModel)->translate(modelTranslation- world->getMesh(selectedModel)->getPosition());
                 }
 
-                if (drawDragVec3( world->getMesh(selectedModel)->getScaleReference().get(), "Scale", 0.045f))
+                if (drawDragVec3( world->getMesh(selectedModel)->getScaleReference().get(), "Scale Model", 0.045f))
                     world->getMesh(selectedModel)->calculateModelMatrix();
                 
                 if( ImGui::Button("Remove Mesh") ){

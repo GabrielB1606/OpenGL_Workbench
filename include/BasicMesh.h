@@ -80,6 +80,9 @@ public:
     void rotate(glm::vec3 vec);
     void scaleUp(glm::vec3 vec);
 
+    glm::vec3 getPosition();
+    glm::vec3 getScale();
+
     // getters
     std::shared_ptr<glm::vec3> getTranslationReference();
     std::shared_ptr<glm::vec3> getScaleReference();

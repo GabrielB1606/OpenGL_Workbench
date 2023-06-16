@@ -2,6 +2,10 @@
 
 Plane::Plane(int div, float width, glm::vec3 init_pos){
 
+    this->translation = std::shared_ptr<glm::vec3>(new glm::vec3(0.f));
+    this->scale = std::shared_ptr<glm::vec3>(new glm::vec3(1.f));
+    this->rotation = std::shared_ptr<glm::mat4>(new glm::mat4(1.f));
+
     this->translation->x = init_pos.x + (width/2);
     this->translation->y = init_pos.y;
     this->translation->z = init_pos.z + (width/2);
