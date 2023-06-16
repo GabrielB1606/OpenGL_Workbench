@@ -36,6 +36,7 @@ layout(binding = 4) uniform samplerCube CubeMapLight2;
 
 uniform int useDiffTexture;
 uniform int useSpecTexture;
+uniform int isShadowReceiver;
 
 out vec4 FragColor;
 
@@ -102,12 +103,14 @@ void main() {
 
     float shadowComponent = 1.0;
 
-    if( nLights >= 1 )
-        shadowComponent *= calculateShadow( fragPosition - lights[0].position, CubeMapLight0 );
-    if( nLights >= 2 )
-        shadowComponent *= calculateShadow( fragPosition - lights[1].position, CubeMapLight1 );
-    if( nLights >= 3 )
-        shadowComponent *= calculateShadow( fragPosition - lights[2].position, CubeMapLight2 );
+	if( isShadowReceiver == 1 ){
+		if( nLights >= 1 )
+			shadowComponent *= calculateShadow( fragPosition - lights[0].position, CubeMapLight0 );
+		if( nLights >= 2 )
+			shadowComponent *= calculateShadow( fragPosition - lights[1].position, CubeMapLight1 );
+		if( nLights >= 3 )
+			shadowComponent *= calculateShadow( fragPosition - lights[2].position, CubeMapLight2 );
+	}
 
 	for(int i = 0; i<nLights; i++){
 

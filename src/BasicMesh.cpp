@@ -438,6 +438,7 @@ void BasicMesh::sendUniforms(ShaderProgram *shader){
 
     shader->setMat4fv(this->modelMatrix, "ModelMatrix", false);
     shader->setMat4fv(this->invModelMatrix, "InverseModelMatrix", false);
+    shader->set1i(this->isShadowReceiver(), "isShadowReceiver");
 
 }
 
