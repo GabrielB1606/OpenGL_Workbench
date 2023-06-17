@@ -516,6 +516,7 @@ void BasicMesh::translate(glm::vec3 vec)
 {
     (*this->translation) += vec;
     this->calculateModelMatrix();
+    this->calculateReflectionMatrix();
 }
 
 void BasicMesh::rotate(glm::vec3 vec){
@@ -525,6 +526,7 @@ void BasicMesh::rotate(glm::vec3 vec){
     (*this->rotation) = glm::rotate( glm::mat4(1.f), glm::radians(vec.z), glm::vec3(0.f, 0.f, 1.f) ) * (*this->rotation);
 
     this->calculateModelMatrix();
+    this->calculateReflectionMatrix();
 
 }
 

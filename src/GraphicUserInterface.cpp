@@ -215,8 +215,10 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
                     world->getMesh(selectedModel)->translate(modelTranslation- world->getMesh(selectedModel)->getPosition());
                 }
 
-                if (drawDragVec3( world->getMesh(selectedModel)->getScaleReference().get(), "Scale Model", 0.045f))
+                if (drawDragVec3( world->getMesh(selectedModel)->getScaleReference().get(), "Scale Model", 0.045f)){
                     world->getMesh(selectedModel)->calculateModelMatrix();
+                    world->getMesh(selectedModel)->calculateReflectionMatrix();
+                }
                 
                 if( ImGui::Button("Remove Mesh") ){
                     world->removeMesh( selectedModel );
