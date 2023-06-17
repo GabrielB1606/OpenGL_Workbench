@@ -9,6 +9,7 @@
 #include "SceneFBO.h"
 #include "CubeMapFBO.h"
 #include "Skybox.h"
+#include "ViewCamera.h"
 // #include "Plane.h"
 
 class BasicMesh{
@@ -51,6 +52,7 @@ private:
     bool shadowCaster = false;
     bool shadowReceiver = true;
     bool refractive = false;
+    bool reflective = false;
 
 public:
     BasicMesh();
@@ -104,6 +106,16 @@ public:
     void setShadowCaster(bool b);
     void setShadowReceiver(bool b);
     void attatchPosition( std::shared_ptr<glm::vec3> position );
+
+    // reflection stuff
+    glm::mat4 reflection;
+    glm::vec4 plane;
+    glm::vec3 normal;
+
+    void mirror(ShaderProgram* shader, std::vector<BasicMesh*> meshes, ViewCamera *cam, glm::mat4 projectionMatrix, Skybox* sky = nullptr);
+    bool isReflective();
+    bool* getReflectiveReference();
+    void calculateReflectionMatrix();
 };
 
 

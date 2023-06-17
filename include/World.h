@@ -52,6 +52,8 @@ public:
     std::vector<Light*> getLights();
     Plane* getFloor();
 
+    Plane* getPlane(size_t index);
+
     BasicMesh* getMesh(size_t index);
     Light* getLight(size_t index);
     size_t getMeshesSize();
@@ -65,6 +67,7 @@ public:
     std::shared_ptr<SceneFBO> renderSceneFBO(ShaderProgram *shader, ViewCamera *cam);
     void renderRefractions(ShaderProgram *shader, ViewCamera *cam);
     void renderMeshes(ShaderProgram *shader, ViewCamera *cam);
+    void renderPlanes(ShaderProgram *shader, ViewCamera *cam);
     void renderSkybox(glm::mat4 viewMatrix);
     void renderLights(ShaderProgram *shader);
     void renderShadowCubeMaps(ShaderProgram *shader);

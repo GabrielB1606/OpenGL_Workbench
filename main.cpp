@@ -162,6 +162,8 @@ int main() {
 		// render the scene from the reflective surface
 		w.renderFloor(shaderPrograms[LIGHT_PASS], &mainCamera);
 		
+		w.renderReflections(shaderPrograms[LIGHT_PASS], &mainCamera);
+
 		// render the normal scene
 		// render meshes
 		w.renderMeshes(shaderPrograms[LIGHT_PASS], &mainCamera);

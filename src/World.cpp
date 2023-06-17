@@ -105,6 +105,10 @@ Plane *World::getFloor(){
     return this->floor;
 }
 
+Plane* World::getPlane(size_t index){
+    return this->planes[index];
+}
+
 BasicMesh *World::getMesh(size_t index){
 
     if( index >= this->meshes.size() )
@@ -192,8 +196,19 @@ void World::renderMeshes(ShaderProgram *shader, ViewCamera* cam){
     glm::mat4 projView = this->getPerspectiveMatrix() * cam->getViewMatrix();
 
     for(BasicMesh* m: this->meshes)
-        if( !m->isRefractive() )
+        if( !m->isRefractive() && !m->isReflective() )
             m->render(shader, projView);
+}
+
+void World::renderPlanes(ShaderProgram *shader, ViewCamera *cam){
+    glm::mat4 projView = this->getPerspectiveMatrix() * cam->getViewMatrix();
+
+    for(Plane* p: this->planes)
+        if( !p->isReflective() )
+            p->render(shader, projView);
+        else
+            p->mirror(shader, this->meshes, cam, this->getPerspectiveMatrix(), this->skybox);
+
 }
 
 void World::renderSkybox(glm::mat4 viewMatrix){
@@ -227,8 +242,11 @@ void World::renderFloor(ShaderProgram *shader, ViewCamera *cam){
 }
 
 void World::renderReflections(ShaderProgram *shader, ViewCamera *cam){
-    if(this->floor != nullptr)
-        this->floor->mirror(shader, this->meshes, cam, this->getPerspectiveMatrix(), this->skybox);
+    
+    for(BasicMesh* m: this->meshes)
+        if( m->isReflective() )
+            m->mirror(shader, this->meshes, cam, this->getPerspectiveMatrix(), this->skybox);
+
 }
 
 void World::refreshRefractiveSurroundings(ShaderProgram *shader){

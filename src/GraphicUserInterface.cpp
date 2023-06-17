@@ -169,6 +169,7 @@ void GraphicUserInterface::draw(World* world, ViewCamera* mainCamera, InputProce
             if( selectedModel < world->getMeshes().size() ){
                 
                 ImGui::Checkbox("Refractive",  world->getMesh(selectedModel)->getRefractiveReference() );
+                ImGui::Checkbox("Mirror",  world->getMesh(selectedModel)->getReflectiveReference() );
 
                 if( world->getMesh(selectedModel)->isRefractive() )
                     ImGui::DragFloat("eta", world->getMesh(selectedModel)->getEtaReference(), 0.025f, 0.f, 1.f);

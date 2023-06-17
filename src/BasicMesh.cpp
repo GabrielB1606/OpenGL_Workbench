@@ -64,6 +64,8 @@ bool BasicMesh::loadMesh(std::string filename){
 
     glBindVertexArray(0);
 
+    calculateReflectionMatrix();
+
     return ans;
 }
 
@@ -123,6 +125,10 @@ bool BasicMesh::initFromScene(const aiScene *scene, std::string filename)
 }
 
 bool BasicMesh::initSingleMesh(size_t meshIndex, const aiMesh *aiMeshPointer){
+    if( aiMeshPointer->mNormals ){
+        const aiVector3D &genNormal = aiMeshPointer->mNormals[0];
+        this->normal = glm::vec3(genNormal.x, genNormal.y, genNormal.z);
+    }
 
     // get the information of each vertex
     for( size_t i=0; i<aiMeshPointer->mNumVertices; i++ ){
@@ -613,4 +619,67 @@ void BasicMesh::setShadowReceiver(bool b){
 void BasicMesh::attatchPosition(std::shared_ptr<glm::vec3> position){
     this->translation.reset();
     this->translation = position;
+}
+
+void BasicMesh::mirror(ShaderProgram *shader, std::vector<BasicMesh *> meshes, ViewCamera *cam, glm::mat4 projectionMatrix, Skybox *sky){
+
+    // glClearStencil(0);
+    glStencilFunc(GL_ALWAYS, 1, 0xFF);
+    glStencilMask(0xFF);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+    this->render(shader, projectionMatrix * cam->getViewMatrix());
+
+    glStencilFunc(GL_EQUAL, 1, 0xFF);
+    glStencilMask(0x00);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+
+    glDisable(GL_DEPTH_TEST);
+
+    glm::mat4 projViewMatrix = projectionMatrix * cam->getViewMatrix() * this->reflection;
+
+
+    glCullFace(GL_FRONT); // Invert front face culling
+
+    if(sky != nullptr)
+        sky->render(cam->getViewMatrix() * this->reflection);
+
+    for(BasicMesh* mesh : meshes)
+        if( !mesh->isReflective() && !mesh->isRefractive() && mesh!=this)
+            mesh->render(shader, projViewMatrix);  
+
+    glCullFace(GL_BACK); // Revert front face culling to its original state
+
+    glEnable(GL_DEPTH_TEST);
+
+    glStencilMask(0xFF);
+    glStencilFunc(GL_ALWAYS, 0, 0xFF);
+}
+
+bool BasicMesh::isReflective()
+{
+    return this->reflective;
+}
+
+bool *BasicMesh::getReflectiveReference(){
+    return &this->reflective;
+}
+
+void BasicMesh::calculateReflectionMatrix(){
+
+    calculateModelMatrix();
+
+    // Normalize the normal vector
+    this->normal = (glm::transpose( this->invModelMatrix ) * glm::vec4(0.f, 1.f, 0.f, 0.f));
+    this->plane = { this->normal.x, this->normal.y, this->normal.z, -glm::dot(*this->translation, this->normal) };
+
+    this->reflection = glm::mat4{
+        1-2*plane.x*plane.x,  -2*plane.x*plane.y,  -2*plane.x*plane.z, -2*plane.x*plane.w,
+         -2*plane.y*plane.x, 1-2*plane.y*plane.y,  -2*plane.y*plane.z, -2*plane.y*plane.w,
+         -2*plane.z*plane.x,  -2*plane.z*plane.y, 1-2*plane.z*plane.z, -2*plane.z*plane.w,
+                          0,                   0,                   0,                  1
+    };
+
+    this->reflection = glm::transpose(this->reflection);
+
 }
